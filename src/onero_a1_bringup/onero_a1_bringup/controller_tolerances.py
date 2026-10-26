@@ -8,7 +8,7 @@ import yaml
 
 TOLERANCE_ARGUMENTS = {
     'arm_trajectory_tolerance': '七关节运动过程位置误差容差（rad）；留空沿用 YAML，默认 0.20',
-    'arm_goal_tolerance': '七关节终点位置误差容差（rad）；留空沿用 YAML，默认 0.05',
+    'arm_goal_tolerance': '七关节终点位置误差容差（rad）；留空沿用 YAML，默认 0.1',
     'arm_goal_time_tolerance': '轨迹结束后允许额外等待的秒数；留空沿用 YAML，默认 1.0',
     'arm_stopped_velocity_tolerance': '终点停止速度容差（rad/s）；留空沿用 YAML，默认 0.02',
 }

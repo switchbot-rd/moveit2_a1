@@ -15,6 +15,7 @@ from onero_a1_bringup.hardware_mode import configure_hardware_mode, mode_default
 from onero_a1_bringup.controller_tolerances import TOLERANCE_ARGUMENTS, tolerance_launch_arguments
 from onero_a1_bringup.dual_config import controller_config, joints, moveit_parameters
 from onero_a1_bringup.environment import load_environment
+from onero_a1_bringup.payload import Payload, payload_launch_arguments
 
 
 def setup(context):
@@ -84,6 +85,7 @@ def setup(context):
              parameters=[str(controller_file), robot], output='screen')]
     initial_right = [.40, .09, -.074, 1.69, -.04, .54, -.026]
     for side, model in (('left', 'A1L'), ('right', 'A1R')):
+        payload = Payload.create(float(value(side+'_payload_mass')), yaml.safe_load(value(side+'_payload_cog')))
         actions.append(Node(package='onero_a1_bringup', executable='topic_bridge',
                             namespace=side, name='onero_topic_bridge', output='screen',
                             prefix=[value('runtime_python')], parameters=[{
@@ -95,6 +97,8 @@ def setup(context):
             'kp': float(value('kp')), 'kd': float(value('kd')),
             'gravity_compensation': boolean('gravity_compensation'), 'velocity_feedforward': boolean('velocity_feedforward'),
             'with_gripper': boolean('with_gripper'), 'gripper_model': gripper,
+            'payload_mass': payload.mass, 'payload_cog': list(payload.cog),
+            'payload_transition_time': float(value('payload_transition_time')),
             'allow_gripper_execution': allow, 'activate_gripper_on_start': False,
             'gripper_controller_name': side+'_gripper_controller',
             'gripper_joint_name': side+'_woan_picker_left_finger_joint',
@@ -160,6 +164,7 @@ def generate_launch_description():
         DeclareLaunchArgument('arm_spacing', default_value='0.07'),
         DeclareLaunchArgument('gripper_model', default_value='woan_picker', choices=['none', 'woan_picker']),
         DeclareLaunchArgument('with_gripper', default_value='true'),
+        *payload_launch_arguments(dual=True),
         DeclareLaunchArgument('allow_execution', default_value='true'),
         DeclareLaunchArgument('rviz', default_value='true'),
         DeclareLaunchArgument('environment_file', default_value=''),

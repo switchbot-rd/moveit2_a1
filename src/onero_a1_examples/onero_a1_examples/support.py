@@ -52,7 +52,7 @@ def finish_arm_plan(node, trajectory):
 
 
 def run_example(name, description, configure, scenario, args=None, *, query_only=False,
-                planning_pipelines=PLANNING_PIPELINES, dual=False, allow_both=False):
+                planning_pipelines=PLANNING_PIPELINES, dual=False, allow_both=False, cleanup=None):
     parser = argparse.ArgumentParser(description=description)
     parser.set_defaults(pipeline="ompl", planner=None)
     if dual:
@@ -82,10 +82,12 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
     options.case = name
     rclpy.init(args=supplied[split:], signal_handler_options=SignalHandlerOptions.NO)
     node = None
+    cleanup_ready = False
     code = 0
     try:
         node = MoveItClient(options)
         node.select_arm(options.arm)
+        cleanup_ready = True
         node.start = {n: q for n, q in node.state().items() if n in node.joints}
         scenario(node)
     except (Exception, KeyboardInterrupt) as exc:
@@ -93,9 +95,20 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
         code = 1
     finally:
         if node is not None:
-            if not node.cleanup():
+            try:
+                if not node.cleanup():
+                    code = 1
+            except (Exception, KeyboardInterrupt) as exc:
+                print(f'取消或清理请求失败：{str(exc) or "interrupted"}', file=sys.stderr)
                 code = 1
-            node.destroy_node()
+            finally:
+                if cleanup_ready and cleanup is not None:
+                    try:
+                        cleanup(node)
+                    except (Exception, KeyboardInterrupt) as exc:
+                        print(f'清理示例场景失败：{str(exc) or "interrupted"}', file=sys.stderr)
+                        code = 1
+                node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
     return code

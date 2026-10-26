@@ -56,6 +56,8 @@ python3 -m tools.diagnostics.record_tracking --observe-only --duration 10
 | `requested_torque_ff` | 请求的重力补偿力矩 |
 | `sdk_torque_ff` / `command_torque_ff` | onero-sdk 限幅后及最终下发的力矩前馈 |
 | `sdk_ff_limited` / `bridge_ff_limited` | 力矩前馈限幅状态 |
+| `payload.mass` / `payload.cog` | 当前 SDK 负载质量与末端坐标系下重心 |
+| `payload.target_mass` / `payload.applied_revision` | 请求负载及已完成控制周期确认的版本 |
 | `period_s` / `io_s` / `command_age_s` | 控制周期、onero-sdk I/O 耗时和命令年龄 |
 | `missed_joint_indices` / `exception` | 丢帧关节和调用异常 |
 
@@ -140,7 +142,7 @@ python3 -m tools.diagnostics.compare_trials \
 
 对比工具核对模型、轨迹、时间、安装配置和实测起点，再显示关节/FK 误差及三轴位移。
 比较增益时，以相同场景、起点、轨迹、速度、加速度、频率和负载运行，只改变待评估参数。
-kp/kd 通过启动参数设置，实际值可从控制记录的 `command_kp` / `command_kd` 读取。
+kp/kd 可通过启动参数设置，均支持运行时平滑切换；`gain_state` 记录其生效状态，控制记录的 `command_kp` / `command_kd` 为实际下发值。
 
 ## onero-sdk 与 MoveIt 对照
 

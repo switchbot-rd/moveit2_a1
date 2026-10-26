@@ -68,6 +68,8 @@ class TrackingRecorder(Node):
             (JointState, "/joint_states"),
             (DisplayTrajectory, "/display_planned_path"),
             (String, "/onero_topic_bridge/control_trace"),
+            (String, "/onero_topic_bridge/payload_state"),
+            (String, "/onero_topic_bridge/gain_state"),
             (FollowJointTrajectory.Impl.FeedbackMessage,
              "/arm_controller/follow_joint_trajectory/_action/feedback"),
             (Log, "/rosout"),
@@ -107,6 +109,7 @@ class TrackingRecorder(Node):
                 "control_rate", "state_publish_rate", "kp", "kd", "simulate",
                 "can_channel", "model", "gravity_compensation", "trace_control",
                 "mounting", "with_gripper",
+                'payload_mass', 'payload_cog', 'payload_transition_time',
                 "velocity_feedforward", "velocity_feedforward_scale", "velocity_feedforward_timeout",
             ],
         }
@@ -130,7 +133,7 @@ class TrackingRecorder(Node):
     def _on_message(self, topic, msg):
         if topic == "/rosout" and msg.level < Log.WARN:
             return
-        if topic.endswith("/control_trace"):
+        if topic.endswith(("/control_trace", "/payload_state", "/gain_state")):
             try:
                 data = json.loads(msg.data)
             except json.JSONDecodeError:

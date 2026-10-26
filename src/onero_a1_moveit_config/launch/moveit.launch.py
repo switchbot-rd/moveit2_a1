@@ -35,6 +35,7 @@ from onero_a1_bringup.controller_tolerances import (
     TOLERANCE_ARGUMENTS, controller_config_from_launch, execution_goal_margin,
     tolerance_launch_arguments,
 )
+from onero_a1_bringup.payload import payload_launch_arguments
 
 
 def generate_launch_description():
@@ -58,7 +59,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             "kd", default_value="1.0",
-            description="SDK servoj 全关节速度阻尼增益；仅启动时设置",
+            description="SDK servoj 全关节速度阻尼增益；支持运行时平滑切换",
         ),
         *tolerance_launch_arguments(),
         DeclareLaunchArgument("mounting", default_value=arm_default("mounting")),
@@ -70,6 +71,7 @@ def generate_launch_description():
             description="兼容参数，仅接受全 1；使用 velocity_feedforward 统一开关"),
         DeclareLaunchArgument("velocity_feedforward_timeout", default_value="0.1"),
         DeclareLaunchArgument("with_gripper", default_value="true"),
+        *payload_launch_arguments(),
         DeclareLaunchArgument("gripper_model", default_value="woan_picker", choices=["none", "woan_picker"],
                              description="夹爪模型与开合接口；with_gripper 单独选择 SDK 重力档位"),
         DeclareLaunchArgument("gripper_closed_sdk_opening", default_value="0.0",
@@ -186,6 +188,7 @@ def generate_launch_description():
             "velocity_feedforward_timeout": LaunchConfiguration("velocity_feedforward_timeout"),
             "mounting": LaunchConfiguration("mounting"),
             "with_gripper": LaunchConfiguration("with_gripper"),
+            **{name: LaunchConfiguration(name) for name in ('payload_mass', 'payload_cog', 'payload_transition_time')},
             "gripper_model": LaunchConfiguration("gripper_model"),
             "allow_gripper_execution": LaunchConfiguration("allow_execution"),
             "gripper_closed_sdk_opening": LaunchConfiguration("gripper_closed_sdk_opening"),

@@ -7,7 +7,6 @@ find_package(ament_cmake REQUIRED)
 # 曾经因为多列了一个空的 `config/` 目录导致干净克隆后构建直接失败：
 #   ament_cmake_symlink_install_directory() can't find '.../onero_a1_description/config'
 # git 不追踪空目录，而 bloom / ROS build farm 是从干净源码树构建的。
-# 用 tools/check_clean_build.sh 可以复现这类问题。
 install(
   DIRECTORY urdf meshes launch rviz
   DESTINATION share/${PROJECT_NAME}
