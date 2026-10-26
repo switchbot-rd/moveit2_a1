@@ -14,6 +14,7 @@ from onero_sdk.safety import SafetyConfig
 from onero_sdk.zero_calibration import load_zero_offset, validate_offsets
 from onero_sdk.zero_offset_backend import ZeroOffsetBackend
 from .can_ownership import ChannelOwnership
+from .payload import Payload
 
 
 # Gripper register/MIT replies share the arm's transport and lock, but need
@@ -102,7 +103,7 @@ class SDKArmSession:
     def __init__(self, *, model_name, channel, mounting, with_gripper,
                  gravity_compensation, control_rate, max_gravity_torque,
                  on_miss=None, on_fault=None, backend_factory=CanBackend,
-                 gripper_model="none"):
+                 gripper_model="none", payload_mass=0., payload_cog=(0., 0., 0.)):
         self.model = get_model(model_name)
         self._gravity = gravity_compensation
         self._requested_torque_ff = None
@@ -139,6 +140,7 @@ class SDKArmSession:
             model=model_name, backend=calibrated, mounting=mounting,
             with_gripper=with_gripper, safety=safety,
         )
+        self.set_payload(payload_mass, payload_cog)
         if self._gravity:
             # Public SDK API: load dynamics and validate mounting/profile before
             # opening CAN or enabling a motor. Unlike servoj's internal fallback,
@@ -150,6 +152,11 @@ class SDKArmSession:
         if len(torques) != self.model.num_joints or not all(map(math.isfinite, torques)):
             raise RuntimeError("SDK gravity_torque returned invalid torques")
         return torques
+
+    def set_payload(self, mass, cog):
+        payload = Payload.create(mass, cog)
+        self.arm.set_payload(payload.mass, list(payload.cog))
+        self.payload = payload
 
     @property
     def last_command(self):

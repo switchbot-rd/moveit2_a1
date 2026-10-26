@@ -346,7 +346,31 @@ class MoveItClient(Node):
             request.path_constraints = path_constraints
         goal.planning_options.plan_only = True
         print(f"规划器：{pipeline}" + (f" / {planner}" if planner else ""))
-        result = self.action(self.planner, goal, self.args.planning_time+15.)
+        try:
+            result = self.action(self.planner, goal, self.args.planning_time+15.)
+        except MoveItError as exc:
+            # MoveGroup can collapse an adapter's collision error into the
+            # generic FAILURE (99999). Recover the actionable contact pairs.
+            # Leave a timed-out active goal for cleanup to cancel immediately.
+            if self.active_goal is not None:
+                raise
+            state = dict(zip(request.start_state.joint_state.name, request.start_state.joint_state.position))
+            checks = [('规划起点', state)]
+            if goal_constraints.joint_constraints:
+                target = {**state, **{joint.joint_name: joint.position
+                                     for joint in goal_constraints.joint_constraints}}
+                checks.append(('目标参考姿态', target))
+            for label, positions in checks:
+                try:
+                    validity = self.validity(positions, group=selected_group)
+                except Exception:
+                    break
+                if not validity.valid:
+                    contacts = sorted({tuple(sorted((c.contact_body_1, c.contact_body_2)))
+                                       for c in validity.contacts})
+                    detail = '碰撞：'+', '.join(' ↔ '.join(pair) for pair in contacts) if contacts else '无效'
+                    raise MoveItError(f'{exc}；{label}{detail}') from exc
+            raise
         self.planned_start_state = result.trajectory_start
         return result.planned_trajectory
 

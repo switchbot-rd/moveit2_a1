@@ -137,21 +137,26 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py hardware_mode:=real
 
 | 参数 | 默认值 | 可选值 / 单位 | 作用 | 适用入口 |
 |---|---|---|---|---|
-| `kp` | `50` | `[0, 500]` | 全关节位置增益，仅启动时设置 | 单臂、双臂 |
-| `kd` | `1.0` | `[0, 5]` | 全关节速度阻尼增益，仅启动时设置 | 单臂、双臂 |
+| `kp` | `50` | `[0, 500]` | 全关节位置增益，支持运行时平滑切换 | 单臂、双臂 |
+| `kd` | `1.0` | `[0, 5]` | 全关节速度阻尼增益，支持运行时平滑切换 | 单臂、双臂 |
 | `control_rate` | sim：`200`；real：`100` | 正数，Hz | 控制器与话题桥控制频率 | 单臂、双臂 |
 | `gravity_compensation` | sim：`false`；real：`true` | `true`、`false` | 真机重力补偿 | 单臂、双臂 |
+| `payload_mass` | `0.0` | 非负数，kg | 启动时空夹爪基线的额外负载质量 | 单臂 |
+| `payload_cog` | `[0.0, 0.0, 0.0]` | 三个浮点数，m | 基线重心，相对 SDK 末端坐标系 | 单臂 |
+| `left_payload_mass` / `right_payload_mass` | `0.0` | 非负数，kg | 各臂基线的额外负载质量 | 双臂 |
+| `left_payload_cog` / `right_payload_cog` | `[0.0, 0.0, 0.0]` | 三个浮点数，m | 各臂基线负载重心 | 双臂 |
+| `payload_transition_time` | `0.5` | 正数，s | 运行时负载平滑切换时长 | 单臂、双臂 |
 | `velocity_feedforward` | sim：`false`；real：`true` | `true`、`false` | 同时开启或关闭七个关节的目标速度前馈 | 单臂、双臂 |
 | `velocity_feedforward_timeout` | `0.1` | 秒 | 速度命令超过该时间未更新时，速度前馈归零 | 单臂 |
 
-模拟模式不使用电机增益和重力补偿。双臂的公共控制参数同时作用于两只手臂。
+模拟模式不使用电机增益和重力补偿。双臂的公共启动参数同时作用于两只手臂，运行时通过各臂桥接节点分别调整。
 
 ### 机械臂执行容差
 
 | 参数 | 默认值 | 可选值 / 单位 | 作用 | 适用入口 |
 |---|---|---|---|---|
 | `arm_trajectory_tolerance` | 沿用 YAML：`0.20` | 正数，rad | 运动过程中允许的关节位置跟踪误差 | 单臂、双臂 |
-| `arm_goal_tolerance` | 沿用 YAML：`0.05` | 正数，rad | 轨迹结束时允许的关节位置误差 | 单臂、双臂 |
+| `arm_goal_tolerance` | 沿用 YAML：`0.1` | 正数，rad | 轨迹结束时允许的关节位置误差 | 单臂、双臂 |
 | `arm_goal_time_tolerance` | 沿用 YAML：`1.0` | 正数，秒 | 轨迹结束后，为满足到位条件允许额外等待的时间 | 单臂、双臂 |
 | `arm_stopped_velocity_tolerance` | 沿用 YAML：`0.02` | 正数，rad/s | 轨迹结束时允许的关节速度 | 单臂、双臂 |
 
@@ -215,7 +220,7 @@ JTC 与话题桥传递同一采样点的位置、速度，按关节名匹配。
 命令缺失、非有限、时间戳无效或超过 `velocity_feedforward_timeout` 时，
 速度前馈归零。取消、保持、重新使能时清除缓存速度。
 
-`kp` / `kd` 为 onero-sdk servoj 的全关节固定增益，仅在启动时设置。
+`kp` / `kd` 为 onero-sdk servoj 的全关节增益，支持运行时通过 ROS 参数单独或原子更新，在 0.5 秒内平滑切换，以桥接节点的 `gain_state` 确认生效。
 `gravity_compensation:=true` 调用 onero-sdk `gravity_torque()`，按实测姿态、安装与负载计算自重补偿，
 经 `tau_ff` 下发；力矩前馈受 onero-sdk 与适配层的限幅约束。
 动力学依赖和模型在打开 CAN 前检查。模拟模式不计算动力学。
@@ -328,6 +333,7 @@ arm 组使用 KDL，OMPL 默认 RRTConnect，并配置 RRTstar、PRM 等规划�
 
 真机提供 `/onero_topic_bridge/enable` 和 `/onero_topic_bridge/disable` 服务。
 使能对齐实测位置；失能服务默认拒绝执行。
+当前负载见 `/onero_topic_bridge/payload_state`；确认已放下物体后可调用 `/onero_topic_bridge/reset_payload` 恢复启动基线。
 断使能会卸除支撑力矩，现场支撑和硬件急停按设备操作流程处理。
 软件状态监控不替代驱动器保护和硬件急停。
 
@@ -388,7 +394,7 @@ python3 tools/arm_disable.py --both --left-channel slcan1 --right-channel slcan0
 - 支持单臂（左臂或右臂）和双臂；Servo、MTC 和相机感知管线未配置。
 - 手臂支持 position + velocity 轨迹接口，夹爪使用 GripperCommand。
 - 控制频率见启动参数；双臂控制器与话题桥使用相同频率。
-- kp/kd 只在启动时设置，运行中不可调。
+- `kp` / `kd` 支持运行时平滑切换。
 - 夹爪未提供经过标定的夹持力接口，也未定义权威指尖 TCP。
 - 精度诊断使用关节反馈和 URDF 计算 Link7 位姿；实物末端精度需要独立测量。
 - 规划场景的避碰效果取决于模型、安装变换与实际环境的一致性。

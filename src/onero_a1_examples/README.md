@@ -17,6 +17,7 @@
 | `planning_scene` | [planning_scene.py](onero_a1_examples/planning_scene.py) | 临时碰撞体、避让及清理 |
 | `collision_check` | [collision_check.py](onero_a1_examples/collision_check.py) | 查询当前或命名姿态的有效性与接触对 |
 | `gripper` | [gripper.py](onero_a1_examples/gripper.py) | 通过 MoveIt 规划并执行夹爪开合 |
+| `arm_gripper_task` | [arm_gripper_task.py](onero_a1_examples/arm_gripper_task.py) | 手臂与夹爪联合任务，以桌面水瓶取放演示动作配合 |
 | `record_startup` | [record_startup.py](onero_a1_examples/record_startup.py) | 将当前关节位置保存为起始位置，不产生运动 |
 | `return_startup` | [return_startup.py](onero_a1_examples/return_startup.py) | 规划返回已记录的起始位置 |
 | `freedrive` | [freedrive.py](onero_a1_examples/freedrive.py) | 重力补偿手动拖动，退出后保持当前位置 |
@@ -59,7 +60,7 @@
 
 | 示例 | 选臂方式 |
 |---|---|
-| `joint_goal`、`pose_goal`、`cartesian_path`、`orientation_constraint`、`planning_scene`、`gripper` | `--arm left` 或 `--arm right`，控制单侧 |
+| `joint_goal`、`pose_goal`、`cartesian_path`、`orientation_constraint`、`planning_scene`、`gripper`、`arm_gripper_task` | `--arm left` 或 `--arm right`，控制单侧 |
 | `named_pose`、`record_startup`、`return_startup`、`collision_check`、`freedrive` | `--arm left`、`--arm right` 或 `--arm both` |
 | `dual_joint_goal`、`dual_cartesian_square`、`dual_gripper` | 自动控制双臂，不接受 `--arm` |
 
@@ -80,6 +81,7 @@ world 原点位于两根部安装中心的中点，坐标轴方向与单臂一�
 
 夹爪固定使用 OMPL / RRTConnect。`cartesian_path`、`dual_cartesian_square` 使用独立的笛卡尔路径接口，
 `collision_check` 只查询碰撞，`record_startup` 只记录当前位置，`freedrive` 切换手动拖动模式，均不选择规划器。
+`arm_gripper_task` 的手臂运动使用笛卡尔路径，夹爪规划使用 OMPL，不接受 `--pipeline` / `--planner`。
 
 ## 示例参数
 
@@ -89,7 +91,7 @@ world 原点位于两根部安装中心的中点，坐标轴方向与单臂一�
 
 分类：[通用设置](#通用设置) · [速度与规划](#速度与规划) · [关节与命名姿态](#关节与命名姿态) ·
 [末端位姿](#末端位姿) · [笛卡尔路径与朝向约束](#笛卡尔路径与朝向约束) ·
-[场景避障](#场景避障) · [夹爪开合](#夹爪开合) · [双臂动作](#双臂动作) · [零重力拖动](#零重力拖动)。
+[场景避障](#场景避障) · [夹爪开合](#夹爪开合) · [手臂与夹爪联合任务](#手臂与夹爪联合任务) · [双臂动作](#双臂动作) · [零重力拖动](#零重力拖动)。
 
 ### 通用设置
 
@@ -101,6 +103,7 @@ world 原点位于两根部安装中心的中点，坐标轴方向与单臂一�
 | `--help` | — | 开关，无需赋值 | 显示当前示例的参数帮助 | 全部 |
 
 双臂服务下，`base_link` 指所选手臂的根部；选择 `both` 时指公共根部。
+`arm_gripper_task` 固定使用 `--frame world`。
 
 ### 速度与规划
 
@@ -109,7 +112,7 @@ world 原点位于两根部安装中心的中点，坐标轴方向与单臂一�
 | `--velocity` | `0.05` | `(0, 1]` | 相对关节规划限位的速度缩放 | 除 `record_startup`、`collision_check`、`freedrive` 外 |
 | `--acceleration` | `0.05` | `(0, 1]` | 相对关节规划限位的加速度缩放 | 除 `record_startup`、`collision_check`、`freedrive` 外 |
 | `--planning-time` | `10` | 正数，秒 | 规划请求时间预算，不是动作时长 | 除 `record_startup`、`collision_check`、`freedrive` 外接受；笛卡尔路径不使用该搜索预算 |
-| `--pipeline` | `ompl` | `ompl`、`chomp`、`stomp`，支持情况见[规划器选择](#规划器选择) | 选择规划管线 | 手臂规划示例，`cartesian_path`、`dual_cartesian_square` 除外 |
+| `--pipeline` | `ompl` | `ompl`、`chomp`、`stomp`，支持情况见[规划器选择](#规划器选择) | 选择规划管线 | 手臂规划示例，`cartesian_path`、`dual_cartesian_square`、`arm_gripper_task` 除外 |
 | `--planner` | `RRTConnect` | `RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`、`AnytimePathShortening` | 选择 OMPL 算法 | 接受 `--pipeline` 且选择 `ompl` 的示例 |
 
 使用 CHOMP/STOMP 时省略 `--planner`。夹爪的速度、加速度缩放作用于规划轨迹，
@@ -162,6 +165,29 @@ world 原点位于两根部安装中心的中点，坐标轴方向与单臂一�
 | `--left-opening` | `1` | `[0, 1]` | 左夹爪开度 | `dual_gripper` |
 | `--right-opening` | `1` | `[0, 1]` | 右夹爪开度 | `dual_gripper` |
 
+### 手臂与夹爪联合任务
+
+以下参数仅用于 `arm_gripper_task`。
+
+| 参数 | 默认值 | 作用 |
+|---|---|---|
+| `--diameter` | `0.05` m | 瓶身直径 |
+| `--bottle-height` | `0.18` m | 瓶身高度，另含 2 cm 瓶颈 |
+| `--reach` | `0.12` m | 自动选择瓶子位置时的前伸距离 |
+| `--lift` | `0.03` m | 夹取后抬升距离 |
+| `--pause` | `2` s | 回到本次执行起点后的停顿 |
+| `--open-opening` | `1` | 张开开度，范围 `[0, 1]` |
+| `--grasp-opening` | 按瓶径计算 | 预期接触开度，实物可指定标定值 |
+| `--tcp-offset X Y Z` | 按夹爪模型计算 | 夹持中心相对 Link7 的偏移，米 |
+| `--bottle-position X Y Z` | 自动选择桌面位置 | 指定瓶身中心坐标，米；瓶底必须落在桌面 |
+| `--support-height` | 读取桌面模型 | 核对桌面高度，米 |
+| `--orientation-tolerance` | `0.1` rad | 每段开始时允许的实际跟踪偏差，目标朝向保持不变 |
+
+预览记录位于 `$ROS_HOME/tasks/arm_gripper_task_<left或right>.json`。
+真机检查夹爪受阻开度后才搬运；RViz 模型不会产生实物接触反馈。失败时停止后续动作，不自动松爪。
+持瓶去程、回程分别整体规划，转弯平滑过渡，只在起点停顿；执行后输出回位实测高度差。
+夹取确认后自动将 `kp` 平滑切换为 `120`，放回松爪后恢复执行前的值；持瓶中止时保留当前增益。
+
 ### 双臂动作
 
 | 参数 | 默认值 | 可选值 / 单位 | 作用 | 适用示例 |
@@ -193,7 +219,7 @@ world 原点位于两根部安装中心的中点，坐标轴方向与单臂一�
 
 规划成功时输出轨迹点数和时长，执行成功时输出 MoveIt 执行结果；失败时返回非零状态码。
 笛卡尔路径不完整时拒绝执行。碰撞查询输出状态有效性和接触对象，起始位置记录成功时输出确认信息。
-Ctrl+C 请求取消活动 Action，并清理当前示例创建的临时场景对象。
+Ctrl+C 请求取消活动 Action，并清理当前示例创建的临时场景对象。`arm_gripper_task` 成功、失败或中断结束后均自动移除水瓶模型。
 
 精度报告、姿态存档、轨迹回放和 onero-sdk 对照见 [诊断工具](../../tools/diagnostics/README.md)。
 

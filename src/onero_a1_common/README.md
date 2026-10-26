@@ -6,6 +6,8 @@
 - `constants.LEFT_JOINTS`：A1L 七关节名称。
 - `moveit_client.MoveItClient`：状态读取、FK、碰撞查询、参数读取、规划、显示、执行及取消/场景清理。
 - `moveit_client.MoveItError`：服务和 Action 的基本错误。
+- `payload.PayloadClient`：原子更新负载，等待控制周期确认生效，并恢复启动基线。
+- `gains.GainClient`：单独或原子切换 kp/kd，等待控制周期确认生效，并恢复本次修改的增益。
 
 客户端通过标准 ROS 接口访问 MoveIt。
 `tools/diagnostics/client.py` 通过继承客户端实现报告记录和严格校验。

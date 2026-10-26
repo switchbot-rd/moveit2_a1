@@ -48,22 +48,22 @@ arm_controller:
       stopped_velocity_tolerance: 0.02
       joint1-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1
       joint2-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1
       joint3-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1
       joint4-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1
       joint5-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1
       joint6-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1
       joint7-a1_r:
         trajectory: 0.20
-        goal: 0.05
+        goal: 0.1

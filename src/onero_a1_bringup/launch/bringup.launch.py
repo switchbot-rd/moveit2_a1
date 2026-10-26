@@ -14,6 +14,7 @@ import json
 import os
 import subprocess
 import sys
+from typing import List
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -27,6 +28,7 @@ from onero_a1_bringup.hardware_mode import arm_default, configure_arm, configure
 from onero_a1_bringup.controller_tolerances import (
     prepare_controller_parameters, tolerance_launch_arguments,
 )
+from onero_a1_bringup.payload import payload_launch_arguments
 
 
 def generate_launch_description():
@@ -54,6 +56,7 @@ def generate_launch_description():
                              description="默认 50（模拟不使用增益）"),
         DeclareLaunchArgument("kd", default_value="1.0"),
         *tolerance_launch_arguments(),
+        *payload_launch_arguments(),
         DeclareLaunchArgument("velocity_feedforward", default_value=mode_default("velocity_feedforward"),
                              description="全部七关节速度前馈；默认 real=true、sim=false；可显式覆盖"),
         DeclareLaunchArgument("velocity_feedforward_scale", default_value="[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]",
@@ -255,6 +258,9 @@ def generate_launch_description():
                 "model": LaunchConfiguration("model"),
                 "mounting": LaunchConfiguration("mounting"),
                 "with_gripper": ParameterValue(LaunchConfiguration("with_gripper"), value_type=bool),
+                'payload_mass': ParameterValue(LaunchConfiguration('payload_mass'), value_type=float),
+                'payload_cog': ParameterValue(LaunchConfiguration('payload_cog'), value_type=List[float]),
+                'payload_transition_time': ParameterValue(LaunchConfiguration('payload_transition_time'), value_type=float),
                 "gripper_model": LaunchConfiguration("gripper_model"),
                 "allow_gripper_execution": ParameterValue(LaunchConfiguration("allow_gripper_execution"), value_type=bool),
                 "activate_gripper_on_start": ParameterValue(LaunchConfiguration("start_arm_controller"), value_type=bool),

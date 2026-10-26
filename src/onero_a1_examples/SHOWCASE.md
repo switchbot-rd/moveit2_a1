@@ -11,7 +11,7 @@
 - 每个终端先执行 `source setup_env.sh`，自动准备依赖、构建并加载环境。
 - 单臂和双臂服务每次选择一套；切换 sim / real 前结束上一套服务。
 - 轨迹示例先去掉 `--execute` 规划预览，确认路径后再执行；执行时重新规划。
-- 先用 `record_startup` 记录起始位置；每项独立运动完成后返回该位置，再进行下一项，相对位移从当前反馈计算。
+- 基础运动示例先用 `record_startup` 记录起始位置，完成后返回该位置。
 - 相同机械臂配置下，服务重启后沿用已有记录；仅在需要更换起始位置时重新记录。
 - 真机从已确认具有运动空间的悬空姿态启动。`ready` / `home` 是模型命名姿态。
 - 默认参考系为 `world`：X 向前、Y 向左、Z 向上；位置对应 Link7 法兰。
@@ -236,6 +236,21 @@ ros2 run onero_a1_examples freedrive --damping 0.3 --duration 30 --execute
 
 拖动阻尼越大越难拖动；速度与加速度由手动动作决定，不使用轨迹缩放参数。
 
+#### 15. 手臂与夹爪联合任务
+
+需加载桌面环境；模拟启动也要添加 `environment_file:="$PWD/src/onero_a1_moveit_config/config/environment.desktop.yaml"`。
+直径 5 cm 的水瓶放在桌面，夹取后带回本次执行起点，停顿 2 秒，再放回并松爪。保持夹爪朝向，搬运从实时反馈规划为一条连续轨迹。
+
+```bash
+# 先生成瓶子坐标并预览
+ros2 run onero_a1_examples arm_gripper_task --velocity 0.5 --acceleration 0.5
+
+# 按坐标摆好实体水瓶后执行；默认沿用 SDK 启动补偿
+ros2 run onero_a1_examples arm_gripper_task --velocity 0.5 --acceleration 0.5 --execute
+```
+
+参数见[手臂与夹爪联合任务](README.md#手臂与夹爪联合任务)。
+
 ### 左单臂运行指令
 
 #### 1. 启动服务
@@ -446,13 +461,28 @@ ros2 run onero_a1_examples freedrive --damping 0.3 --duration 30 --execute
 
 拖动阻尼越大越难拖动；速度与加速度由手动动作决定，不使用轨迹缩放参数。
 
+#### 15. 手臂与夹爪联合任务
+
+需加载桌面环境；模拟启动也要添加 `environment_file:="$PWD/src/onero_a1_moveit_config/config/environment.desktop.yaml"`。
+直径 5 cm 的水瓶放在桌面，夹取后带回本次执行起点，停顿 2 秒，再放回并松爪。保持夹爪朝向，搬运从实时反馈规划为一条连续轨迹。
+
+```bash
+# 先生成瓶子坐标并预览
+ros2 run onero_a1_examples arm_gripper_task --velocity 0.5 --acceleration 0.5
+
+# 按坐标摆好实体水瓶后执行；默认沿用 SDK 启动补偿
+ros2 run onero_a1_examples arm_gripper_task --velocity 0.5 --acceleration 0.5 --execute
+```
+
+参数见[手臂与夹爪联合任务](README.md#手臂与夹爪联合任务)。
+
 ## 双臂运行指令
 
 “双臂服务”表示同时加载两只手臂；选臂方式由运行的**示例名称**决定：
 
 | 示例 | `--arm` 用法 |
 |---|---|
-| `joint_goal`、`pose_goal`、`cartesian_path`、`orientation_constraint`、`planning_scene`、`gripper` | 用 `left` 或 `right` 选择单侧 |
+| `joint_goal`、`pose_goal`、`cartesian_path`、`orientation_constraint`、`planning_scene`、`gripper`、`arm_gripper_task` | 用 `left` 或 `right` 选择单侧 |
 | `named_pose`、`record_startup`、`return_startup`、`collision_check`、`freedrive` | 可选 `left`、`right` 或 `both` |
 | `dual_joint_goal`、`dual_cartesian_square`、`dual_gripper` | 自动控制双臂，不传 `--arm` |
 

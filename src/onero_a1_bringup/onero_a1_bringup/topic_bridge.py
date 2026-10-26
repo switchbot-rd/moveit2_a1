@@ -36,6 +36,7 @@ import uuid
 
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import Parameter
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from rcl_interfaces.msg import ParameterDescriptor, SetParametersResult
 from sensor_msgs.msg import JointState
@@ -43,6 +44,8 @@ from std_msgs.msg import String
 from std_srvs.srv import SetBool, Trigger
 
 from .velocity_feedforward import VelocityFeedforward
+from .payload import Payload, PayloadTransition
+from .gains import GainTransition, validate_gain
 
 DEFAULT_JOINT_NAMES = [
     "joint1-a1_r", "joint2-a1_r", "joint3-a1_r", "joint4-a1_r",
@@ -94,13 +97,11 @@ class OneroTopicBridge(Node):
         # 真机参数（simulate=false 时生效）
         self.declare_parameter("can_channel", "can0")
         self.declare_parameter("model", "A1R")
-        # These values are captured before hardware enable. Reject runtime
-        # parameter edits instead of reporting success without changing the
-        # gains used by the control thread.
+        # Runtime gain edits are ramped and acknowledged by the control thread.
         self.declare_parameter("kp", 50.0, descriptor=ParameterDescriptor(
-            read_only=True, description="位置比例增益，仅启动时设置"))
+            description="位置比例增益，支持运行时平滑切换"))
         self.declare_parameter("kd", 1.0, descriptor=ParameterDescriptor(
-            read_only=True, description="速度阻尼增益，仅启动时设置"))
+            description="速度阻尼增益，支持运行时平滑切换"))
         self.declare_parameter("mounting", "upright")
         self.declare_parameter("with_gripper", True)
         self.declare_parameter("gripper_model", "none", descriptor=ParameterDescriptor(read_only=True))
@@ -141,6 +142,9 @@ class OneroTopicBridge(Node):
         self.declare_parameter("gravity_compensation", True)
         self.declare_parameter("max_gravity_torque", 15.0)
         self.declare_parameter("freedrive_damping", .3)
+        self.declare_parameter('payload_mass', 0.)
+        self.declare_parameter('payload_cog', [0., 0., 0.])
+        self.declare_parameter('payload_transition_time', .5, descriptor=ParameterDescriptor(read_only=True))
 
         gp = self.get_parameter
         self._joint_names: list[str] = list(gp("joint_names").value)
@@ -209,6 +213,12 @@ class OneroTopicBridge(Node):
         # SDK 重力补偿（可选）
         self._gravity_compensation = bool(gp("gravity_compensation").value)
         self._max_gravity_torque = abs(float(gp("max_gravity_torque").value))
+        self._payload = PayloadTransition(gp('payload_mass').value, gp('payload_cog').value,
+                                          gp('payload_transition_time').value)
+        self._payload_control_error = ''
+        self._kp = validate_gain('kp', gp('kp').value)
+        self._kd = validate_gain('kd', gp('kd').value)
+        self._gains = GainTransition(self._kp, self._kd)
 
         # ─── 硬件后端 ────────────────────────────────────────────────
         self._backend = None
@@ -243,6 +253,10 @@ class OneroTopicBridge(Node):
         )
 
         # ─── ROS 接口 ────────────────────────────────────────────────
+        self.add_on_set_parameters_callback(self._validate_payload_parameters)
+        self.add_post_set_parameters_callback(self._request_payload)
+        self.add_on_set_parameters_callback(self._validate_gain_parameters)
+        self.add_post_set_parameters_callback(self._request_gain)
         # 命令用 reliable + depth 1：永远只关心最新目标，不积压
         cmd_qos = QoSProfile(
             depth=1,
@@ -270,6 +284,14 @@ class OneroTopicBridge(Node):
         self._state_pub = self.create_publisher(
             JointState, gp("joint_states_topic").value, state_qos
         )
+        self._payload_pub = self.create_publisher(String, '~/payload_state', QoSProfile(
+            depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self._payload_timer = self.create_timer(.1, self._publish_payload_state)
+        self._publish_payload_state()
+        self._reset_payload_srv = self.create_service(Trigger, '~/reset_payload', self._on_reset_payload)
+        self._gain_pub = self.create_publisher(String, '~/gain_state', QoSProfile(
+            depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self._gain_timer = self.create_timer(.1, self._publish_gain_state)
         if self._trace_control:
             self._trace_pub = self.create_publisher(
                 String, "~/control_trace",
@@ -323,12 +345,6 @@ class OneroTopicBridge(Node):
         gp = self.get_parameter
         model_name = str(gp("model").value)
         channel = str(gp("can_channel").value)
-        self._kp = float(gp("kp").value)
-        self._kd = float(gp("kd").value)
-        if not (math.isfinite(self._kp) and 0.0 <= self._kp <= 500.0
-                and math.isfinite(self._kd) and 0.0 <= self._kd <= 5.0):
-            raise ValueError("kp/kd 超出 SDK MIT 编码范围")
-
         try:
             self._backend = SDKArmSession(
                 model_name=model_name, channel=channel,
@@ -339,6 +355,8 @@ class OneroTopicBridge(Node):
                 max_gravity_torque=self._max_gravity_torque,
                 on_miss=self._on_can_miss, on_fault=self._on_can_fault,
                 gripper_model=str(gp("gripper_model").value),
+                payload_mass=self._payload.baseline.mass,
+                payload_cog=self._payload.baseline.cog,
             )
             self._model = self._backend.model
             if self._model.num_joints != self._n:
@@ -364,10 +382,74 @@ class OneroTopicBridge(Node):
             f"| 零位偏移={self._backend.offsets}"
         )
         self.get_logger().info(
-            f"SDK servoj 固定增益 | kp={self._kp} | kd={self._kd} | 作用于全部 {self._n} 个关节"
+            f"SDK servoj 增益 | kp={self._kp} | kd={self._kd} | 运行时平滑切换 | 作用于全部 {self._n} 个关节"
         )
 
     # ─── 使能 / 失能 ─────────────────────────────────────────────────
+
+    def _validate_gain_parameters(self, parameters):
+        values = {parameter.name: parameter.value for parameter in parameters}
+        if not {'kp', 'kd'}.intersection(values):
+            return SetParametersResult(successful=True)
+        try:
+            if not set(values) <= {'kp', 'kd'} or len(parameters) != len(values):
+                raise ValueError('kp/kd 需单独或一起提交，不能与其他参数混合设置')
+            for name, value in values.items():
+                validate_gain(name, value)
+            if self._freedrive or not self._enabled:
+                raise ValueError('拖动或失能期间不能切换增益')
+        except (ValueError, TypeError) as exc:
+            return SetParametersResult(successful=False, reason=str(exc))
+        return SetParametersResult(successful=True)
+
+    def _request_gain(self, parameters):
+        values = {p.name: p.value for p in parameters if p.name in ('kp', 'kd')}
+        if values:
+            self._gains.request(values, time.monotonic())
+
+    def _publish_gain_state(self):
+        state = self._gains.snapshot()
+        state.update({'session_id': self.get_parameter('session_id').value,
+                      'error': self._payload_control_error})
+        self._gain_pub.publish(String(data=json.dumps(state, allow_nan=False)))
+
+    def _validate_payload_parameters(self, parameters):
+        values = {parameter.name: parameter.value for parameter in parameters}
+        names = {'payload_mass', 'payload_cog'}
+        if not names.intersection(values):
+            return SetParametersResult(successful=True)
+        if set(values) != names or len(parameters) != 2:
+            return SetParametersResult(successful=False, reason='负载质量和重心必须单独一次原子提交')
+        try:
+            payload = Payload.create(values['payload_mass'], values['payload_cog'])
+            if not self._simulate and not self._gravity_compensation and payload.mass:
+                raise ValueError('启用负载补偿需要 gravity_compensation:=true')
+        except (ValueError, TypeError) as exc:
+            return SetParametersResult(successful=False, reason=str(exc))
+        return SetParametersResult(successful=True)
+
+    def _request_payload(self, parameters):
+        values = {parameter.name: parameter.value for parameter in parameters}
+        if {'payload_mass', 'payload_cog'} <= values.keys():
+            self._payload.request(Payload.create(values['payload_mass'], values['payload_cog']), time.monotonic())
+
+    def _publish_payload_state(self):
+        state = self._payload.snapshot()
+        state.update({'session_id': self.get_parameter('session_id').value,
+                      'stamp_ns': self.get_clock().now().nanoseconds, 'simulate': self._simulate,
+                      'gravity_compensation': self._gravity_compensation})
+        state['error'] = state['error'] or self._payload_control_error
+        self._payload_pub.publish(String(data=json.dumps(state, allow_nan=False)))
+
+    def _on_reset_payload(self, request, response):
+        baseline = self._payload.baseline
+        result = self.set_parameters_atomically([
+            Parameter('payload_mass', value=baseline.mass),
+            Parameter('payload_cog', value=list(baseline.cog)),
+        ])
+        response.success = result.successful
+        response.message = ('已请求恢复启动负载基线，以 payload_state 为准' if result.successful else result.reason)
+        return response
 
     def _validate_freedrive_parameters(self, parameters):
         for parameter in parameters:
@@ -646,6 +728,7 @@ class OneroTopicBridge(Node):
                     with self._hardware_lock:
                         if not self._enabled:
                             continue
+                        payload_revision = self._payload.advance(self._backend.set_payload, time.monotonic())
                         if self._freedrive and (time.monotonic() >= self._freedrive_deadline or self._hold):
                             self._finish_freedrive()
                             cmd = list(self._cmd_pos)
@@ -662,10 +745,16 @@ class OneroTopicBridge(Node):
                                     now_s=time.monotonic(), now_ros_ns=self.get_clock().now().nanoseconds)
                                 if self._freedrive_guard:
                                     velocity = [0.]*self._n
+                            gains, gain_revision = self._gains.advance(time.monotonic())
+                            self._kp, self._kd = gains['kp'], gains['kd']
                             state = self._backend.servoj(
                                 cmd, kp=self._kp, kd=self._kd, velocities=velocity
                             )
+                            self._gains.confirm(gains, gain_revision, self.get_clock().now().nanoseconds)
                         applied = self._backend.last_command
+                        self._payload.confirm(payload_revision, limited=bool(applied and (
+                            applied.get('sdk_ff_limited') or applied.get('bridge_ff_limited'))))
+                        self._payload_control_error = ''
                     io_end = time.monotonic()
                     with self._lock:
                         self._state_pos = list(state.joints)
@@ -673,6 +762,7 @@ class OneroTopicBridge(Node):
                 except Exception as e:  # noqa: BLE001 — 控制循环不能死
                     io_end = time.monotonic()
                     failure = str(e)
+                    self._payload_control_error = failure
                     applied = self._backend.last_command
                     self.get_logger().error(
                         f"控制周期失败: {e}", throttle_duration_sec=1.0
@@ -689,7 +779,12 @@ class OneroTopicBridge(Node):
                                 self._velocity_ff.clear('freedrive_failed', reset_order=True)
                             self.get_logger().error(f'拖动中断且持位请求失败: {hold_error}')
             else:
+                payload_revision = self._payload.advance(lambda mass, cog: None, time.monotonic())
+                gains, gain_revision = self._gains.advance(time.monotonic())
+                self._kp, self._kd = gains['kp'], gains['kd']
                 self._step_simulation(cmd)
+                self._payload.confirm(payload_revision)
+                self._gains.confirm(gains, gain_revision, self.get_clock().now().nanoseconds)
                 io_end = time.monotonic()
 
             if self._trace_control:
@@ -725,6 +820,7 @@ class OneroTopicBridge(Node):
                         "sdk_ff_limited": applied["sdk_ff_limited"] if applied else None,
                         "bridge_ff_limited": applied["bridge_ff_limited"] if applied else None,
                         "gravity_compensation": self._gravity_compensation,
+                        "payload": self._payload.snapshot(),
                         "kp": getattr(self, "_kp", None),
                         "kd": getattr(self, "_kd", None),
                         "feedback_position": list(self._state_pos),

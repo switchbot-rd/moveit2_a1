@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 EXAMPLES = (
     "joint_goal", "named_pose", "pose_goal", "cartesian_path",
     "orientation_constraint", "planning_scene", "collision_check",
-    "gripper", "record_startup", "return_startup", "freedrive",
+    "gripper", "arm_gripper_task", "record_startup", "return_startup", "freedrive",
     "dual_joint_goal", "dual_cartesian_square", "dual_gripper",
 )
 
