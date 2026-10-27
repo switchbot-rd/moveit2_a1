@@ -48,9 +48,13 @@ def remove_collision_entry(matrix, object_id):
         matrix.default_entry_values.pop(index)
 
 
-def clear_bottle(node):
+def task_bottle_ids(node):
+    return (f'onero_task_bottle_{node.arm_side}', f'onero_fixed_bottle_{node.arm_side}')
+
+
+def clear_bottle(node, object_id=None):
     """Remove this arm's virtual task model and collision overrides on exit."""
-    object_id = f'onero_task_bottle_{node.arm_side}'
+    object_id = object_id or f'onero_task_bottle_{node.arm_side}'
     components = (PlanningSceneComponents.ROBOT_STATE | PlanningSceneComponents.WORLD_OBJECT_NAMES
                   | PlanningSceneComponents.ROBOT_STATE_ATTACHED_OBJECTS
                   | PlanningSceneComponents.ALLOWED_COLLISION_MATRIX)
@@ -92,6 +96,27 @@ def clear_bottle(node):
         node.display.publish(DisplayTrajectory(model_id='onero_a1', trajectory_start=state, trajectory=[trajectory]))
         node.display.wait_for_all_acked(Duration(seconds=.5))
     print(f'已清理本示例的水瓶模型：{object_id}')
+
+
+def clear_task_bottles(node):
+    """Remove this arm's example bottles, including legacy aliases and ACM rows."""
+    components = (PlanningSceneComponents.WORLD_OBJECT_NAMES | PlanningSceneComponents.ROBOT_STATE_ATTACHED_OBJECTS
+                  | PlanningSceneComponents.ALLOWED_COLLISION_MATRIX)
+    current = node.call(GetPlanningScene, '/get_planning_scene', GetPlanningScene.Request(
+        components=PlanningSceneComponents(components=components))).scene
+    ids = ({obj.id for obj in current.world.collision_objects}
+           | {item.object.id for item in current.robot_state.attached_collision_objects}
+           | set(current.allowed_collision_matrix.entry_names)
+           | set(current.allowed_collision_matrix.default_entry_names))
+    errors = []
+    for object_id in task_bottle_ids(node):
+        if object_id in ids:
+            try:
+                clear_bottle(node, object_id)
+            except Exception as exc:
+                errors.append(f'{object_id}: {exc}')
+    if errors:
+        raise MoveItError('任务模型清理失败：'+'；'.join(errors))
 
 
 class PickerGeometry:
@@ -160,15 +185,26 @@ class PickerGeometry:
 
 
 class BottleScene:
-    def __init__(self, node, geometry):
+    def __init__(self, node, geometry, object_id=None):
         self.node, self.geometry = node, geometry
-        self.id = f'onero_task_bottle_{node.arm_side}'
+        self.id = object_id or f'onero_task_bottle_{node.arm_side}'
         self.bottle = None
         self.attached = False
         self.changed = False
         self.support_id = None
-        if any(obj.object.id == self.id for obj in self.read().robot_state.attached_collision_objects):
+        current = self.read()
+        managed = set(task_bottle_ids(node))
+        if any(obj.object.id in managed | {self.id} for obj in current.robot_state.attached_collision_objects):
             raise MoveItError('场景中已有本任务的附着水瓶；先确认上次任务的持物状态')
+        # Example switches reuse one physical bottle. Old temporary aliases
+        # must not become a second obstacle at its current location.
+        if self.id in managed:
+            present = {obj.id for obj in current.world.collision_objects}
+            present.update(current.allowed_collision_matrix.entry_names)
+            present.update(current.allowed_collision_matrix.default_entry_names)
+            for object_id in managed-{self.id}:
+                if object_id in present:
+                    clear_bottle(node, object_id)
 
     def read(self):
         components = (PlanningSceneComponents.ROBOT_STATE | PlanningSceneComponents.ROBOT_STATE_ATTACHED_OBJECTS
@@ -184,13 +220,16 @@ class BottleScene:
             raise MoveItError('MoveIt 拒绝更新水瓶场景')
 
     def allow_touch(self, enabled, support=False):
+        self.contacts(gripper=enabled, supports=[self.support_id] if enabled and support and self.support_id else [])
+
+    def contacts(self, *, gripper=False, supports=()):
+        """Set only this object's permitted contacts, preserving other objects."""
         matrix = self.read().allowed_collision_matrix
         remove_collision_entry(matrix, self.id)
         names = list(matrix.entry_names)
-        if enabled:
-            links = set(self.geometry.touch_links)
-            if support and self.support_id:
-                links.add(self.support_id)
+        links = set(self.geometry.touch_links) if gripper else set()
+        links.update(supports)
+        if links:
             for link in sorted(links):
                 if link not in names:
                     for row in matrix.entry_values:
@@ -215,7 +254,7 @@ class BottleScene:
         self.world()
         self.changed = True
 
-    def support_height(self, position, radius):
+    def support_height(self, position, radius, object_id=None):
         """Resolve returned scene geometry into world before testing table tops.
 
         MoveIt folds objects into its planning frame (base_link here), even
@@ -228,7 +267,8 @@ class BottleScene:
                 continue
             # Only use the configured tabletop/desktop plate, not stand feet
             # or arbitrary obstacle tops, as a bottle support.
-            if not any(word in obj.id for word in ('table', 'desktop', 'dark_plate')):
+            if (obj.id != object_id if object_id is not None else
+                    not any(word in obj.id for word in ('table', 'desktop', 'dark_plate'))):
                 continue
             frame = obj.header.frame_id or 'base_link'
             if frame not in frames:
@@ -251,7 +291,9 @@ class BottleScene:
         height, self.support_id = max(heights)
         return height
 
-    def world(self):
+    def world(self, pose=None):
+        if pose is not None:
+            self.bottle.pose = deepcopy(pose)
         detached = AttachedCollisionObject(link_name=self.node.tip_link,
             object=CollisionObject(id=self.id, operation=CollisionObject.REMOVE))
         scene = PlanningScene()
@@ -266,7 +308,8 @@ class BottleScene:
         tip = self.node.fk(state)
         obj = deepcopy(self.bottle)
         obj.header.frame_id = self.node.tip_link
-        obj.pose = matrix_pose(np.linalg.inv(pose_matrix(tip)) @ pose_matrix(obj.pose))
+        self.tip_to_object = np.linalg.inv(pose_matrix(tip)) @ pose_matrix(obj.pose)
+        obj.pose = matrix_pose(self.tip_to_object)
         attached = AttachedCollisionObject(link_name=self.node.tip_link, object=obj,
                                            touch_links=self.geometry.touch_links)
         scene = PlanningScene()

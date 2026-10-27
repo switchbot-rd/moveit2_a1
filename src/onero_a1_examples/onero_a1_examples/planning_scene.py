@@ -22,6 +22,10 @@ def set_obstacle(node, pose=None):
     scene = PlanningScene(is_diff=True)
     scene.robot_state.is_diff = True
     scene.world.collision_objects = [obj]
+    if pose is not None:
+        # A timed-out request may already have added the object on the server.
+        # Keep it eligible for final cleanup even if no response arrives.
+        node.scene_added = True
     result = node.call(ApplyPlanningScene, "/apply_planning_scene", ApplyPlanningScene.Request(scene=scene))
     if not result.success:
         raise MoveItError("MoveIt 拒绝更新碰撞场景")
