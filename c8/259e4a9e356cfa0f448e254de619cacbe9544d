@@ -1,0 +1,176 @@
+src/onero_a1_bringup/onero_a1_bringup/servo_manager.py
+  s_f321f7aad05dc1::t_807effb4736dba 129-138,275
+  s_f321f7aad05dc1::t_f79eb87b8bda5a 14,20,33,62-65,80-81,240,267-272,279,283,299-301,339-340,344,346-347,350,354,374,376-382,386,406-411,431-433,454-455,457
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 232-233
+  s_f321f7aad05dc1::t_bb54733ccb7ea4 253-255,259
+  s_f321f7aad05dc1::t_6ccc07d13a26d6 287-288
+  s_f321f7aad05dc1::t_36e292d1e68558 74,92,175-180,211,226,362
+  s_f321f7aad05dc1::t_51977859d2d518 19,88,263,282,341-343,345,348-349,351-353,355
+  s_f321f7aad05dc1::t_01a5ae00b05281 193,248,296-298
+  s_f321f7aad05dc1::t_dd18e18d8ed318 23
+  s_f321f7aad05dc1::t_405951b4df6605 61,101,391
+  s_f321f7aad05dc1::t_75629d7afa0382 76,278,312-313,330-333,335
+  s_f321f7aad05dc1::t_70aaa54fd61c6b 67,106-108
+  s_f321f7aad05dc1::t_6bdab7460ef89f 71,190,256,258,439-442,445-447,453,460
+  s_f321f7aad05dc1::t_a4f3324fcefdbe 399
+  s_f321f7aad05dc1::t_50bdf87e0a1c98 412,443-444
+  s_f321f7aad05dc1::t_2002d37a595bf2 456
+  s_f321f7aad05dc1::t_1fd522a1bdb539 30,32,35,43-58,73,89-90,196-202,261,266,370-373,375,383-385,389-390,392,458-459
+  s_f321f7aad05dc1::t_832f44a5e85004 363,387-388
+  s_f321f7aad05dc1::t_5eb38c4658b86d 264
+  s_f321f7aad05dc1::t_1721c2b3ac5df3 1-13,15-18,21-22,24-29,31,34,36-42,59-60,66,68-70,72,75,77-79,82-87,91,93-98,100,102-105,109-128,139-174,181-189,191-192,194-195,203-210,212-225,227-231,234-239,241,243-246,249-252,257,260,262,265,273-274,276-277,280,284-286,289-295,303-311,314-329,334,336-338,356-361,364-369,393-398,400-405,413-430,434-438,448-452,461-476
+  s_f321f7aad05dc1::t_cec2afdb516f3a 99,242,247,281,302
+src/onero_a1_moveit_config/package.xml
+  s_f321f7aad05dc1::t_4325e6064b7bdf 41
+src/onero_a1_moveit_config/config/servo.yaml
+  s_f321f7aad05dc1::t_4325e6064b7bdf 1,33
+  s_f321f7aad05dc1::t_b87948eac4bee2 8-9
+  s_f321f7aad05dc1::t_ef3fc792da7f6d 25-26
+  s_f321f7aad05dc1::t_f5fdd36d224d95 28-29
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 2,5-6,11-24,27,30,34
+  s_f321f7aad05dc1::t_35ad9f459ead23 3-4,10
+  s_f321f7aad05dc1::t_7de2400d7e3578 7,31-32
+README.md
+  s_f321f7aad05dc1::t_262ea5747ec73b 274
+  s_f321f7aad05dc1::t_507c40fa4ae794 129
+  s_f321f7aad05dc1::t_1141e9a2533fa4 3,5,15-18,68,108-109,150,168,171-173,178,189,203,207-208,212,214,216-221,273
+  s_f321f7aad05dc1::t_7b0d091f159e6f 49-54
+  s_f321f7aad05dc1::t_8dbdd22292fe39 69-70
+src/onero_a1_common/README.md
+  s_f321f7aad05dc1::t_507c40fa4ae794 22
+  s_f321f7aad05dc1::t_1141e9a2533fa4 1,3-4,11-12,14,19-20,29
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 13
+src/onero_a1_moveit_config/config/onero_woan_picker.srdf
+  s_f321f7aad05dc1::t_ef3fc792da7f6d 31
+tools/diagnostics/servo_debug.py
+  s_f321f7aad05dc1::t_79c2d2ae67ce68 93,104,132
+  s_f321f7aad05dc1::t_22b6282da95163 12,71-72
+  s_f321f7aad05dc1::t_51977859d2d518 18,95
+  s_f321f7aad05dc1::t_b51afc8b289051 2-11,13-17,19-70,73-85,91,94,96-98,105-111,114-124,128-130,137-156
+  s_f321f7aad05dc1::t_b783bc1a5bd036 86-88
+  s_f321f7aad05dc1::t_b96e785c3573bb 99-101,112-113
+  s_f321f7aad05dc1::t_f8625b687c8671 1,90
+  s_f321f7aad05dc1::t_a125b7407dd82d 89
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 92,125-127,131,133-136
+  s_f321f7aad05dc1::t_02e096b8b8779c 102-103
+src/onero_a1_bringup/onero_a1_bringup/topic_bridge.py
+  s_f321f7aad05dc1::t_12a119fda10708 183,315,471-472,497-509
+  s_f321f7aad05dc1::t_eb4470db2fffda 510-511
+src/onero_a1_bringup/onero_a1_bringup/servo_gripper.py
+  s_f321f7aad05dc1::t_2c3cc336cb8569 1-2,4-15,20-30,35-40,43-45,48-54,59-69,71-81,94-98
+  s_f321f7aad05dc1::t_2002d37a595bf2 3,16-19,31-34,41-42,46-47,55-58,70,82-93
+src/onero_a1_examples/package.xml
+  s_f321f7aad05dc1::t_01a5ae00b05281 24
+src/onero_a1_examples/onero_a1_examples/servo_keyboard.py
+  s_f321f7aad05dc1::t_2002d37a595bf2 37,138-139
+  s_f321f7aad05dc1::t_704494b661e3a8 41,130,134
+  s_f321f7aad05dc1::t_dcec3273b82113 132
+  s_f321f7aad05dc1::t_f513a7dbef5462 1-7,9-11,13,16-28,31-33,35-36,38-40,43-44,56,58-65,67-76,78,87-93,96-102,105-107,110,115,119-128,133,141-148,152-160,163-173,176-201
+  s_f321f7aad05dc1::t_02e096b8b8779c 151
+  s_f321f7aad05dc1::t_d5490ab0ff5797 174
+  s_f321f7aad05dc1::t_75629d7afa0382 111,113-114
+  s_f321f7aad05dc1::t_601e77574a67d5 8,149-150
+  s_f321f7aad05dc1::t_73a8ba8ecd955b 29-30,42,45-55,57,66,77,79-86,94-95,103-104,108-109,112,131,135-137,140,175
+  s_f321f7aad05dc1::t_51977859d2d518 34,116-118,129
+  s_f321f7aad05dc1::t_6491486824f201 12,14-15,161-162
+src/onero_a1_bringup/package.xml
+  s_f321f7aad05dc1::t_1fd522a1bdb539 31-32
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 38-40
+src/onero_a1_examples/SHOWCASE.md
+  s_f321f7aad05dc1::t_8dbdd22292fe39 285,294-295
+  s_f321f7aad05dc1::t_d5490ab0ff5797 272,275
+  s_f321f7aad05dc1::t_f8625b687c8671 276
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 289
+  s_f321f7aad05dc1::t_dcec3273b82113 291
+  s_f321f7aad05dc1::t_b7fd1f3016a4dd 293
+  s_f321f7aad05dc1::t_1141e9a2533fa4 189,246,254,268,290,296
+  s_f321f7aad05dc1::t_202acb0380a829 292
+  s_f321f7aad05dc1::t_262ea5747ec73b 266-267,269-271,273-274,277-284,286-288,297
+src/onero_a1_moveit_config/launch/moveit.launch.py
+  s_f321f7aad05dc1::t_35ad9f459ead23 128-134,148,203
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 20-21,202,240-242,313,352
+  s_f321f7aad05dc1::t_b7fd1f3016a4dd 115-119,251,261
+  s_f321f7aad05dc1::t_b783bc1a5bd036 246
+  s_f321f7aad05dc1::t_b51afc8b289051 263-266
+  s_f321f7aad05dc1::t_7d37c921fea993 247
+  s_f321f7aad05dc1::t_1fd522a1bdb539 253,255-258
+  s_f321f7aad05dc1::t_4325e6064b7bdf 19,58-59,243-245,248-250,252,259-260,262,267
+  s_f321f7aad05dc1::t_f79eb87b8bda5a 254
+  s_f321f7aad05dc1::t_d5490ab0ff5797 15,56-57
+src/onero_a1_examples/setup.py
+  s_f321f7aad05dc1::t_01a5ae00b05281 8
+src/onero_a1_examples/README.md
+  s_f321f7aad05dc1::t_202acb0380a829 192
+  s_f321f7aad05dc1::t_507c40fa4ae794 12,100
+  s_f321f7aad05dc1::t_35ad9f459ead23 3
+  s_f321f7aad05dc1::t_8dbdd22292fe39 82,186-187,197
+  s_f321f7aad05dc1::t_4acacbfb3b68e1 181
+  s_f321f7aad05dc1::t_dcec3273b82113 191,193-194
+  s_f321f7aad05dc1::t_6ccc07d13a26d6 196
+  s_f321f7aad05dc1::t_262ea5747ec73b 47,178-179,182-185,188-189,198
+  s_f321f7aad05dc1::t_b7fd1f3016a4dd 190
+  s_f321f7aad05dc1::t_1141e9a2533fa4 7,9,62,92,133,154,202,205
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 24,195
+  s_f321f7aad05dc1::t_d5490ab0ff5797 180
+  s_f321f7aad05dc1::t_66aa2af6bc9c23 199
+src/onero_a1_bringup/onero_a1_bringup/servo_kinematics.py
+  s_f321f7aad05dc1::t_3cdb40f8691c8f 125
+  s_f321f7aad05dc1::t_c8d2082a828f02 1-6,8-13,16-26,29-53,55-63,69-87,90-94,98-102,108-109
+  s_f321f7aad05dc1::t_5a9f25825d2d45 117-122,124,126-129
+  s_f321f7aad05dc1::t_1fd522a1bdb539 14-15,27-28,95-97
+  s_f321f7aad05dc1::t_7bb83cca0d60e5 7,104-107,110-116,123
+  s_f321f7aad05dc1::t_1f0758e7a914d2 54,65
+  s_f321f7aad05dc1::t_f8b5d6e48caf89 103
+  s_f321f7aad05dc1::t_1f661fd588aabf 88-89
+  s_f321f7aad05dc1::t_dcec3273b82113 64
+  s_f321f7aad05dc1::t_ea8d554e0e18b2 66-68
+src/onero_a1_bringup/onero_a1_bringup/controller_tolerances.py
+  s_f321f7aad05dc1::t_12a119fda10708 71-81,94-97,99-100,110
+src/onero_a1_bringup/setup.py
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 29
+src/onero_a1_common/onero_a1_common/servo.py
+  s_f321f7aad05dc1::t_01a5ae00b05281 56,64-66,89-90
+  s_f321f7aad05dc1::t_6bdab7460ef89f 118,120-125
+  s_f321f7aad05dc1::t_2c3cc336cb8569 43,45-46,50,52,54,85,91-93,99,102,104-106,110-113,126-128
+  s_f321f7aad05dc1::t_f513a7dbef5462 1-6,8-42,48-49,51,53,55,57-63,67-69,71,73-74,77-84,98,100-101,107-109,114-117,129
+  s_f321f7aad05dc1::t_d5490ab0ff5797 75
+  s_f321f7aad05dc1::t_51977859d2d518 7,44,47,94,103,119
+  s_f321f7aad05dc1::t_cec2afdb516f3a 70,72,76,86-88
+  s_f321f7aad05dc1::t_f46cc98ed8beed 95-97
+tools/sync_woan_picker_from_sdk.py
+  s_f321f7aad05dc1::t_ef3fc792da7f6d 64-67
+setup_env.sh
+  s_f321f7aad05dc1::t_12a119fda10708 124
+  s_f321f7aad05dc1::t_430ec2c3085979 123
+tools/diagnostics/README.md
+  s_f321f7aad05dc1::t_8dbdd22292fe39 19-32,34
+  s_f321f7aad05dc1::t_dcec3273b82113 33
+  s_f321f7aad05dc1::t_1141e9a2533fa4 3-4,9,11,18,58,73,96,157,165-166
+src/onero_a1_common/package.xml
+  s_f321f7aad05dc1::t_704494b661e3a8 20
+src/onero_a1_bringup/launch/bringup.launch.py
+  s_f321f7aad05dc1::t_12a119fda10708 51,200-202,241,243,245,320-321
+  s_f321f7aad05dc1::t_35ad9f459ead23 52,261
+  s_f321f7aad05dc1::t_7d37c921fea993 24,177-180
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c8259e4a9e356cfa0f448e254de619cacbe9544d",
+  "prompts": {},
+  "humans": {
+    "h_3ce05673bb5060": {
+      "author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  },
+  "sessions": {
+    "s_f321f7aad05dc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a177aa-5fab-7a92-a7c6-85e8306e66d9",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  }
+}
