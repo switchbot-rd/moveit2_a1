@@ -1,0 +1,535 @@
+src/onero_a1_servo/src/servo.cpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-40,42-324,327-474,476-529,545-546,548-565,580,594,609-754
+  s_f321f7aad05dc1::t_b783bc1a5bd036 41,325-326,475,530-544,547,566-579
+  s_2b41a2189b7a88::t_80c4b29b853533 582
+  s_f321f7aad05dc1::t_4b2ea0236cd55d 581,583-593,595-608
+tools/diagnostics/validate_relay_snapshot.py
+  s_2b41a2189b7a88::t_221a3fce997d13 7-14,76-77,80,82-186
+  s_2b41a2189b7a88::t_bed118c8bb2cd8 78-79,81
+  s_2b41a2189b7a88::t_e3f482abbdae0c 25
+  s_e60d3da2da67f8::t_fcf5d30ca3254e 1-6,15-24,26-75,187-206
+src/onero_a1_servo/src/collision_retreat.cpp
+  s_f321f7aad05dc1::t_e114cb25a77e2f 7,15-16,20,36,45-46,48-49,63-66,145-164,167-170,178,197,233
+  s_f321f7aad05dc1::t_38c5f7106f161d 1-2,4-6,8-14,17-19,22-34,47,50-62,67-88,133-143,171,173-177,179-196,198-232,234-242
+  s_2b41a2189b7a88::t_80c4b29b853533 21,35,37-38,89-101,144,165-166,172
+  s_f321f7aad05dc1::t_4b2ea0236cd55d 3,102-132
+  s_f321f7aad05dc1::t_6fcd422153b36d 39-44
+src/onero_a1_servo/CMakeLists.txt
+  s_f321f7aad05dc1::t_38c5f7106f161d 1-33
+src/onero_a1_examples/README.md
+  s_f321f7aad05dc1::t_507c40fa4ae794 12,102
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 24
+  s_f321f7aad05dc1::t_00d1151c4e0d46 35,80,189,201-211,215-216
+  s_64ea7c86d064a1::t_507d9059e83061 60,218
+  s_f321f7aad05dc1::t_ecee7241048f1d 61-62
+  s_2b41a2189b7a88::t_6801c09dfa05d9 168
+  s_f321f7aad05dc1::t_35ad9f459ead23 3
+  s_2b41a2189b7a88::t_37f13c3f322bb6 156
+  s_f321f7aad05dc1::t_18acdd76cd5819 19-20,45-46,135,147,151,199
+  s_2b41a2189b7a88::t_7158ace852de74 171-173
+  s_f321f7aad05dc1::t_66aa2af6bc9c23 217
+  s_f321f7aad05dc1::t_8dbdd22292fe39 84,196-197
+  s_f321f7aad05dc1::t_86defaec8333bf 17,25,59,63-64,69,89,94,136,183-184,188,191-192,198,212,214,220-221
+  s_f321f7aad05dc1::t_1141e9a2533fa4 7,9,222
+  s_2b41a2189b7a88::t_68f935d67bcc74 155,157,166,169-170,190,213
+  s_2b41a2189b7a88::t_912ee192657faf 158
+  s_2b41a2189b7a88::t_5ccef208773d1c 159
+  s_2b41a2189b7a88::t_bb1480c26ed0cf 160
+  s_f321f7aad05dc1::t_262ea5747ec73b 186,194-195,200
+tools/diagnostics/relay_snapshot.launch.py
+  s_2b41a2189b7a88::t_fa3857614b0185 1-27
+src/onero_a1_kinematics/onero_a1_kinematics/__init__.py
+  s_f321f7aad05dc1::t_0a678788889d88 2,4
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1,3
+src/onero_a1_examples/onero_a1_examples/fixed_pick_place_relay.py
+  s_e60d3da2da67f8::t_9c0e224b2e2dc5 141
+  s_f321f7aad05dc1::t_e7627fdba9f927 1-8,10-11,13-15,17,19-32,35-54,57-65,67,70-72,88-90,104,106-110,113-115,120-128,136-140,142-152,154-167,171-180,184-194,199
+  s_2b41a2189b7a88::t_37f13c3f322bb6 69
+  s_f321f7aad05dc1::t_7dab831de03cf8 195-197
+  s_f321f7aad05dc1::t_9cf3b0ad04b45e 98-103,131-133
+  s_2b41a2189b7a88::t_21d602a6a0a002 12,18,77,81-85,116,119
+  s_f321f7aad05dc1::t_3cbc1f7c0926ad 9,33-34,73-76,78-80,86-87,91-97,105,111-112,117-118,129-130,134-135,181-183
+  s_2b41a2189b7a88::t_912ee192657faf 66,68,170
+  s_f321f7aad05dc1::t_88bf3c0f0138fa 55-56
+  s_2b41a2189b7a88::t_5d1e50a93be289 168-169
+  s_e60d3da2da67f8::t_d04b9d9ca67e1c 16,153
+  s_f321f7aad05dc1::t_4274d5c6c3f6c2 198
+  s_f321f7aad05dc1::t_b9ad1a33802a84 200-202
+src/onero_a1_kinematics/include/onero_a1_kinematics/spatial_posture.hpp
+  s_e60d3da2da67f8::t_df92d9798f8fa1 70
+  s_2b41a2189b7a88::t_36abd8fee733df 1-16,18-51,55,57-69,73,75-77,79-81,90-103
+  s_2b41a2189b7a88::t_7158ace852de74 17,52-54,56,71-72,74,78,82-89
+src/onero_a1_examples/onero_a1_examples/arm_gripper_task.py
+  s_1ef48d7c834b09::t_08427349116d1e 443-444
+  s_f321f7aad05dc1::t_9fbd0d714fdc24 1,3
+  s_f321f7aad05dc1::t_86417254743d3c 441-442
+  s_f321f7aad05dc1::t_4a2a548b68e1a0 207,213-229,239,397-399,437-440,447
+  s_f321f7aad05dc1::t_fde1dc8424a2d1 208-212
+src/onero_a1_moveit_config/config/servo.yaml
+  s_f321f7aad05dc1::t_f5fdd36d224d95 30-31
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 2,5-6,11-23,26,29,32,36
+  s_f321f7aad05dc1::t_35ad9f459ead23 3-4,10
+  s_f321f7aad05dc1::t_b87948eac4bee2 8-9
+  s_f321f7aad05dc1::t_b783bc1a5bd036 24-25
+  s_f321f7aad05dc1::t_ef3fc792da7f6d 27-28
+  s_f321f7aad05dc1::t_7de2400d7e3578 7,33-34
+  s_f321f7aad05dc1::t_4325e6064b7bdf 1,35
+src/onero_a1_servo/src/servo_node.cpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-372,393-424,426-427,446-457,459-474
+  s_f321f7aad05dc1::t_4b2ea0236cd55d 373-392
+  s_f321f7aad05dc1::t_e114cb25a77e2f 425,428-445,458
+src/onero_a1_servo/src/utils/command.cpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-378
+src/onero_a1_servo/include/moveit_servo/utils/command.hpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-105
+setup_env.sh
+  s_f321f7aad05dc1::t_12a119fda10708 125
+  s_f321f7aad05dc1::t_ecee7241048f1d 123-124
+src/onero_a1_bringup/onero_a1_bringup/servo_gripper.py
+  s_f321f7aad05dc1::t_2002d37a595bf2 3,16-19,31-34,41-42,46-47,55-58,70,82-93
+  s_f321f7aad05dc1::t_2c3cc336cb8569 1-2,4-15,20-30,35-40,43-45,48-54,59-69,71-81,94-98
+  s_f321f7aad05dc1::t_0d86c00a235c02 99-124
+src/onero_a1_servo/include/moveit_servo/servo_node.h
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-56
+src/onero_a1_servo/LICENSE
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-29
+src/onero_a1_bringup/onero_a1_bringup/servo_kinematics.py
+  s_f321f7aad05dc1::t_1f661fd588aabf 97-98
+  s_f321f7aad05dc1::t_ea8d554e0e18b2 73-75
+  s_f321f7aad05dc1::t_5a9f25825d2d45 126-131,133,135-138
+  s_f321f7aad05dc1::t_f8b5d6e48caf89 112
+  s_2b41a2189b7a88::t_49cbd9b433d36d 24-25
+  s_f321f7aad05dc1::t_1f0758e7a914d2 63,72
+  s_f321f7aad05dc1::t_3cdb40f8691c8f 134
+  s_f321f7aad05dc1::t_7bb83cca0d60e5 7,113-116,119-125,132
+  s_f321f7aad05dc1::t_669f2c1bc16f46 16,26-28,43,45,48,50,139-172
+  s_f321f7aad05dc1::t_0a678788889d88 11,37-39,62,79-90
+  s_f321f7aad05dc1::t_dcec3273b82113 71
+  s_2b41a2189b7a88::t_68f935d67bcc74 22-23
+  s_f321f7aad05dc1::t_c8d2082a828f02 1-6,8-10,12-14,17-21,29-33,36,40-42,44,46-47,49,51-61,64-70,76-78,91-96,99-103,107-111,117-118
+  s_f321f7aad05dc1::t_1fd522a1bdb539 15,34-35,104-106
+src/onero_a1_examples/onero_a1_examples/task_support.py
+  s_f321f7aad05dc1::t_2938b3e8206f93 90
+  s_2b41a2189b7a88::t_bb1480c26ed0cf 75-78
+  s_2b41a2189b7a88::t_e3f482abbdae0c 91
+  s_f321f7aad05dc1::t_5b4d5d82a7e4bd 14,24-27
+  s_e60d3da2da67f8::t_bcdcfd5cac7c0a 81-85
+  s_f321f7aad05dc1::t_216b5dc8634546 62
+  s_2b41a2189b7a88::t_43b964b1cb8ce0 86-88
+src/onero_a1_moveit_config/config/onero_woan_picker.srdf
+  s_f321f7aad05dc1::t_ef3fc792da7f6d 31
+src/onero_a1_examples/package.xml
+  s_f321f7aad05dc1::t_01a5ae00b05281 24
+tools/diagnostics/README.md
+  s_f321f7aad05dc1::t_8dbdd22292fe39 21-22,24-30
+  s_2b41a2189b7a88::t_1474edf6544016 174
+  s_f321f7aad05dc1::t_4a451cfc2de585 13-19,23,31-32,34,44-45,47-49,61,83-84,91,98,102,105,127-128,154-156,158-160
+  s_f321f7aad05dc1::t_1141e9a2533fa4 3-4,9,11,60,137,145-146
+  s_2b41a2189b7a88::t_fa3857614b0185 161-171,173
+  s_64ea7c86d064a1::t_1c7fd3cfe96113 33
+src/onero_a1_bringup/setup.py
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 29
+src/onero_a1_examples/config/fixed_pick_place.yaml
+  s_f321f7aad05dc1::t_ca50904f43f1ae 77
+  s_f321f7aad05dc1::t_c60527acd1c4c7 58-60
+  s_f321f7aad05dc1::t_de921af975d9a9 79,81
+  s_f321f7aad05dc1::t_016a3771469097 86
+  s_f321f7aad05dc1::t_18acdd76cd5819 3-4,9,13
+  s_f321f7aad05dc1::t_18816d51fc0905 17,55
+  s_f321f7aad05dc1::t_ee87607b707919 23,25,29-30,50,57
+  s_2b41a2189b7a88::t_3588b8c7bb7c01 27
+  s_f321f7aad05dc1::t_755bc46132b99a 16
+  s_f321f7aad05dc1::t_d015669dddd285 21
+  s_f321f7aad05dc1::t_88bf3c0f0138fa 85
+  s_f321f7aad05dc1::t_67e7c92add5b1c 18
+  s_f321f7aad05dc1::t_95d3ed9c0a83f7 47,53-54
+  s_f321f7aad05dc1::t_6a3a714ef93691 15,22,24,26,28,31-32,35,42,48-49,51-52,56,78,80
+  s_f321f7aad05dc1::t_b4c7ae4eebea06 19
+  s_2b41a2189b7a88::t_7158ace852de74 83-84
+src/onero_a1_common/README.md
+  s_2b41a2189b7a88::t_e5c9f16d94fbff 38-39
+  s_f321f7aad05dc1::t_86defaec8333bf 9-10,15,32
+  s_2b41a2189b7a88::t_76910d83071a3b 24,26
+  s_f321f7aad05dc1::t_1141e9a2533fa4 1,3-4,11-12,14,20-21,37
+  s_2b41a2189b7a88::t_f13e9e29f536eb 29
+  s_2b41a2189b7a88::t_543f90c8e9134a 28
+  s_2b41a2189b7a88::t_7158ace852de74 25
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 13
+  s_2b41a2189b7a88::t_542d306a75f9f7 23
+  s_64ea7c86d064a1::t_1c7fd3cfe96113 31
+  s_f321f7aad05dc1::t_507c40fa4ae794 30
+src/onero_a1_moveit_config/launch/moveit.launch.py
+  s_f321f7aad05dc1::t_f79eb87b8bda5a 257
+  s_f321f7aad05dc1::t_b51afc8b289051 268-271
+  s_f321f7aad05dc1::t_1fd522a1bdb539 256,258-261
+  s_e60d3da2da67f8::t_95b67003ee3a1e 36,194-195
+  s_f321f7aad05dc1::t_d5490ab0ff5797 15,57-58
+  s_f321f7aad05dc1::t_97ce11d91996cd 249,265-267
+  s_f321f7aad05dc1::t_4325e6064b7bdf 19,59-60,246-248,251-253,255,262-263,272
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 20-21,205,243-245,318,357
+  s_f321f7aad05dc1::t_7d37c921fea993 250
+  s_f321f7aad05dc1::t_35ad9f459ead23 129-135,149,206
+  s_f321f7aad05dc1::t_b7fd1f3016a4dd 116-120,254,264
+src/onero_a1_servo/include/moveit_servo/utils/common.hpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-212
+src/onero_a1_kinematics/CMakeLists.txt
+  s_f321f7aad05dc1::t_bd047fa7f9a894 17,24,35
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-11,14-16,18-23,25-28,30-34,36-37,40-42,45
+  s_f321f7aad05dc1::t_ea00faf5f2b6f7 38-39,43-44
+  s_2b41a2189b7a88::t_a49cd9df7cd662 12-13,29
+README.md
+  s_f321f7aad05dc1::t_18acdd76cd5819 69
+  s_f321f7aad05dc1::t_9a15779506e4a5 255
+  s_f321f7aad05dc1::t_507c40fa4ae794 129
+  s_f321f7aad05dc1::t_1141e9a2533fa4 3,5,15-18,108-109,150,168,171-173,178,197-198,202,204,206,208-209
+  s_f321f7aad05dc1::t_86defaec8333bf 46,70,96,98,100,102,144,153-154,162,174,180,194-195,207,210,214-216,240,257
+  s_f321f7aad05dc1::t_d60468db514d4b 68
+  s_f321f7aad05dc1::t_7b0d091f159e6f 49-54
+  s_f321f7aad05dc1::t_262ea5747ec73b 256
+src/onero_a1_servo/include/moveit_servo/servo.h
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-56
+src/onero_a1_bringup/onero_a1_bringup/servo_manager.py
+  s_f321f7aad05dc1::t_97ce11d91996cd 558-560
+  s_f321f7aad05dc1::t_5eb38c4658b86d 301
+  s_f321f7aad05dc1::t_70aaa54fd61c6b 87,129-131
+  s_f321f7aad05dc1::t_5367450506a4c1 310-313,321-326,330-332,351-353,382,396,398-399,403,409-435,440-442,444-446,462,465,526-528,538-539,554-555
+  s_f321f7aad05dc1::t_a4f3324fcefdbe 491
+  s_f321f7aad05dc1::t_dd18e18d8ed318 23
+  s_f321f7aad05dc1::t_0a678788889d88 471-472
+  s_f321f7aad05dc1::t_f79eb87b8bda5a 14,20,78,100,102,277,304-309,320,348-350,391-392,400,407,467-470,473-474,478,498-503,523-525,550-551,553
+  s_f321f7aad05dc1::t_26aaea5d53b063 408
+  s_f321f7aad05dc1::t_50bdf87e0a1c98 504,540
+  s_f321f7aad05dc1::t_51977859d2d518 19,109,300,329,393-395,397,401-402,404-406
+  s_f321f7aad05dc1::t_4736d9c9c19293 436-439
+  s_f321f7aad05dc1::t_1721c2b3ac5df3 1-13,15-18,21-22,24-29,31,34,36-42,75-76,86,88-90,92,95,97-99,103-108,112,116-118,120-121,123,125-128,132-147,159,170-175,177,180-184,186-205,216-224,228-229,231-232,240-247,249-260,262,264-268,271-276,278,280-283,286-289,294,297,299,302,314-315,317-318,327,333-335,338-344,355-363,366-381,386,388-390,447-452,455-460,485-490,492-497,505-522,529-533,544-548,562-577
+  s_f321f7aad05dc1::t_36e292d1e68558 94,207-208,215,248,263,453
+  s_f321f7aad05dc1::t_bb54733ccb7ea4 290-292,296
+  s_f321f7aad05dc1::t_6ccc07d13a26d6 336-337
+  s_f321f7aad05dc1::t_3a9021788636ed 32-33,43-57,71-72,79-85,101,113-115,119,148-158,176,178-179,185,206,209-214,261
+  s_f321f7aad05dc1::t_01a5ae00b05281 230,285,345-347
+  s_f321f7aad05dc1::t_832f44a5e85004 454,479-480
+  s_f321f7aad05dc1::t_cec2afdb516f3a 122,279,284,328,354
+  s_f321f7aad05dc1::t_75629d7afa0382 96,319,364-365,383-385,387
+  s_f321f7aad05dc1::t_2002d37a595bf2 552
+  s_f321f7aad05dc1::t_6bdab7460ef89f 91,227,293,295,534-537,541-543,549,561
+  s_f321f7aad05dc1::t_405951b4df6605 77,124,483
+  s_f321f7aad05dc1::t_1fd522a1bdb539 30,35,58-70,73-74,93,110-111,233-239,298,303,461,463-464,466,475-477,481-482,484,556-557
+  s_f321f7aad05dc1::t_807effb4736dba 160-169,316
+  s_f321f7aad05dc1::t_b783bc1a5bd036 225-226
+  s_f321f7aad05dc1::t_5b4d5d82a7e4bd 443
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 269-270
+src/onero_a1_examples/onero_a1_examples/bottle_scene.py
+  s_f321f7aad05dc1::t_5b4d5d82a7e4bd 52-53
+tools/sync_woan_picker_from_sdk.py
+  s_f321f7aad05dc1::t_ef3fc792da7f6d 64-67
+src/onero_a1_common/onero_a1_common/continuous.py
+  s_e60d3da2da67f8::t_090df8c6b2af9f 1-41
+src/onero_a1_examples/SHOWCASE.md
+  s_f321f7aad05dc1::t_9a15779506e4a5 266,299-317,319,332-334,336-344,346-349,351
+  s_f321f7aad05dc1::t_4a451cfc2de585 3,5,14,19,24,31,193,195-196,200,208,345
+  s_f321f7aad05dc1::t_00d1151c4e0d46 335
+src/onero_a1_moveit_config/package.xml
+  s_f321f7aad05dc1::t_b783bc1a5bd036 42
+  s_f321f7aad05dc1::t_0a678788889d88 43
+  s_f321f7aad05dc1::t_4325e6064b7bdf 41
+src/onero_a1_kinematics/config/posture.yaml
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-14
+  s_f321f7aad05dc1::t_afe73d16f019cc 15-17
+  s_f321f7aad05dc1::t_715af5959cc06f 18-19
+src/onero_a1_bringup/onero_a1_bringup/dual_config.py
+  s_f321f7aad05dc1::t_669f2c1bc16f46 12,31-40
+src/onero_a1_common/onero_a1_common/servo.py
+  s_f321f7aad05dc1::t_f46cc98ed8beed 100-102
+  s_f321f7aad05dc1::t_cec2afdb516f3a 73,75,79,89-91
+  s_f321f7aad05dc1::t_01a5ae00b05281 59,67-69,92-93
+  s_f321f7aad05dc1::t_6efac4b8c12720 55-57,97-98,103-104,106-131,137-138,146-147,165-168
+  s_f321f7aad05dc1::t_f513a7dbef5462 1-6,8-42,48-49,51,53,58,60-66,70-72,74,76-77,80-87,105,133-134,142-144,150-153,169
+  s_f321f7aad05dc1::t_d5490ab0ff5797 78
+  s_f321f7aad05dc1::t_6bdab7460ef89f 154,156-161
+  s_f321f7aad05dc1::t_51977859d2d518 7,44,47,99,136,155
+  s_f321f7aad05dc1::t_2c3cc336cb8569 43,45-46,50,52,54,88,94-96,132,135,139-141,145,148-149,162-164
+src/onero_a1_moveit_config/config/kinematics.yaml
+  s_f321f7aad05dc1::t_0a678788889d88 9
+tools/diagnostics/inspect_relay_snapshot.py
+  s_f321f7aad05dc1::t_b8e0c2eac75f44 2-17,19-46,53-61,64-68,70-74,77-78,81-87,89,92-95
+  s_f321f7aad05dc1::t_016a3771469097 1,18,47-52,69,75-76,79-80,88,90-91
+  s_f321f7aad05dc1::t_306910a74b07f9 62-63
+src/onero_a1_servo/src/utils/common.cpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-538
+src/onero_a1_examples/onero_a1_examples/fixed_pick_place_config.py
+  s_2b41a2189b7a88::t_912ee192657faf 45
+  s_f321f7aad05dc1::t_f668efed1ed101 46-49,96,103,105-106,110,112
+src/onero_a1_servo/include/moveit_servo/utils/datatypes.h
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-56
+src/onero_a1_examples/onero_a1_examples/fixed_pick_place.py
+  s_f321f7aad05dc1::t_86417254743d3c 501-502
+  s_f321f7aad05dc1::t_0fcd2c5fc29f3a 284
+  s_2b41a2189b7a88::t_543f90c8e9134a 143
+  s_2b41a2189b7a88::t_729447f3049769 121-132,144-146,150,152-156,161-175,178,182,335,381
+  s_2b41a2189b7a88::t_bed118c8bb2cd8 265,271-272
+  s_2b41a2189b7a88::t_6c7daecf8cdeb8 179-181
+  s_f321f7aad05dc1::t_e7627fdba9f927 497,499-500,510-512
+  s_2b41a2189b7a88::t_6b5a3c49d2f76e 120
+  s_2b41a2189b7a88::t_43b964b1cb8ce0 15,21,24,26,386
+  s_f321f7aad05dc1::t_ca1642b71daab6 34,72,83,91,95,100-101,218-221,276,326,341-342,375,382,388,528
+  s_2b41a2189b7a88::t_912ee192657faf 186-196,277-278,293-300,354-357,488
+  s_2b41a2189b7a88::t_bb1480c26ed0cf 287-288,291
+  s_f321f7aad05dc1::t_e51570711c8907 71,376,420-421
+  s_2b41a2189b7a88::t_8bff46d446bf63 45-48
+  s_f321f7aad05dc1::t_1546aef3c206d0 201
+  s_f321f7aad05dc1::t_56e38cf3f336b0 418-419
+  s_f321f7aad05dc1::t_03b467bac8cdeb 530
+  s_e60d3da2da67f8::t_9c0e224b2e2dc5 8,290,292,345-347,349-353,358-360,547-550
+  s_f321f7aad05dc1::t_5f6c541c3f8962 200,214,216,222-225
+  s_2b41a2189b7a88::t_37f13c3f322bb6 133-142
+  s_f321f7aad05dc1::t_4f9a20e755c04b 283
+  s_2b41a2189b7a88::t_c6aebed2296477 348
+  s_f321f7aad05dc1::t_9fbd0d714fdc24 1,35
+  s_f321f7aad05dc1::t_349ff387bfd493 503-506
+  s_f321f7aad05dc1::t_992b0e485423df 73,77-79,87,89-90,102-104,109,183-185,197-199,202-213,215,217,226-233,238-249,251-264,266-270,273,279-282,285,289,301-320,322-325,327,329-334,336-340,343-344,385,387,390-391,472-477,480-487,490-491,493-496,498,507-509,513-516,521,532-539,551,553-556,566,568,570
+  s_f321f7aad05dc1::t_18816d51fc0905 57,517-518,520,522-527,529,552
+  s_2b41a2189b7a88::t_5ccef208773d1c 147-149,151,157-160,176-177
+  s_f321f7aad05dc1::t_5add458f9bb7e3 492,541
+  s_e60d3da2da67f8::t_d04b9d9ca67e1c 44,50-56,519
+  s_f321f7aad05dc1::t_12fb9dfe0a969b 392-394,396-406,415-417,422-432,454-457,466-470,489,531,540,542-546,558
+  s_2b41a2189b7a88::t_5d1e50a93be289 361-365,369,478-479
+  s_f321f7aad05dc1::t_dcd17c7c82943d 286
+src/onero_a1_examples/onero_a1_examples/servo_keyboard.py
+  s_f321f7aad05dc1::t_6efac4b8c12720 30,44-45,51,69,77-83,85-89,117,140-141,166-168,177,190,192
+  s_f321f7aad05dc1::t_601e77574a67d5 8
+  s_f321f7aad05dc1::t_73a8ba8ecd955b 29,31,43,48-50,52-58,60,70,91,93-100,108-109,118-119,123-124,127,148,152-154,157,193
+  s_f321f7aad05dc1::t_dcec3273b82113 149
+  s_f321f7aad05dc1::t_704494b661e3a8 42,147,151
+  s_f321f7aad05dc1::t_75629d7afa0382 126,128-129
+  s_f321f7aad05dc1::t_51977859d2d518 35,131-133,146
+  s_f321f7aad05dc1::t_2002d37a595bf2 38,155-156
+  s_f321f7aad05dc1::t_02e096b8b8779c 169
+  s_f321f7aad05dc1::t_6491486824f201 12,14-15,179-180
+  s_f321f7aad05dc1::t_f513a7dbef5462 1-7,9-11,13,16-28,32-34,36-37,39-41,46-47,59,61-68,71-76,84,90,92,101-107,110-116,120-122,125,130,134-139,142-145,150,158-165,170-176,178,181-189,191,194-219
+src/onero_a1_examples/onero_a1_examples/fixed_task_geometry.py
+  s_2b41a2189b7a88::t_912ee192657faf 18,22-23
+  s_f321f7aad05dc1::t_ca1642b71daab6 30-35
+  s_2b41a2189b7a88::t_21d602a6a0a002 5
+src/onero_a1_moveit_config/config/environment.dual_desktop.yaml
+  s_64ea7c86d064a1::t_0c09a1f5958f08 9-10,12,14-15
+src/onero_a1_servo/include/moveit_servo/servo.hpp
+  s_f321f7aad05dc1::t_4b2ea0236cd55d 148-149
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-147,150-220,222-248
+  s_f321f7aad05dc1::t_b783bc1a5bd036 221
+src/onero_a1_kinematics/package.xml
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-11,13-16
+  s_2b41a2189b7a88::t_a49cd9df7cd662 12
+src/onero_a1_bringup/onero_a1_bringup/planning.py
+  s_2b41a2189b7a88::t_724ae41d84d116 8-10
+  s_e60d3da2da67f8::t_98693f978b68db 1-7,11-14
+src/onero_a1_bringup/launch/bringup.launch.py
+  s_f321f7aad05dc1::t_7d37c921fea993 24,177-180
+  s_f321f7aad05dc1::t_12a119fda10708 51,200-202,241,243,245,320-321
+  s_f321f7aad05dc1::t_35ad9f459ead23 52,261
+src/onero_a1_servo/include/moveit_servo/collision_retreat.hpp
+  s_f321f7aad05dc1::t_4b2ea0236cd55d 17-20
+  s_2b41a2189b7a88::t_80c4b29b853533 10-13
+  s_f321f7aad05dc1::t_38c5f7106f161d 1-9,14-16,21
+src/onero_a1_servo/include/moveit_servo/collision_monitor.hpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-90
+src/onero_a1_common/package.xml
+  s_f321f7aad05dc1::t_704494b661e3a8 20
+  s_f321f7aad05dc1::t_0a678788889d88 21
+src/onero_a1_kinematics/include/onero_a1_kinematics/profile.hpp
+  s_f321f7aad05dc1::t_0a678788889d88 27
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-26,28
+src/onero_a1_kinematics/src/python.cpp
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-23,25
+  s_f321f7aad05dc1::t_0a678788889d88 24
+src/onero_a1_servo/src/collision_monitor.cpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-40,42-98,100-143,160-162,165-168,170-175,177-181,189,191-201
+  s_2b41a2189b7a88::t_80c4b29b853533 41,99,144-159,163-164,169,176,182-188,190
+src/onero_a1_servo/include/moveit_servo/collision_monitor.h
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-56
+src/onero_a1_servo/include/moveit_servo/utils/command.h
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-56
+src/onero_a1_servo/config/servo_parameters.yaml
+  s_f321f7aad05dc1::t_b783bc1a5bd036 2-14
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1,15-355
+.gitignore
+  s_9d4af38d7e1f12::t_a899b1279e4267 40
+src/onero_a1_examples/setup.py
+  s_f321f7aad05dc1::t_01a5ae00b05281 8
+src/onero_a1_examples/onero_a1_examples/dual_arm_gripper_task.py
+  s_f321f7aad05dc1::t_86417254743d3c 51,55-56,60-61
+  s_f321f7aad05dc1::t_d60468db514d4b 92-97
+  s_f321f7aad05dc1::t_c1621a531aa038 300-302
+  s_f321f7aad05dc1::t_4a2a548b68e1a0 1-50,52-54,57-59,62-91,98-299
+tools/diagnostics/servo_debug.py
+  s_f321f7aad05dc1::t_e31e83fd5c7a44 94,135,139-140,148,150-153
+  s_f321f7aad05dc1::t_b96e785c3573bb 101-103,122-123
+  s_f321f7aad05dc1::t_b783bc1a5bd036 89-90
+  s_f321f7aad05dc1::t_b51afc8b289051 2-11,13-17,19-70,73-85,93,96,98-100,115-121,124-134,141-143,154-173
+  s_f321f7aad05dc1::t_79c2d2ae67ce68 95,114,149
+  s_f321f7aad05dc1::t_02e096b8b8779c 104,113
+  s_f321f7aad05dc1::t_f8625b687c8671 1
+  s_f321f7aad05dc1::t_51977859d2d518 18,97
+  s_f321f7aad05dc1::t_0b0b93742f478a 86-88,92,105-112,136-138,144-147
+  s_f321f7aad05dc1::t_a125b7407dd82d 91
+  s_f321f7aad05dc1::t_22b6282da95163 12,71-72
+src/onero_a1_kinematics/kinematics_plugin.xml
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-5
+src/onero_a1_kinematics/src/native_planning.cpp
+  s_2b41a2189b7a88::t_e5c9f16d94fbff 212
+  s_e60d3da2da67f8::t_be5dc76be71d51 1-2,185-186,196-211,213-218,220-222,224-237,239-251,253-256
+  s_2b41a2189b7a88::t_36abd8fee733df 3-184,187-195,219,223,238,252
+src/onero_a1_examples/onero_a1_examples/dual_task_support.py
+  s_f321f7aad05dc1::t_e7627fdba9f927 1-31,33-34,39-41,44-53,57-119
+  s_f321f7aad05dc1::t_86417254743d3c 32,35-38,42-43
+  s_f321f7aad05dc1::t_d60468db514d4b 54-56
+src/onero_a1_servo/package.xml
+  s_f321f7aad05dc1::t_38c5f7106f161d 1-27
+src/onero_a1_servo/include/moveit_servo/utils/datatypes.hpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-136
+src/onero_a1_kinematics/src/profile.cpp
+  s_f321f7aad05dc1::t_0a678788889d88 62-69,73-76
+  s_f321f7aad05dc1::t_bb2a0f664d6f1b 1-61,70-72,77-84,86-125
+  s_f321f7aad05dc1::t_bd047fa7f9a894 85
+src/onero_a1_kinematics/src/ik_plugin.cpp
+  s_2b41a2189b7a88::t_36abd8fee733df 3,97,131-143,155-163
+  s_2b41a2189b7a88::t_8bff46d446bf63 78,84-85,92-93
+  s_2b41a2189b7a88::t_5acf4774496df0 125-130,145-154,164-170
+  s_f321f7aad05dc1::t_8d05898bbe24de 1-2,4-77,79-83,86-91,94-96,98-124,144,171-183
+src/onero_a1_common/onero_a1_common/posture.py
+  s_e60d3da2da67f8::t_9c0e224b2e2dc5 19-22,68-69
+  s_f321f7aad05dc1::t_91bca7cbc73201 6-18,23-38,55
+  s_f321f7aad05dc1::t_f4a54f143236ce 62-67
+  s_f321f7aad05dc1::t_216b5dc8634546 1-5,39-54
+  s_e60d3da2da67f8::t_3d0dbe2e18795d 56-61
+src/onero_a1_examples/onero_a1_examples/support.py
+  s_e60d3da2da67f8::t_9c0e224b2e2dc5 55-56,72
+src/onero_a1_bringup/package.xml
+  s_f321f7aad05dc1::t_888d8eb3a2c90a 39-41
+  s_f321f7aad05dc1::t_0a678788889d88 32
+  s_f321f7aad05dc1::t_1fd522a1bdb539 31,33
+src/onero_a1_servo/UPSTREAM
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-7
+  s_f321f7aad05dc1::t_b4ada43cf355dc 8-9
+src/onero_a1_servo/include/moveit_servo/servo_node.hpp
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-143
+src/onero_a1_moveit_config/launch/dual_moveit.launch.py
+  s_f321f7aad05dc1::t_4736d9c9c19293 4-5,16,36,60,75,90,115,127-152,182-183,196-198
+src/onero_a1_bringup/onero_a1_bringup/controller_tolerances.py
+  s_f321f7aad05dc1::t_12a119fda10708 71-81,94-97,99-100,110
+src/onero_a1_bringup/onero_a1_bringup/topic_bridge.py
+  s_f321f7aad05dc1::t_12a119fda10708 183,315,471-472,497-509
+  s_f321f7aad05dc1::t_eb4470db2fffda 510-511
+src/onero_a1_common/onero_a1_common/moveit_client.py
+  s_2b41a2189b7a88::t_43b964b1cb8ce0 294-298,300,302,309-311,326,380,544-561,624
+  s_64ea7c86d064a1::t_040ec8dc313dca 668,675-678,680,683-690,1013
+  s_2b41a2189b7a88::t_04ec600ea20432 775-776
+  s_e60d3da2da67f8::t_d04b9d9ca67e1c 279,287-288,299,384,443,763-768,780,799,801
+  s_64ea7c86d064a1::t_2d909019f61c89 778-779
+  s_f321f7aad05dc1::t_f4a54f143236ce 723
+  s_e60d3da2da67f8::t_bcdcfd5cac7c0a 392,474-475,497-508,530-533,535-539,541,1072
+  s_e60d3da2da67f8::t_229bc625ceb3d0 410-432,477-481,491-492,511,514-515,1017
+  s_64ea7c86d064a1::t_f52af186a0d679 679,681-682,692-694
+  s_2b41a2189b7a88::t_e5c9f16d94fbff 814-815
+  s_1ef48d7c834b09::t_29c59baee28cf2 382,398,789,791-798,800,802-813,1034
+  s_2b41a2189b7a88::t_7188dd2a700cfb 568
+  s_64ea7c86d064a1::t_4a556ac9632c95 846-857
+  s_64ea7c86d064a1::t_d4510edca4c801 839-844
+  s_64ea7c86d064a1::t_08f701e222efd6 753-762,769-771,782,788
+  s_2b41a2189b7a88::t_1eb9efc68a5c57 304-306,312-325,327-329,331-335,346-353,365,367,370-372,377,489,493-495,510,569,573,575,585-597,601-604,606-621,882,888,928,931,1053
+  s_2b41a2189b7a88::t_35f190cf0571a5 471,485,542-543,562-564,567,570-572,598,622-623
+  s_2b41a2189b7a88::t_543f90c8e9134a 402-409,433-438
+  s_64ea7c86d064a1::t_813af7999cffd6 834
+  s_f321f7aad05dc1::t_91bca7cbc73201 89,708-716
+  s_e60d3da2da67f8::t_ba31bca056a46b 385-391
+  s_64ea7c86d064a1::t_d9112efb1e9ea0 138-139,394,401,444,468-469,472-473,509,625-632,634-639,641-645,658-667,669-674,691,751-752,772-773,781,783-787,816-827,829-833,835-836,838,858-881,897,901,908,930,1038,1041-1045,1055
+  s_f321f7aad05dc1::t_216b5dc8634546 88,286,486,527,696-702,707,717-722,724,726-749,790,923,1052
+  s_2b41a2189b7a88::t_f496115359a3bd 883-887
+  s_f321f7aad05dc1::t_a44618199edb30 22,646-657
+  s_2b41a2189b7a88::t_9998aa1f9ae60c 330,336-337,339-344,354-363,397,518-525,534,540,574,576-584,599-600,605
+  s_2b41a2189b7a88::t_de92ee0fba7726 338,345,565-566
+  s_e60d3da2da67f8::t_9c0e224b2e2dc5 8-9,132-136,249-257,266-273,301,303,307-308,364,366,368-369,373-376,378-379,395,447-466,725
+  s_64ea7c86d064a1::t_9d23e73728a5f1 143-145,633,640,750,774,777,828,837,845,1040
+  s_2b41a2189b7a88::t_36abd8fee733df 703-706
+  s_2b41a2189b7a88::t_ab37cf390bd9d4 889-891
+  s_e60d3da2da67f8::t_5b3bdb816d50c8 476
+  s_e60d3da2da67f8::t_489c5ac9f6efd9 512-513
+  s_64ea7c86d064a1::t_dfa79e771cea20 898-900
+  s_64ea7c86d064a1::t_2d03c9e9d2699a 902-907
+  s_2b41a2189b7a88::t_36e9e5944e33cf 932
+  s_64ea7c86d064a1::t_e793bb8ae03643 1010-1012
+  s_64ea7c86d064a1::t_b644bad933f7d8 1039
+  s_64ea7c86d064a1::t_87fa86eb5a0e84 1056-1057
+  s_e60d3da2da67f8::t_be59311c6d080a 1071
+  s_e60d3da2da67f8::t_966ad8b7f43d7e 1073-1075
+src/onero_a1_servo/include/moveit_servo/utils/common.h
+  s_736e9ba9c7ff91::t_2e6f36a0c258b2 1-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "34973bd5b6685911cbf3ce41883f90b1865ce05a",
+  "prompts": {},
+  "humans": {
+    "h_3ce05673bb5060": {
+      "author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  },
+  "sessions": {
+    "s_1ef48d7c834b09": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a166a0-d11b-7fc0-8ac4-761869d54280",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    },
+    "s_2b41a2189b7a88": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a186a0-576d-7c73-92f6-674ef6d78f40",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": null
+    },
+    "s_64ea7c86d064a1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13d60-f162-71c1-bbb3-bfc7e70528b1",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    },
+    "s_736e9ba9c7ff91": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01a177aa-5fab-7a92-a7c6-85e8306e66d9",
+        "model": "unknown"
+      },
+      "human_author": null
+    },
+    "s_9d4af38d7e1f12": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a186f4-f1ce-7c02-b704-7727218bf0da",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": null
+    },
+    "s_e60d3da2da67f8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01a186a0-576d-7c73-92f6-674ef6d78f40",
+        "model": "unknown"
+      },
+      "human_author": null
+    },
+    "s_f321f7aad05dc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a177aa-5fab-7a92-a7c6-85e8306e66d9",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": null
+    }
+  }
+}
