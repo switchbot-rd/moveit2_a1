@@ -1,0 +1,5 @@
+<library path="onero_posture_ik">
+  <class name="onero_a1_kinematics/NaturalPostureIK" type="onero_a1_kinematics::NaturalPostureIK" base_class_type="kinematics::KinematicsBase">
+    <description>KDL inverse kinematics with a shared natural-posture objective and continuous local refinement.</description>
+  </class>
+</library>

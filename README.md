@@ -1,20 +1,8 @@
 # Onero A1 × MoveIt 2
 
-Onero A1 七自由度机械臂与 Woan Picker 的 ROS 2 工作区，支持左/右单臂、双臂规划、执行、避障和夹爪控制。
-控制链路：MoveIt → ros2_control → onero-sdk → CAN。
+Onero A1 七自由度机械臂与 Woan Picker 的 ROS 2 工作区，支持左/右单臂、双臂运动、避障、抓取放置和键盘遥操作。
 
-[运行示例](src/onero_a1_examples/SHOWCASE.md) · [示例参数](src/onero_a1_examples/README.md#示例参数) · [服务参数](#服务启动参数) · [诊断工具](tools/diagnostics/README.md)
-
-## 项目结构
-
-| 位置 | 内容 |
-|---|---|
-| `src/onero_a1_description` | URDF、网格、硬件描述 |
-| `src/onero_a1_bringup` | SDK 话题桥、控制器、看门狗、环境加载 |
-| `src/onero_a1_moveit_config` | 运动学、限位、规划器、控制器映射及 launch |
-| `src/onero_a1_common` | 公共 MoveIt Python 客户端 |
-| `src/onero_a1_examples` | 功能示例 |
-| `tools/diagnostics` | 采集、姿态存档、轨迹回放、精度及 SDK 对照 |
+[运行示例](src/onero_a1_examples/SHOWCASE.md) · [示例参数](src/onero_a1_examples/README.md#示例参数) · [服务参数](#服务启动参数) · [诊断工具](tools/diagnostics/README.md) · [Python 接口](src/onero_a1_common/README.md)
 
 ## 环境准备与构建
 
@@ -24,13 +12,10 @@ Ubuntu 24.04 + ROS 2 Jazzy，每个新终端在工作区根目录执行：
 source setup_env.sh
 ```
 
-脚本安装缺失依赖、准备 `.venv`、增量构建并加载环境；源码未变时跳过构建，多终端并发时自动排队。
-apt 安装需要系统权限，ROS 日志位于 `.ros/log/`，`overlay/` 提供本地依赖覆盖。
-已加载环境时，修改现有 Python/YAML 后重新启动对应程序即可；新增入口或依赖需重新构建。
-
-运行环境使用 [`onero-sdk[dynamics]==0.3.0`](https://pypi.org/project/onero-sdk/0.3.0/)，`.venv` 可访问系统 ROS Python 包。
-话题桥使用 `.venv/bin/python`；其他解释器通过 `ONERO_RUNTIME_PYTHON` 指定。
-依赖声明见 [requirements-runtime.txt](tools/requirements-runtime.txt)，版本约束见 [constraints-runtime.txt](tools/constraints-runtime.txt)。
+脚本自动安装依赖、构建并加载环境，首次安装可能需要 sudo。ROS 日志位于 `.ros/log/`。
+修改配置后重启对应服务；更新代码后重新执行 `source setup_env.sh`。
+Python 环境默认使用 `.venv`，自定义解释器通过 `ONERO_RUNTIME_PYTHON` 指定。
+依赖及版本见 [requirements-runtime.txt](tools/requirements-runtime.txt) 和 [constraints-runtime.txt](tools/constraints-runtime.txt)。
 
 ## 启动服务
 
@@ -58,8 +43,14 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
   environment_file:="$PWD/src/onero_a1_moveit_config/config/environment.dual_desktop.yaml"
 ```
 
-双臂共用规划场景，各自使用 CAN、控制器和夹爪接口。任一侧反馈失联时停用两侧轨迹控制器，恢复后重启服务。
+双臂可单独或同步操作。任一侧反馈失联时两臂停止，连接恢复后重启服务。
 选臂和运动命令见[双臂示例](src/onero_a1_examples/SHOWCASE.md#双臂运行指令)。
+
+## 功能示例
+
+启动服务后，在另一终端运行基础运动、夹爪开合、抓取放置或键盘遥操作示例。
+
+- [示例功能与参数](src/onero_a1_examples/README.md)：选择示例、查看参数和使用条件。
 
 ## 服务启动参数
 
@@ -74,6 +65,9 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 | `rviz` | `true` | 打开 RViz | 两者 |
 | `allow_execution` | `true` | 允许手臂、夹爪执行；关闭后真机仍使能保持 | 两者 |
 | `environment_file` | 空 | 碰撞环境 YAML 绝对路径；空则不加载 | 两者 |
+| `enable_servo` | `false` | 开启键盘遥操作支持 | 单/双臂 |
+| `servo_debug` | `false` | 记录 Servo 指令、输出轨迹和反馈 | 单/双臂 |
+| `servo_debug_file` | 自动生成 | 运动记录路径，默认在 `.ros/log/servo_debug/` | 单/双臂 |
 
 ### 单臂安装
 
@@ -99,20 +93,20 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 
 | 参数 | 默认值 | 说明 | 入口 |
 |---|---|---|---|
-| `kp` | `50` | 位置增益 `[0, 500]` | 两者 |
+| `kp` | `50` | 位置增益（保持力度）`[0, 500]` | 两者 |
 | `kd` | `1.0` | 速度阻尼 `[0, 5]` | 两者 |
-| `control_rate` | sim `200`，real `100` Hz | 控制器、话题桥同频 | 两者 |
+| `control_rate` | sim `200`，real `100` Hz | 控制更新频率 | 两者 |
 | `gravity_compensation` | sim `false`，real `true` | 真机重力补偿 | 两者 |
-| `payload_mass` | `0.0` kg | 空夹爪启动基线的额外负载，非负 | 单臂 |
+| `payload_mass` | `0.0` kg | 额外负载质量，非负 | 单臂 |
 | `payload_cog` | `[0.0, 0.0, 0.0]` m | 基线重心，SDK 末端坐标系 | 单臂 |
-| `left_payload_mass` / `right_payload_mass` | `0.0` kg | 各臂基线额外负载，非负 | 双臂 |
+| `left_payload_mass` / `right_payload_mass` | `0.0` kg | 各臂额外负载质量，非负 | 双臂 |
 | `left_payload_cog` / `right_payload_cog` | `[0.0, 0.0, 0.0]` m | 各臂基线重心 | 双臂 |
 | `payload_transition_time` | `0.5` s | 运行时负载切换时长，正数 | 两者 |
 | `velocity_feedforward` | sim `false`，real `true` | 七关节目标速度前馈 | 两者 |
 | `velocity_feedforward_timeout` | `0.1` s | 命令过期后速度前馈归零 | 单臂 |
 
-`kp` / `kd` 支持运行时平滑切换；sim 不使用电机增益及重力补偿。
-双臂公共启动参数作用于两侧，运行时通过各臂桥接节点分别调整。
+`kp` / `kd` 支持运行时调整，0.5 s 内平滑生效；sim 不使用电机增益及重力补偿。
+双臂公共启动参数作用于两侧，运行时可分别调整。
 
 ### 机械臂执行容差
 
@@ -132,7 +126,7 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 | 参数 | 默认值 | 说明 | 入口 |
 |---|---|---|---|
 | `gripper_model` | `woan_picker` | `woan_picker` / `none` | 两者 |
-| `with_gripper` | `true` | SDK 原装夹爪重力补偿档位 | 两者 |
+| `with_gripper` | `true` | 是否按原装夹爪进行重力补偿 | 两者 |
 | `gripper_calibration_file` | 自动按型号、CAN 选择 | 文件路径；`none` 禁用 | 单臂 |
 | `gripper_closed_sdk_opening` | `0.0` | 全闭原生开度，`[0, 1]` | 单臂 |
 | `gripper_open_sdk_opening` | `1.0` | 全开原生开度，`[0, 1]`，须大于全闭值 | 单臂 |
@@ -147,69 +141,43 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 |---|---|---|
 | `watchdog_timeout` | `1.0` s | 反馈失联时间 |
 | `watchdog_auto_deactivate` | `true` | 失联时停用轨迹控制器 |
-| `trace_control` | `false` | 发布控制链路诊断数据 |
+| `trace_control` | `false` | 记录详细运动数据，供故障排查 |
 
 ### 高级设置
 
 | 参数 | 默认值 | 说明 | 入口 |
 |---|---|---|---|
-| `runtime_python` | `ONERO_RUNTIME_PYTHON`，通常为 `.venv/bin/python` | 话题桥解释器；单臂还用其查询安装方向 | 两者 |
+| `runtime_python` | `ONERO_RUNTIME_PYTHON`，通常为 `.venv/bin/python` | 设备控制使用的 Python 解释器 | 两者 |
 | `rviz_config` | `moveit.rviz` | 本包 `rviz/` 下的布局文件 | 单臂 |
 | `publish_world_tf` | `true` | 发布 `world → base_link`；关闭后须自行提供 TF | 单臂 |
-| `joint_commands_topic` | `/robot_joint_commands` | 控制器发往话题桥的命令 | 单臂 |
-| `joint_states_topic` | `/robot_joint_states` | 话题桥发往控制器的反馈 | 单臂 |
+| `joint_commands_topic` | `/robot_joint_commands` | 运动指令话题 | 单臂 |
+| `joint_states_topic` | `/robot_joint_states` | 关节反馈话题 | 单臂 |
 
 ## 规划器选择
 
 默认 OMPL / RRTConnect，也支持 CHOMP、STOMP。适用示例和选项见[规划器选择](src/onero_a1_examples/README.md#规划器选择)。
 
-## 功能示例与公共接口
-
-[示例与参数](src/onero_a1_examples/README.md) · [运行命令](src/onero_a1_examples/SHOWCASE.md) · [公共客户端](src/onero_a1_common/README.md)
-
-## 控制链路
-
-```text
-MoveIt ExecuteTrajectory → arm_controller/FollowJointTrajectory → ros2_control
-  → /robot_joint_commands → onero_topic_bridge → onero-sdk Arm.servoj() → CAN
-反馈 → /robot_joint_states → joint_state_broadcaster → /joint_states → MoveIt
-```
-
-位置与速度按关节名同步传递。速度前馈关闭、命令缺失/非法/过期时，期望速度归零；取消、保持及重新使能会清除速度缓存。
-`kp` / `kd` 为 SDK 全关节增益，运行时在 0.5 s 内平滑切换，以 `gain_state` 确认生效。
-重力补偿按实测姿态、安装和负载计算 `tau_ff`，受 SDK、适配层限幅；动力学依赖及模型在打开 CAN 前检查。
-
 ## 桌面与支架环境
 
-`environment_file` 将 YAML 碰撞体加载到 Planning Scene；默认不加载环境，也不自动识别实物。
+`environment_file` 指定桌面、支架等障碍物的位置和尺寸。程序不会自动识别现场物体，使用前须核对配置。
 单臂使用 [environment.desktop.yaml](src/onero_a1_moveit_config/config/environment.desktop.yaml)，
 双臂使用 [environment.dual_desktop.yaml](src/onero_a1_moveit_config/config/environment.dual_desktop.yaml)。
 
 - 核对尺寸、位置、`mounting`；双臂还须匹配 `arm_spacing`。
 - `frame_id` 为 world，`xyz` 为物体中心，`size` 为尺寸（m），`rpy` 为 rad，`color` 为 RGBA。
-- 当前根部距深色底板顶面 `0.330` m；底板顶面 Z=`-0.330`，木桌顶面 Z=`-0.340` m，其余尺寸见配置。
+- 默认环境中根部距深色底板顶面 `0.330` m；底板顶面 Z=`-0.330`，木桌顶面 Z=`-0.340` m，其余尺寸见配置。
 - world 的 X 向前、Y 向左、Z 向上；双臂原点在根部中心的中点，默认左/右根部 Y=`+0.035` / `-0.035` m。
 
-加载顺序：配置检查 → 等待反馈 → 加载并回读场景 → 起点碰撞检查 → 启动轨迹控制器。
-起点碰撞不会自动放行；真机执行拒绝 `example_only: true`，仅预览可用 `allow_execution:=false`。
-环境对象在加载器退出后保留，手动修改后以场景数据为准。
-环境文件不校准运动学、零位或负载；其他机械臂、线缆及桌面物品需另行建模。
+环境配置和起始姿态检查通过后才允许执行，起点碰撞时须先调整现场或配置。
+标记 `example_only: true` 的环境只能配合 `allow_execution:=false` 预览。
+加载后可在 RViz 中查看和调整碰撞体。
+配置未包含的物品不会参与避障；现场新增障碍物时需补充配置。
 
 ## Woan Picker
 
-`gripper_model:=woan_picker` 加载外形、碰撞体、mimic 机构、规划组及开合接口；`none` 表示无夹爪模型。
+`gripper_model:=woan_picker` 启用夹爪显示、碰撞检查和开合控制；`none` 表示无夹爪模型。
 
-| 接口 / 字段 | 说明 |
-|---|---|
-| `/gripper_controller/gripper_cmd` | `control_msgs/action/GripperCommand` |
-| `command.position` | 主关节角度：0 全闭，1.1 rad 全开 |
-| `command.max_effort` | 仅接受 0，使用 SDK 位置控制 |
-| `/gripper_controller/state` | 开度、反馈、标定和指令状态 |
-| `/gripper_controller/calibrate` | 自动全开/全闭并保存端点 |
-| `/gripper_controller/stop` | 停止动作或标定，保持反馈开度 |
-
-夹爪与手臂共用 CAN transport 和 I/O 锁；启动只查询开度，收到动作目标才使能。
-主关节发布到 `/joint_states`，其余关节通过 mimic 联动。
+通过[夹爪示例](src/onero_a1_examples/README.md#夹爪开合)设置开度：0 全闭、1 全开。启动服务时夹爪不会自动开合。
 
 空载且开合范围无遮挡时标定：
 
@@ -223,39 +191,29 @@ ros2 service call /gripper_controller/calibrate std_srvs/srv/Trigger '{}'
 ros2 service call /gripper_controller/stop std_srvs/srv/Trigger '{}'
 ```
 
-标定保存原生指令和反馈端点：全开/全闭使用驱动端点，中间开度按反馈行程换算。
-标定期间拒绝普通目标；故障、异常反馈、超时或停止会中断并保留有效配置。
-**取消调用客户端不会停止服务端标定，需调用 stop。**
-文件如 `.ros/gripper_calibration/A1R_can0_woan_picker.json`，按型号、CAN 和 sim/real 校验；更换设备或端点后重新标定。
+标定结果自动保存到 `.ros/gripper_calibration/`。标定期间不能开合；失败时保留原设置，更换设备或开合端点后重新标定。
+**关闭调用终端不会停止标定，需要使用上面的 stop 命令。**
 
-视觉模型不会自动修改 SDK payload 或 TCP。实物未装原装夹爪时设置 `with_gripper:=false`。
-基础开合接口不判断物体是否夹稳，抓取判定由任务层完成。
+实物未装原装夹爪时设置 `with_gripper:=false`。更换工具后须核对负载和 TCP，加载外形模型不会自动校准。
+开合命令仅设置目标开度；抓取确认请使用抓放任务示例。
 
 ## 模型与参数配置
 
-URDF、SRDF 和网格随项目提供，来源为 SDK A1L/A1R、Woan Picker，保留几何、惯性、安装变换和限位。
-本体只排除相邻连杆碰撞，夹爪另含机构连接/闭合接触对；来源和校验值见
-[woan_picker_source.json](src/onero_a1_description/urdf/woan_picker_source.json)。
+模型须与实物的型号、安装方向、夹爪和关节零位一致。常用配置如下，修改后重启服务。
 
-| 配置 | MoveIt 参数路径 |
+| 配置 | 用途 |
 |---|---|
-| KDL 逆运动学 | `robot_description_kinematics.arm.*` |
-| `joint_limits.yaml` | `robot_description_planning.joint_limits.<关节>.*` |
-| 规划管线 | `planning_pipelines`、`ompl.*` |
-| 控制器映射 | `moveit_simple_controller_manager.*` |
-
-```bash
-ros2 param get /move_group robot_description_kinematics.arm.kinematics_solver
-ros2 param get /move_group robot_description_planning.joint_limits.joint1-a1_r.max_velocity
-ros2 param get /move_group ompl.planning_plugins
-```
+| [kinematics.yaml](src/onero_a1_moveit_config/config/kinematics.yaml) | 逆运动学求解设置 |
+| [posture.yaml](src/onero_a1_kinematics/config/posture.yaml) | 肘部和手腕的自然姿态偏好 |
+| [joint_limits.yaml](src/onero_a1_moveit_config/config/joint_limits.yaml) | 关节速度和加速度上限 |
+| [ros2_controllers.yaml](src/onero_a1_bringup/config/ros2_controllers.yaml) | 运动跟踪和终点容差 |
+| [servo.yaml](src/onero_a1_moveit_config/config/servo.yaml) | 遥操作速度与运动保护设置 |
 
 ## 状态监控与服务
 
-看门狗在反馈失联时停用轨迹控制器，话题桥统计 CAN 丢帧和电机故障。
-真机服务 `/onero_topic_bridge/enable` 对齐实测位置后使能；`/onero_topic_bridge/disable` 默认拒绝执行。
-负载见 `/onero_topic_bridge/payload_state`；确认已放下物体后，用 `/onero_topic_bridge/reset_payload` 恢复启动基线。
-失能会卸除支撑力矩，软件监控不替代驱动器保护及硬件急停。
+反馈失联时自动停止运动，日志显示通信或电机故障；连接恢复后重启服务。需要排查时使用[诊断工具](tools/diagnostics/README.md)。
+`/onero_topic_bridge/payload_state` 可查看负载设置；放下物体后用 `/onero_topic_bridge/reset_payload` 恢复启动值。
+失能会卸除支撑力矩，请按下方步骤操作。
 
 ## 机械臂失能
 
@@ -279,7 +237,7 @@ python3 tools/arm_disable.py --both
 python3 tools/arm_disable.py --both --left-channel slcan1 --right-channel slcan0
 ```
 
-左右依次执行，一侧失败仍尝试另一侧；任一侧失败则返回非零。
+左右依次失能，终端分别显示结果；请确认两侧均成功。
 
 ### 失能工具参数
 
@@ -294,10 +252,6 @@ python3 tools/arm_disable.py --both --left-channel slcan1 --right-channel slcan0
 
 ## 功能范围与使用限制
 
-- 未配置 Servo、MTC 和相机感知；场景避碰依赖模型、安装及实物一致。
-- 手臂使用 position + velocity 轨迹接口，夹爪使用 GripperCommand。
-- 夹持力和指尖 TCP 未标定；FK 精度来自关节反馈与 URDF，实物精度须独立测量。
-
-## 使用文档
-
-[功能示例](src/onero_a1_examples/README.md) · [公共客户端](src/onero_a1_common/README.md) · [诊断工具](tools/diagnostics/README.md)
+- Servo 键盘支持单/双臂，Tab 切换控制手臂，见[运行命令](src/onero_a1_examples/SHOWCASE.md#4-servo-键盘遥操作)。
+- 场景避碰依赖模型、安装及实物一致。
+- 夹持力和指尖位置需要实物标定；软件显示的位置不能代替实物精度测量。

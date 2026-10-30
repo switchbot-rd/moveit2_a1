@@ -11,6 +11,7 @@ from action_msgs.msg import GoalStatus
 from builtin_interfaces.msg import Duration
 from control_msgs.action import GripperCommand
 from moveit_msgs.msg import MoveItErrorCodes
+from onero_a1_common.constants import JOINTS, LEFT_JOINTS
 
 from .bottle_scene import matrix_pose, pose_matrix
 from .support import MoveItError
@@ -20,8 +21,10 @@ def task_state(node):
     deadline = time.monotonic() + 10.
     while time.monotonic() < deadline:
         state = node.state()
-        if node.gripper_joint in state:
-            return {name: state[name] for name in [*node.joints, node.gripper_joint]}
+        required = ([*LEFT_JOINTS, *JOINTS, 'left_woan_picker_left_finger_joint',
+                     'right_woan_picker_left_finger_joint'] if node.dual else [*node.joints, node.gripper_joint])
+        if all(name in state for name in required):
+            return state
     raise MoveItError('没有新鲜的夹爪反馈，请确认 gripper_model:=woan_picker 且夹爪服务就绪')
 
 
@@ -56,7 +59,7 @@ def path_failure(node, start, waypoints, response):
     try:
         remaining = np.linalg.norm(pose_matrix(waypoints[-1])[:3, 3]-pose_matrix(node.fk(last))[:3, 3])
         message += f'，距目标约 {remaining*1000:.1f} mm'
-        target = node.inverse_kinematics(waypoints[-1], last, group=node.group, link=node.tip_link)
+        target = node.inverse_kinematics(waypoints[-1], last, group=node.group, link=node.tip_link, avoid_collisions=False)
         validity = node.validity({**last, **{name: target[name] for name in node.joints}})
         if validity.valid:
             message += '；目标逆解有效，但当前直线路径未通过检查'
@@ -69,12 +72,23 @@ def path_failure(node, start, waypoints, response):
 
 
 def plan_step(node, start, step):
-    if step.kind == 'gripper':
+    if step.kind == 'continuous':
+        trajectory = step.target(start)
+        expected = set(node.joints)
+    elif step.kind == 'gripper':
         trajectory = node.plan(start, node.joint_constraints({node.gripper_joint: step.target}), group='gripper')
         expected = {node.gripper_joint}
+    elif step.kind in ('position', 'object_position'):
+        point, offset = (step.target if step.kind == 'object_position'
+                         else (pose_matrix(step.target)[:3, 3], (0., 0., 0.)))
+        trajectory = node.plan_position(start, point, offset)
+        expected = set(node.joints)
+    elif step.kind == 'upright':
+        trajectory = node.plan_upright(start, *step.target)
+        expected = set(node.joints)
     elif step.kind in ('pose', 'joints'):
-        constraints = (node.pose_constraints(step.target) if step.kind == 'pose'
-                       else node.joint_constraints(step.target))
+        constraints = (node.pose_constraints(step.target) if step.kind == 'pose' else
+                       node.joint_constraints(step.target))
         trajectory = node.plan(start, constraints)
         expected = set(node.joints)
     else:

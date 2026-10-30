@@ -49,7 +49,8 @@ def remove_collision_entry(matrix, object_id):
 
 
 def task_bottle_ids(node):
-    return (f'onero_task_bottle_{node.arm_side}', f'onero_fixed_bottle_{node.arm_side}')
+    sides = ('left', 'right', 'both') if node.arm_side == 'both' else (node.arm_side,)
+    return tuple(f'onero_{kind}_bottle_{side}' for side in sides for kind in ('task', 'fixed'))
 
 
 def clear_bottle(node, object_id=None):

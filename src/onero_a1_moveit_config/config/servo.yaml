@@ -1,0 +1,36 @@
+# A1 单臂 Servo；输入为法兰实际线速度（m/s）和角速度（rad/s）。
+move_group_name: arm
+publish_period: 0.01  # s，100 Hz 输出
+max_expected_latency: 0.1  # s，控制链路的轨迹提前窗口
+command_in_type: speed_units
+scale:
+  linear: 0.0  # 不另设固定末端限速，使用配置中的关节速度限位
+  rotational: 0.0
+  joint: 1.0
+incoming_command_timeout: 0.1  # s，管理节点输入停止后减速停止
+command_out_type: trajectory_msgs/JointTrajectory
+command_out_topic: /servo_arm_controller/joint_trajectory
+publish_joint_positions: true
+publish_joint_velocities: true
+publish_joint_accelerations: false
+cartesian_command_in_topic: /servo_node/delta_twist_cmds
+joint_command_in_topic: /servo_node/delta_joint_cmds
+joint_topic: /joint_states
+status_topic: /servo_node/status
+is_primary_planning_scene_monitor: false
+monitored_planning_scene_topic: /monitored_planning_scene
+check_octomap_collisions: false
+check_collisions: true
+allow_collision_retreat: true  # 经整臂路径检查确认净空不减小时，允许低速撤离。
+collision_retreat_joint_speed: 0.2  # 撤离阶段的关节速度上限，rad/s。
+collision_check_rate: 20.0
+# 3 mm，低于夹爪机构本身约 3.4 mm 的最小间隙；实际自碰撞仍由完整模型检查。
+self_collision_proximity_threshold: 0.003
+scene_collision_proximity_threshold: 0.02
+lower_singularity_threshold: 30.0  # 条件数，超过后开始减速
+hard_stop_singularity_threshold: 60.0  # 条件数，达到后停止
+leaving_singularity_threshold_multiplier: 2.0
+# J1~J7，rad；J4 提前预留制动距离，避免平滑减速时目标越过关节上限。
+joint_limit_margins: [0.05, 0.05, 0.05, 0.2, 0.05, 0.05, 0.05]
+use_smoothing: true
+smoothing_filter_plugin_name: online_signal_smoothing::AccelerationLimitedPlugin
