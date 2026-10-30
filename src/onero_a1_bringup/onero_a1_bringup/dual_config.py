@@ -9,7 +9,7 @@ def joints(side):
     return [f'joint{i}-a1_{"l" if side == "left" else "r"}' for i in range(1, 8)]
 
 
-def controller_config(bringup_dir, overrides, rate):
+def controller_config(bringup_dir, overrides, rate, enable_servo=False):
     source = yaml.safe_load((Path(bringup_dir)/'config/ros2_controllers.yaml').read_text())
     result = {'controller_manager': {'ros__parameters': {
         'update_rate': int(rate), 'joint_state_broadcaster': {
@@ -28,6 +28,16 @@ def controller_config(bringup_dir, overrides, rate):
         result[name] = resolved
         result['controller_manager']['ros__parameters'][name] = {
             'type': 'joint_trajectory_controller/JointTrajectoryController'}
+    if enable_servo:
+        servo=deepcopy(result['left_arm_controller'])
+        parameters=servo['ros__parameters']
+        parameters['joints']=joints('left')+joints('right')
+        parameters['constraints'].update(deepcopy(result['right_arm_controller']['ros__parameters']['constraints']))
+        parameters.update(allow_nonzero_velocity_at_trajectory_end=True,interpolate_from_desired_state=True,cmd_timeout=.15)
+        parameters['constraints']['goal_time']=0.
+        result['servo_arm_controller']=servo
+        result['controller_manager']['ros__parameters']['servo_arm_controller']={
+            'type':'joint_trajectory_controller/JointTrajectoryController'}
     return result
 
 

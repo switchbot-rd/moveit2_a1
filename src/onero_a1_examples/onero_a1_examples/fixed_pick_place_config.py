@@ -22,6 +22,7 @@ class TaskConfig:
     diameter: float = .05
     bottle_height: float = .18
     grasp_height: float = 0.
+    max_wrist_roll_deviation: float = 1.3089969389957472
     tcp_offset: list = None
     grasp_opening: float = None
     open_opening: float = 1.
@@ -32,9 +33,20 @@ class TaskConfig:
     carry_kp: float = 120.
     orientation_tolerance: float = .1
     position_tolerance: float = .015
+    placement_height_tolerance: float = .003
     pick_support: str = None
     place_support: str = None
+    c_position: list = None
+    c_support_height_offset: float = 0.0
+    c_position_tolerance: float = .020
+    c_placement_height_tolerance: float = .020
+    b_placement_height_tolerance: float = .006
     ready_joints: list = None
+    left_b_grasp_offset: list = None
+    left_b_place_offset: list = None
+    left_c_grasp_offset: list = None
+    right_a_grasp_offset: list = None
+    b_support_height_offset: float = 0.0
 
     @classmethod
     def load(cls, path, *, recording=False):
@@ -81,19 +93,23 @@ class TaskConfig:
         vector('grasp_rpy', optional=recording)
         vector('tcp_offset', optional=True)
         vector('ready_joints', 7, optional=True)
+        vector('left_b_grasp_offset', optional=True)
         if self.approach_direction is None:
             raise MoveItError('请配置 world 中指向物体的 approach_direction')
         vector('approach_direction')
         direction = np.array(self.approach_direction)
         length = np.linalg.norm(direction)
         if length < 1e-6 or abs(direction[2]) > 1e-6:
-            raise MoveItError('首版侧夹水瓶要求 approach_direction 为非零水平向量')
+            raise MoveItError('侧夹水瓶要求 approach_direction 为非零水平向量')
         self.approach_direction = (direction/length).tolist()
-        for name in ('diameter', 'bottle_height', 'approach_distance', 'lift_distance', 'retreat_distance'):
+        for name in ('diameter', 'bottle_height', 'approach_distance', 'lift_distance',
+                     'retreat_distance'):
             scalar(name, 0., strict=True)
         scalar('carry_kp', 0., 500., strict=True)
         scalar('orientation_tolerance', 0., .2, strict=True)
+        scalar('max_wrist_roll_deviation', 0., math.pi, strict=True)
         scalar('position_tolerance', 0., .02, strict=True)
+        scalar('placement_height_tolerance', 0., .01, strict=True)
         scalar('open_opening', 0., 1., strict=True)
         if self.grasp_opening is not None:
             scalar('grasp_opening', 0., self.open_opening, strict=True)

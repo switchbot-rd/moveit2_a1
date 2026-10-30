@@ -1,6 +1,8 @@
 """A1L/A1R dual-arm MoveIt: shared scene, separate SDK sessions/controllers."""
 from pathlib import Path
 import math
+import os
+import json
 import tempfile
 import yaml
 
@@ -11,6 +13,7 @@ from launch.event_handlers import OnProcessExit, OnShutdown
 from launch.substitutions import EnvironmentVariable, LaunchConfiguration
 from launch_ros.actions import Node
 from moveit_configs_utils import MoveItConfigsBuilder
+from onero_a1_bringup.planning import add_online_planner
 from onero_a1_bringup.hardware_mode import configure_hardware_mode, mode_default
 from onero_a1_bringup.controller_tolerances import TOLERANCE_ARGUMENTS, tolerance_launch_arguments
 from onero_a1_bringup.dual_config import controller_config, joints, moveit_parameters
@@ -30,6 +33,7 @@ def setup(context):
 
     real = value('hardware_mode') == 'real'
     allow = boolean('allow_execution')
+    servo_enabled=boolean('enable_servo')
     spacing = float(value('arm_spacing'))
     if not math.isfinite(spacing) or spacing <= 0:
         raise ValueError('arm_spacing 必须为有限正数（米）')
@@ -53,7 +57,7 @@ def setup(context):
     rate = float(value('control_rate'))
     if not math.isfinite(rate) or rate <= 0:
         raise ValueError('control_rate 必须为有限正数')
-    controllers = controller_config(bringup, overrides, rate)
+    controllers = controller_config(bringup, overrides, rate, enable_servo=servo_enabled)
     temporary = tempfile.TemporaryDirectory(prefix='onero_dual_')
     controller_file = Path(temporary.name)/'controllers.yaml'
     controller_file.write_text(yaml.safe_dump(controllers, sort_keys=False))
@@ -68,6 +72,7 @@ def setup(context):
               .planning_pipelines(default_planning_pipeline='ompl', pipelines=['ompl', 'chomp', 'stomp'])
               .planning_scene_monitor(publish_robot_description=True, publish_robot_description_semantic=True)
               .to_moveit_configs())
+    add_online_planner(config)
     params = moveit_parameters(config, gripper)
     params['allow_trajectory_execution'] = allow
     goal_time = max(controllers[side+'_arm_controller']['ros__parameters']['constraints']['goal_time']
@@ -82,6 +87,7 @@ def setup(context):
         Node(package='tf2_ros', executable='static_transform_publisher', name='dual_world_frame',
              arguments=['--frame-id', 'world', '--child-frame-id', 'base_link'], output='log'),
         Node(package='controller_manager', executable='ros2_control_node',
+             additional_env={'RMW_FASTRTPS_PUBLICATION_MODE':'ASYNCHRONOUS' if servo_enabled else os.environ.get('RMW_FASTRTPS_PUBLICATION_MODE','SYNCHRONOUS')},
              parameters=[str(controller_file), robot], output='screen')]
     initial_right = [.40, .09, -.074, 1.69, -.04, .54, -.026]
     for side, model in (('left', 'A1L'), ('right', 'A1R')):
@@ -106,7 +112,7 @@ def setup(context):
     actions.append(Node(package='onero_a1_bringup', executable='health_watchdog', name='dual_bridge_watchdog',
                         parameters=[{'joint_states_topic': '/left/robot_joint_states',
                                      'additional_joint_state_topics': ['/right/robot_joint_states'],
-                                     'controller_names': ['left_arm_controller', 'right_arm_controller'],
+                                     'controller_names': ['left_arm_controller', 'right_arm_controller']+(['servo_arm_controller'] if servo_enabled else []),
                                      'auto_reactivate': False}], output='screen'))
     guards = {side: Node(package='onero_a1_bringup', executable='wait_for_joint_states',
                          name='wait_for_'+side+'_bridge', parameters=[{
@@ -118,6 +124,32 @@ def setup(context):
                     parameters=[{'joints': all_joints+gripper_joints}], output='screen')
     spawner = Node(package='controller_manager', executable='spawner',
                    arguments=['left_arm_controller', 'right_arm_controller', '-c', '/controller_manager'], output='screen')
+    servo_spawner=Node(package='controller_manager',executable='spawner',
+        arguments=['servo_arm_controller','-c','/controller_manager','--inactive'],output='screen')
+    servo_nodes=[]
+    if servo_enabled:
+        servo_config=yaml.safe_load((Path(config_dir)/'config/servo.yaml').read_text())
+        manager_margins=list(servo_config['joint_limit_margins'])
+        servo_config.update(move_group_name='both_arms',joint_limit_margins=manager_margins*2)
+        robot_parameters={key:params[key] for key in ('robot_description','robot_description_semantic',
+                                                     'robot_description_kinematics','robot_description_planning')}
+        servo_nodes=[
+            Node(package='onero_a1_servo',executable='servo_node',name='servo_node',output='screen',
+                 additional_env={'RMW_FASTRTPS_PUBLICATION_MODE':'ASYNCHRONOUS'},
+                 parameters=[{'moveit_servo':servo_config,'update_period':servo_config['publish_period'],
+                              'planning_group_name':'both_arms'},robot_parameters]),
+            Node(package='onero_a1_bringup',executable='servo_manager',output='screen',parameters=[{
+                'joints':all_joints,'normal_controllers':['left_arm_controller','right_arm_controller'],
+                'bridges':['/left/onero_topic_bridge','/right/onero_topic_bridge'],
+                'raw_feedback_topics':['/left/robot_joint_states','/right/robot_joint_states'],
+                'gripper_model':gripper,'gripper_joints':gripper_joints or ['unused'],
+                'gripper_controllers':['left_gripper_controller','right_gripper_controller'],
+                'joint_limit_margins':manager_margins,'max_expected_latency':servo_config['max_expected_latency']},robot_parameters])]
+        if boolean('servo_debug'):
+            settings={'servo':servo_config,'joint_limits':{'robot_description_planning':params['robot_description_planning']},'arm':'both'}
+            servo_nodes.append(ExecuteProcess(cmd=[value('runtime_python'),'-m','tools.diagnostics.servo_debug',
+                '--output',value('servo_debug_file'),'--settings-json',json.dumps(settings)],
+                cwd=os.environ.get('WS_DIR',os.getcwd()),output='screen'))
     move_group = Node(package='moveit_ros_move_group', executable='move_group', parameters=[params], output='screen')
     loader = Node(package='onero_a1_bringup', executable='load_environment', parameters=[{
         'environment_file': environment, 'mounting': 'humanoid_dual', 'arm_spacing': spacing,
@@ -147,6 +179,8 @@ def setup(context):
     actions.extend([success(guards['left'], [guards['right']]), success(guards['right'], [broadcaster]),
                     success(broadcaster, [complete]), success(complete, after_state),
                     success(loader, [spawner] if allow else [])])
+    if servo_enabled and allow:
+        actions.extend([success(spawner,[servo_spawner]),success(servo_spawner,servo_nodes)])
     if allow and gripper == 'woan_picker':
         actions.append(success(spawner, [ExecuteProcess(cmd=['ros2', 'service', 'call',
             f'/{side}_gripper_controller/activate', 'std_srvs/srv/Trigger', '{}'], output='screen')
@@ -159,6 +193,9 @@ def generate_launch_description():
     return LaunchDescription([
         OpaqueFunction(function=configure_hardware_mode),
         DeclareLaunchArgument('hardware_mode', default_value='sim', choices=['sim', 'real']),
+        DeclareLaunchArgument('enable_servo',default_value='false',choices=['true','false']),
+        DeclareLaunchArgument('servo_debug',default_value='false',choices=['true','false']),
+        DeclareLaunchArgument('servo_debug_file',default_value=''),
         DeclareLaunchArgument('left_can_channel', default_value='can1'),
         DeclareLaunchArgument('right_can_channel', default_value='can0'),
         DeclareLaunchArgument('arm_spacing', default_value='0.07'),

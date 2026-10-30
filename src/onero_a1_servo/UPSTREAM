@@ -1,0 +1,9 @@
+MoveIt Servo 2.12.4
+https://github.com/moveit/moveit2/tree/2.12.4/moveit_ros/moveit_servo
+Commit: 1ade0e9dcf50dbbbc3a984b995c786cf12736235
+
+Runtime sources retain their upstream BSD-3-Clause notices.
+Local extension: collision-retreat checks in collision_retreat.cpp, called before
+and after smoothing in servo.cpp. Python teleoperation retains the ROS API.
+servo_node.cpp stamps the output window after computation and discards expired
+trajectories before publication.

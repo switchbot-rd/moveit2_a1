@@ -180,6 +180,7 @@ class OneroTopicBridge(Node):
         self._lock = threading.Lock()
         self._hardware_lock = threading.RLock()
         self._freedrive = False
+        self._servo_active = False
         self._freedrive_deadline = 0.
         self._freedrive_guard = False
         self.add_on_set_parameters_callback(self._validate_freedrive_parameters)
@@ -311,6 +312,7 @@ class OneroTopicBridge(Node):
         self._freedrive_srv = self.create_service(SetBool, '~/freedrive', self._on_freedrive)
         self._freedrive_heartbeat_srv = self.create_service(
             Trigger, '~/freedrive_heartbeat', self._on_freedrive_heartbeat)
+        self._servo_mode_srv = self.create_service(SetBool, '~/servo_mode', self._on_servo_mode)
 
         # ─── 控制线程 ────────────────────────────────────────────────
         self._running = True
@@ -466,6 +468,8 @@ class OneroTopicBridge(Node):
             with self._hardware_lock:
                 if request.data:
                     with self._lock:
+                        if self._servo_active:
+                            raise RuntimeError('Servo 正在占用手臂，请先退出遥操作')
                         if self._backend is None:
                             raise RuntimeError('零重力拖动仅支持 real 模式')
                         if not self._enabled or self._hold or not self._gravity_compensation:
@@ -488,6 +492,21 @@ class OneroTopicBridge(Node):
         except Exception as exc:
             response.success = False
             response.message = str(exc)
+        return response
+
+    def _on_servo_mode(self, request, response):
+        try:
+            with self._hardware_lock:
+                with self._lock:
+                    if request.data:
+                        if self._freedrive:
+                            raise RuntimeError('手臂正在零重力拖动，请先退出拖动模式')
+                        if self._hold or (not self._simulate and not self._enabled):
+                            raise RuntimeError('需要手臂已使能且无故障保持')
+                    self._servo_active = bool(request.data)
+            response.success, response.message = True, 'Servo 控制模式已更新'
+        except Exception as exc:
+            response.success, response.message = False, str(exc)
         return response
 
     def _on_freedrive_heartbeat(self, _request, response):

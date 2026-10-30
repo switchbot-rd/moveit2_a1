@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>onero_a1_kinematics</name><version>0.1.0</version>
+  <description>Shared natural-posture objective and MoveIt redundant IK.</description>
+  <maintainer email="dev@onerobot.com">Onero Robotics</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+  <depend>ament_index_cpp</depend><depend>eigen</depend>
+  <depend>moveit_core</depend><depend>moveit_kinematics</depend>
+  <depend>pluginlib</depend><depend>rclcpp</depend>
+  <depend>urdf</depend><depend>srdfdom</depend>
+  <depend>yaml_cpp_vendor</depend><depend>pybind11_vendor</depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

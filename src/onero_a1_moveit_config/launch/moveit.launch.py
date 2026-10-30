@@ -12,10 +12,13 @@
     ros2 launch onero_a1_moveit_config moveit.launch.py \
         hardware_mode:=real
 
-无头环境（无 X）请加 rviz:=false
+添加 enable_servo:=true 加载 Servo 遥操作；无头环境（无 X）请加 rviz:=false
 """
 
 import os
+import json
+from pathlib import Path
+import yaml
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -30,6 +33,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from moveit_configs_utils import MoveItConfigsBuilder
+from onero_a1_bringup.planning import add_online_planner
 from onero_a1_bringup.hardware_mode import arm_default, configure_arm, configure_hardware_mode, mode_default
 from onero_a1_bringup.controller_tolerances import (
     TOLERANCE_ARGUMENTS, controller_config_from_launch, execution_goal_margin,
@@ -50,6 +54,10 @@ def generate_launch_description():
         DeclareLaunchArgument("hardware_mode", default_value="sim", choices=["sim", "real"],
                              description="sim: 话题桥模拟，不连接 CAN；real: SDK 真机 CAN"),
         DeclareLaunchArgument("arm", default_value="right", choices=["left", "right"]),
+        DeclareLaunchArgument('enable_servo', default_value='false', choices=['true', 'false'],
+                             description='加载 Servo 节点和专用控制器，供键盘遥操作使用'),
+        DeclareLaunchArgument('servo_debug', default_value='false', choices=['true', 'false'], description='记录 Servo 输入、输出和反馈'),
+        DeclareLaunchArgument('servo_debug_file', default_value='', description='调试 JSONL 路径，留空自动保存在 ROS 日志目录'),
         DeclareLaunchArgument("rviz", default_value="true"),
         DeclareLaunchArgument("can_channel", default_value=arm_default("can_channel")),
         DeclareLaunchArgument("model", default_value=arm_default("model")),
@@ -105,6 +113,11 @@ def generate_launch_description():
     ]
 
     def prepare_environment(context):
+        if (IfCondition(LaunchConfiguration('enable_servo')).evaluate(context)
+                and IfCondition(LaunchConfiguration('servo_debug')).evaluate(context)):
+            workspace = Path(os.environ.get('WS_DIR', os.getcwd()))
+            if not (workspace/'tools/diagnostics/servo_debug.py').is_file():
+                raise RuntimeError('servo_debug 需要在项目根目录启动，或先 source setup_env.sh 设置 WS_DIR')
         controller_config, _ = controller_config_from_launch(
             context, os.path.join(bringup_pkg, "config", "ros2_controllers.yaml"))
         minimum_margin = moveit_config.trajectory_execution.get(
@@ -113,6 +126,13 @@ def generate_launch_description():
         path = LaunchConfiguration("environment_file").perform(context).strip()
         real_hardware = LaunchConfiguration("hardware_mode").perform(context) == "real"
         allow_execution = IfCondition(LaunchConfiguration("allow_execution")).evaluate(context)
+        sim_pose = [0.0]*7
+        if not real_hardware and IfCondition(LaunchConfiguration('enable_servo')).evaluate(context):
+            # A straight zero-pose is singular. This is simulation initialization,
+            # never a startup motion command for the real arm.
+            sim_pose = [.438, .058, -.073, 1.65, .023, .535, .022]
+            if LaunchConfiguration('arm').perform(context) == 'left':
+                sim_pose = [-value for value in sim_pose]
         if path:
             from onero_a1_bringup.environment import load_environment
             path = os.path.abspath(os.path.expanduser(path))
@@ -126,6 +146,7 @@ def generate_launch_description():
             )
         return [
             SetLaunchConfiguration("onero_execution_goal_margin", str(goal_margin)),
+            SetLaunchConfiguration('onero_sim_initial_positions', str(sim_pose)),
             SetLaunchConfiguration("environment_file", path),
             SetLaunchConfiguration("onero_start_arm_controller", "true" if allow_execution and not path else "false"),
             SetLaunchConfiguration("onero_real_hardware", "true" if real_hardware else "false"),
@@ -170,6 +191,8 @@ def generate_launch_description():
         .to_moveit_configs()
     )
 
+    add_online_planner(moveit_config)
+
     # ─── 执行层（ros2_control + 话题桥）───────────────────────────────
     bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -179,6 +202,8 @@ def generate_launch_description():
             **{name: LaunchConfiguration(name) for name in TOLERANCE_ARGUMENTS},
             "arm": LaunchConfiguration("arm"),
             "hardware_mode": LaunchConfiguration("hardware_mode"),
+            'enable_servo': LaunchConfiguration('enable_servo'),
+            'sim_initial_positions': LaunchConfiguration('onero_sim_initial_positions'),
             "can_channel": LaunchConfiguration("can_channel"),
             "model": LaunchConfiguration("model"),
             "kp": LaunchConfiguration("kp"),
@@ -215,6 +240,36 @@ def generate_launch_description():
             "moveit_simple_controller_manager.controller_names": LaunchConfiguration("onero_moveit_controllers"),
         }],
     )
+    servo_config = yaml.safe_load((Path(moveit_pkg)/'config'/'servo.yaml').read_text())
+
+    def servo_nodes(context):
+        if not IfCondition(LaunchConfiguration('enable_servo')).evaluate(context):
+            return []
+        nodes = [
+            Node(package='onero_a1_servo', executable='servo_node', name='servo_node', output='screen',
+                 additional_env={'RMW_FASTRTPS_PUBLICATION_MODE': 'ASYNCHRONOUS'},
+                 parameters=[{'moveit_servo': servo_config, 'update_period': servo_config['publish_period'],
+                              'planning_group_name': 'arm'}, moveit_config.robot_description,
+                             moveit_config.robot_description_semantic, moveit_config.robot_description_kinematics,
+                             moveit_config.joint_limits]),
+            Node(package='onero_a1_bringup', executable='servo_manager', output='screen',
+                 parameters=[{'joints': LaunchConfiguration('onero_joint_names'),
+                              'gripper_model': LaunchConfiguration('gripper_model'),
+                              'joint_limit_margins': servo_config['joint_limit_margins'],
+                              'max_expected_latency': servo_config['max_expected_latency']},
+                             moveit_config.robot_description, moveit_config.robot_description_semantic,
+                             moveit_config.joint_limits]),
+        ]
+        if IfCondition(LaunchConfiguration('servo_debug')).evaluate(context):
+            settings = {'servo': servo_config, 'joint_limits': moveit_config.joint_limits,
+                        'arm': LaunchConfiguration('arm').perform(context),
+                        'posture': yaml.safe_load((Path(get_package_share_directory('onero_a1_kinematics')) /
+                                                  'config/posture.yaml').read_text())}
+            nodes.append(ExecuteProcess(
+                cmd=[LaunchConfiguration('runtime_python'), '-m', 'tools.diagnostics.servo_debug',
+                     '--output', LaunchConfiguration('servo_debug_file'), '--settings-json', json.dumps(settings)],
+                cwd=os.environ.get('WS_DIR', os.getcwd()), output='screen'))
+        return nodes
 
     # ─── RViz ────────────────────────────────────────────────────────
     # 注意：不能用 os.path.join 拼 LaunchConfiguration，要用 PathJoinSubstitution
@@ -260,7 +315,7 @@ def generate_launch_description():
         if event.returncode == 0:
             if not IfCondition(LaunchConfiguration("allow_execution")).evaluate(context):
                 return [LogInfo(msg="环境已就绪，当前仅规划预览，arm_controller 保持未启动"), rviz_node]
-            return [environment_arm_spawner]
+            return [environment_arm_spawner]+servo_nodes(context)
         # Leave the world visible for diagnosing collisions, but do not start
         # the trajectory controller or remove the objects on initialization failure.
         return [LogInfo(msg="环境初始化/起始姿态检查未通过；arm_controller 未启动，RViz 可用于检查"), rviz_node]
@@ -299,7 +354,7 @@ def generate_launch_description():
         if event.returncode == 0:
             if LaunchConfiguration("environment_file").perform(context):
                 return [move_group_node, environment_loader]
-            return [move_group_node, rviz_node]
+            return [move_group_node, rviz_node]+servo_nodes(context)
         return [LogInfo(msg="未收到有效关节状态；MoveIt 和 RViz 保持未启动")]
 
     start_moveit_after_state_ready = RegisterEventHandler(

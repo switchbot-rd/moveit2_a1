@@ -38,6 +38,9 @@
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>joint_state_broadcaster</exec_depend>
   <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>moveit_servo</exec_depend>
+  <exec_depend>onero_a1_servo</exec_depend>
+  <exec_depend>onero_a1_kinematics</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

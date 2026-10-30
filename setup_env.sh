@@ -120,8 +120,9 @@ _onero_prepare_environment() {
   local onero_build_stamp onero_source_fingerprint
   local -a onero_missing=() onero_sudo=()
   local -a onero_packages=(
-    python3-colcon-common-extensions python3-packaging python3-scipy
-    ros-jazzy-moveit ros-jazzy-moveit-planners-chomp ros-jazzy-moveit-planners-stomp
+    build-essential cmake python3-colcon-common-extensions python3-packaging python3-scipy python3-tk
+    python3-dev ros-jazzy-ament-cmake-python ros-jazzy-pybind11-vendor ros-jazzy-yaml-cpp-vendor
+    ros-jazzy-moveit ros-jazzy-moveit-servo ros-jazzy-moveit-planners-chomp ros-jazzy-moveit-planners-stomp
     ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-ros2controlcli
   )
   onero_workspace="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" || return 1
