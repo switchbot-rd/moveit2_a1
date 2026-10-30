@@ -28,6 +28,7 @@
   <disable_collisions link1="woan_picker_right_finger_link_2" link2="woan_picker_right_finger_link_3" reason="Adjacent" />
   <disable_collisions link1="woan_picker_base_link" link2="woan_picker_right_finger_link_4" reason="Adjacent" />
   <disable_collisions link1="Link7" link2="woan_picker_base_link" reason="Adjacent" />
+  <disable_collisions link1="Link6" link2="woan_picker_base_link" reason="Mounting" />
   <disable_collisions link1="woan_picker_left_finger_link_3" link2="woan_picker_left_finger_link_4" reason="Mechanism" />
   <disable_collisions link1="woan_picker_right_finger_link_3" link2="woan_picker_right_finger_link_4" reason="Mechanism" />
   <disable_collisions link1="woan_picker_left_finger_link_3" link2="woan_picker_right_finger_link_3" reason="FingerContact" />

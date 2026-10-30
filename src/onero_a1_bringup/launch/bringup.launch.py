@@ -21,7 +21,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction, RegisterEventHandler
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
-from launch.substitutions import Command, EnvironmentVariable, LaunchConfiguration
+from launch.substitutions import Command, EnvironmentVariable, IfElseSubstitution, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile, ParameterValue
 from onero_a1_bringup.hardware_mode import arm_default, configure_arm, configure_hardware_mode, mode_default
@@ -48,6 +48,8 @@ def generate_launch_description():
         DeclareLaunchArgument("hardware_mode", default_value="sim", choices=["sim", "real"],
                              description="sim: 话题桥模拟，不连接 CAN；real: SDK 真机 CAN"),
         DeclareLaunchArgument("arm", default_value="right", choices=["left", "right"]),
+        DeclareLaunchArgument('enable_servo', default_value='false', choices=['true', 'false']),
+        DeclareLaunchArgument('sim_initial_positions', default_value='[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'),
         DeclareLaunchArgument("joint_commands_topic", default_value="/robot_joint_commands"),
         DeclareLaunchArgument("joint_states_topic", default_value="/robot_joint_states"),
         DeclareLaunchArgument("can_channel", default_value=arm_default("can_channel")),
@@ -172,6 +174,10 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
+        # Topic publication must not hold the 100 Hz Servo control thread.
+        additional_env={'RMW_FASTRTPS_PUBLICATION_MODE': IfElseSubstitution(
+            LaunchConfiguration('enable_servo'), 'ASYNCHRONOUS',
+            EnvironmentVariable('RMW_FASTRTPS_PUBLICATION_MODE', default_value='SYNCHRONOUS'))},
         parameters=[ParameterFile(LaunchConfiguration("onero_controllers_file")),
                     {"robot_description": robot_description}],
         remappings=[("/controller_manager/robot_description", "/robot_description")],
@@ -191,6 +197,9 @@ def generate_launch_description():
         arguments=["arm_controller", "-c", "/controller_manager"],
         output="screen",
     )
+    servo_controller_spawner = Node(
+        package='controller_manager', executable='spawner',
+        arguments=['servo_arm_controller', '-c', '/controller_manager', '--inactive'], output='screen')
 
     # Position states and commands start as NaN. Wait for fresh
     # bridge state before starting joint_state_broadcaster, so NaNs never reach
@@ -229,10 +238,11 @@ def generate_launch_description():
         return [LogInfo(msg="未收到话题桥关节状态；状态广播器和 arm_controller 保持未启动")]
 
     def activate_controller_after_state(event, context):
+        servo = [servo_controller_spawner] if IfCondition(LaunchConfiguration('enable_servo')).evaluate(context) else []
         if not IfCondition(LaunchConfiguration("start_arm_controller")).evaluate(context):
-            return [LogInfo(msg="当前启动配置禁止自动启动 arm_controller（仅预览或等待环境检查）")]
+            return servo+[LogInfo(msg="当前启动配置禁止自动启动 arm_controller（仅预览或等待环境检查）")] if event.returncode == 0 else []
         if event.returncode == 0:
-            return [arm_controller_spawner]
+            return servo+[arm_controller_spawner]
         return [LogInfo(msg="未收到有效关节状态；arm_controller 保持未启动")]
 
     # ─── 话题桥适配节点 ─────────────────────────────────────────────
@@ -248,6 +258,7 @@ def generate_launch_description():
                 "joint_states_topic": joint_states_topic,
                 "joint_names": LaunchConfiguration("onero_joint_names"),
                 "simulate": ParameterValue(simulate, value_type=bool),
+                'sim_initial_positions': ParameterValue(LaunchConfiguration('sim_initial_positions'), value_type=List[float]),
                 "trace_control": ParameterValue(
                     LaunchConfiguration("trace_control"), value_type=bool
                 ),
@@ -306,6 +317,8 @@ def generate_launch_description():
             {
                 "joint_states_topic": joint_states_topic,
                 "controller_name": "arm_controller",
+                'controller_names': LaunchConfiguration('onero_watchdog_controllers'),
+                'auto_reactivate': ParameterValue(LaunchConfiguration('onero_watchdog_reactivate'), value_type=bool),
                 "timeout": ParameterValue(
                     LaunchConfiguration("watchdog_timeout"), value_type=float
                 ),

@@ -1,0 +1,19 @@
+# Servo、IK 和轨迹择优共用；顺序均为 joint1…joint7，角度单位 rad。
+enabled: true
+reference_right: [0.438, 0.058, -0.073, 1.65, 0.023, 0.535, 0.022]
+reference_left: [-0.438, -0.058, 0.073, -1.65, -0.023, -0.535, -0.022]
+# 肩部旋转、肘部和腕部构型权重；越大越倾向参考角度。
+weights: [1.0, 1.5, 3.0, 2.0, 1.0, 1.0, 2.0]
+gain: 0.8                    # 零空间回正强度。
+max_speed: 0.2               # 回正引入的最大关节速度，rad/s。
+limit_margin: 0.15           # 距关节边界小于此角度时增加惩罚，rad。
+limit_weight: 1.0            # 接近关节边界的惩罚权重。
+continuity_weight: 0.15      # IK 解偏离输入种子时的惩罚。
+ik_refinement_steps: 3       # 每次 IK 的局部构型改进次数。
+planning_candidates: 2      # 普通 OMPL 规划比较的有效轨迹候选数。
+path_weight: 0.5            # 沿途构型对轨迹总评分的影响。
+
+# 自然姿态规划的 J5/J7 滚转相对参考值上限；不改变硬件机械限位。
+# 90° 是共享默认值；固定取放任务在 fixed_pick_place.yaml 中单独收紧到 75°。
+# 已经超限的起点可向舒适区退出，规划终点必须回到此范围内。
+max_wrist_roll_deviation: 1.5707963267948966  # 90°

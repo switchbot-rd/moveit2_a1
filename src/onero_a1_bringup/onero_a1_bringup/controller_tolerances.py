@@ -68,7 +68,17 @@ def controller_config_from_launch(context, config_file):
             if name.endswith('-a1_r'):
                 constraints[name.replace('-a1_r', '-a1_l')] = constraints.pop(name)
     overrides = {name: LaunchConfiguration(name).perform(context) for name in TOLERANCE_ARGUMENTS}
-    return resolve_controller_config(config, overrides), overrides
+    config = resolve_controller_config(config, overrides)
+    if context.launch_configurations.get('enable_servo', 'false').lower() == 'true':
+        config['controller_manager']['ros__parameters']['servo_arm_controller'] = {
+            'type': 'joint_trajectory_controller/JointTrajectoryController'}
+        servo = deepcopy(config['arm_controller'])
+        parameters = servo['ros__parameters']
+        parameters.update(allow_nonzero_velocity_at_trajectory_end=True,
+                          interpolate_from_desired_state=True, cmd_timeout=.15)
+        parameters['constraints']['goal_time'] = 0.
+        config['servo_arm_controller'] = servo
+    return config, overrides
 
 
 def execution_goal_margin(config, minimum=2.):
@@ -81,9 +91,13 @@ def prepare_controller_parameters(context, config_file):
     from launch.actions import OpaqueFunction, RegisterEventHandler, SetLaunchConfiguration
     from launch.event_handlers import OnShutdown
     config, overrides = controller_config_from_launch(context, config_file)
+    servo = 'servo_arm_controller' in config
+    watchdog = [SetLaunchConfiguration('onero_watchdog_controllers',
+                    str(['arm_controller', 'servo_arm_controller'] if servo else ['arm_controller'])),
+                SetLaunchConfiguration('onero_watchdog_reactivate', 'false' if servo else 'true')]
     if (not any(str(value).strip() for value in overrides.values())
-            and context.launch_configurations.get('arm', 'right') == 'right'):
-        return [SetLaunchConfiguration('onero_controllers_file', str(config_file))]
+            and context.launch_configurations.get('arm', 'right') == 'right' and not servo):
+        return watchdog+[SetLaunchConfiguration('onero_controllers_file', str(config_file))]
     with tempfile.NamedTemporaryFile(mode='w', prefix='onero_controllers_', suffix='.yaml',
                                      encoding='utf-8', delete=False) as stream:
         yaml.safe_dump(config, stream, sort_keys=False)
@@ -93,7 +107,7 @@ def prepare_controller_parameters(context, config_file):
         generated.unlink(missing_ok=True)
         return []
 
-    return [
+    return watchdog+[
         RegisterEventHandler(OnShutdown(on_shutdown=[OpaqueFunction(function=cleanup)])),
         SetLaunchConfiguration('onero_controllers_file', str(generated)),
     ]

@@ -1,6 +1,6 @@
-"""手臂与夹爪联合任务：夹取直径 5 cm 的水瓶，带回起始姿态，停顿后放回并松爪。
+"""双臂与夹爪联合任务：镜像取瓶，同步回起点、停顿、放回松爪。
 
-先摆好手臂，运行不带 --execute 的命令生成并保存瓶子位置、预览完整取放。
+先摆好右臂，运行不带 --execute 的命令生成左右镜像瓶子位置、预览完整取放。
 按输出坐标摆放实物，再添加 --execute 执行；本次实测姿态作为起点和回位目标。
 夹持中心和开度默认来自模型，
 实物可用 --tcp-offset 和 --grasp-opening 指定经测量的值。
@@ -31,7 +31,7 @@ from .task_support import (
 
 
 def configure(parser):
-    parser.add_argument('--diameter', type=positive, default=.05, help='瓶身直径，米，默认 0.05')
+    parser.add_argument('--diameter', type=positive, default=.04, help='瓶身直径，米，默认 0.04')
     parser.add_argument('--bottle-height', type=positive, default=.18, help='瓶身高度，米，默认 0.18，另含 2 cm 瓶颈')
     parser.add_argument('--reach', type=positive, default=.12, help='从起始夹持中心向前搜索的距离，米，默认 0.12')
     parser.add_argument('--lift', type=positive, default=.03, help='夹取后抬高的距离，米，默认 0.03')
@@ -204,6 +204,29 @@ def candidates(node, initial, offset, scene=None):
             yield matrix_pose(bottle), matrix_pose(pregrasp), matrix_pose(grasp), matrix_pose(lifted)
 
 
+def build_steps(node, initial, pregrasp, grasp, lifted, grasp_angle):
+    origin = deepcopy(node.fk(initial))
+    # IK/FK may leave a small residual relative to the mirrored grasp target.
+    # All commanded waypoints use that target orientation; plan_step separately
+    # checks the actual starting orientation against orientation_tolerance.
+    origin.orientation = deepcopy(grasp.orientation)
+    safe_height = max(origin.position.z, lifted.position.z)
+    origin_high = deepcopy(origin); origin_high.position.z = safe_height
+    pregrasp_high = deepcopy(pregrasp); pregrasp_high.position.z = safe_height
+    grasp_high = deepcopy(grasp); grasp_high.position.z = safe_height
+    return [
+        Step('张开夹爪', 'gripper', min(1., node.args.open_opening)),
+        Step('保持朝向平移到水瓶前方', 'cartesian', [origin_high, pregrasp_high, pregrasp]),
+        Step('直线接近水瓶', 'cartesian', grasp),
+        Step('夹住水瓶', 'gripper', grasp_angle),
+        Step('提起水瓶', 'cartesian', lifted),
+        Step('保持朝向带瓶回到起始位置', 'cartesian', [grasp_high, origin_high, origin]),
+        Step('保持朝向带瓶返回放置点上方', 'cartesian', [origin_high, grasp_high, lifted]),
+        Step('下降并放回原位', 'cartesian', grasp),
+        Step('松开夹爪', 'gripper', min(1., node.args.open_opening)),
+    ]
+
+
 def prepare(node, scene, initial, grasp_angle, offset):
     errors = []
     for index, (bottle, pregrasp, grasp, lifted) in enumerate(candidates(node, initial, offset, scene), 1):
@@ -213,22 +236,7 @@ def prepare(node, scene, initial, grasp_angle, offset):
               f'抓取点高于瓶身中心 {contact_height*1000:.0f} mm')
         scene.place(bottle, node.args.diameter, node.args.bottle_height)
         scene.allow_touch(True, support=True)
-        origin = node.fk(initial)
-        safe_height = max(origin.position.z, lifted.position.z)
-        origin_high = deepcopy(origin); origin_high.position.z = safe_height
-        pregrasp_high = deepcopy(pregrasp); pregrasp_high.position.z = safe_height
-        grasp_high = deepcopy(grasp); grasp_high.position.z = safe_height
-        steps = [
-            Step('张开夹爪', 'gripper', node.args.open_opening*1.1),
-            Step('保持朝向平移到水瓶前方', 'cartesian', [origin_high, pregrasp_high, pregrasp]),
-            Step('直线接近水瓶', 'cartesian', grasp),
-            Step('夹住水瓶', 'gripper', grasp_angle),
-            Step('提起水瓶', 'cartesian', lifted),
-            Step('保持朝向带瓶回到起始位置', 'cartesian', [grasp_high, origin_high, origin]),
-            Step('保持朝向带瓶返回放置点上方', 'cartesian', [origin_high, grasp_high, lifted]),
-            Step('下降并放回原位', 'cartesian', grasp),
-            Step('松开夹爪', 'gripper', node.args.open_opening*1.1),
-        ]
+        steps = build_steps(node, initial, pregrasp, grasp, lifted, grasp_angle)
         virtual = dict(initial)
         try:
             if not node.validity(initial).valid:
@@ -386,6 +394,9 @@ def saved_target(node, initial, geometry, offset, angle):
 
 
 def example(node):
+    if node.arm_side == 'both':
+        from .dual_arm_gripper_task import example as dual_example
+        return dual_example(node)
     if node.args.frame != 'world':
         raise MoveItError('桌面取放任务使用 --frame world，以 world Z 表示竖直方向')
     # This run's measured pose defines its start/return target. Preview only
@@ -423,6 +434,14 @@ def example(node):
         preview(node, scene, steps)
 
 
+def cleanup(node):
+    from .dual_task_support import close_arm_clients
+    try:
+        close_arm_clients(node)
+    finally:
+        clear_task_bottles(node)
+
+
 def main(args=None):
     return run_example('arm_gripper_task', __doc__, configure, example, args,
-                       planning_pipelines=(), cleanup=clear_task_bottles)
+                       planning_pipelines=(), dual=True, cleanup=cleanup)

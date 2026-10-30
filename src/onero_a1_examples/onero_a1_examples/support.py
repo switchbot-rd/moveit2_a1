@@ -52,7 +52,8 @@ def finish_arm_plan(node, trajectory):
 
 
 def run_example(name, description, configure, scenario, args=None, *, query_only=False,
-                planning_pipelines=PLANNING_PIPELINES, dual=False, allow_both=False, cleanup=None):
+                planning_pipelines=PLANNING_PIPELINES, dual=False, allow_both=False, cleanup=None,
+                default_planning_time=10.):
     parser = argparse.ArgumentParser(description=description)
     parser.set_defaults(pipeline="ompl", planner=None)
     if dual:
@@ -68,7 +69,7 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
         parser.add_argument("--execute", action="store_true", help="执行轨迹；默认只规划")
         parser.add_argument("--velocity", type=scaling, default=.05, help="速度缩放，默认 0.05")
         parser.add_argument("--acceleration", type=scaling, default=.05, help="加速度缩放，默认 0.05")
-        parser.add_argument("--planning-time", type=positive, default=10.)
+        parser.add_argument("--planning-time", type=positive, default=default_planning_time)
         if planning_pipelines:
             parser.add_argument("--pipeline", choices=planning_pipelines, default="ompl",
                                 help="规划管线，默认 ompl")

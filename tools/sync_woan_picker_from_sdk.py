@@ -61,6 +61,10 @@ def main():
         ET.SubElement(state, 'joint', name=master, value=str(value))
     for joint in root.findall('joint'):
         ET.SubElement(semantic, 'disable_collisions', link1=joint.find('parent').get('link'), link2=joint.find('child').get('link'), reason='Adjacent')
+    # Wrist housing and picker base form the output-flange mounting interface.
+    # Their CAD clearance stays about 0.05 mm throughout joint7 travel; treating
+    # it as an obstacle otherwise scales every Servo command almost to zero.
+    ET.SubElement(semantic, 'disable_collisions', link1='Link6', link2='woan_picker_base_link', reason='Mounting')
     # Closing pin of each four-bar mechanism is not representable as a URDF tree edge.
     for side in ('left', 'right'):
         ET.SubElement(semantic, 'disable_collisions', link1=f'woan_picker_{side}_finger_link_3', link2=f'woan_picker_{side}_finger_link_4', reason='Mechanism')

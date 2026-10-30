@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>onero_a1_servo</name>
+  <version>0.1.0</version>
+  <description>MoveIt Servo 2.12.4 with checked collision retreat.</description>
+  <maintainer email="dev@onerobot.com">Onero Robotics</maintainer>
+  <license>BSD-3-Clause</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>moveit_common</build_depend>
+  <build_depend>generate_parameter_library</build_depend>
+  <depend>control_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>moveit_core</depend>
+  <depend>moveit_msgs</depend>
+  <depend>moveit_ros_planning</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>realtime_tools</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>tf2_eigen</depend>
+  <depend>trajectory_msgs</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
