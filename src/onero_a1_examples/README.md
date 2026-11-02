@@ -16,6 +16,7 @@
 | [planning_scene](onero_a1_examples/planning_scene.py) | 临时障碍物与避让 |
 | [collision_check](onero_a1_examples/collision_check.py) | 检查姿态是否可用、是否碰撞 |
 | [collision_contacts](onero_a1_examples/collision_contacts.py) | 在 RViz 持续显示碰撞接触点、对象名称和穿透深度 |
+| [planning_compare](onero_a1_examples/planning_compare.py) | 比较规划方案及平滑前后结果，预览或执行选中的方案 |
 | [gripper](onero_a1_examples/gripper.py) | 夹爪开合 |
 | [arm_gripper_task](onero_a1_examples/arm_gripper_task.py) | 双臂镜像取瓶、同步搬运并放回 |
 | [fixed_pick_place](onero_a1_examples/fixed_pick_place.py) | 单瓶 A→B→C 双臂接力，可选往返 |
@@ -58,6 +59,7 @@
 | `orientation_constraint`、`gripper`、`dual_gripper` | OMPL |
 
 其余示例无需选择规划器。
+`planning_compare` 用 `--pipelines` 选择多个方案，见[轨迹平滑与规划比较](#轨迹平滑与规划比较)。
 
 ### 自然构型优化
 
@@ -140,6 +142,24 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 | `--obstacle-radius` | `0.04` m | 演示球半径，正数；仅配合 `--demo-obstacle` |
 
 仿真中可加 `--demo-obstacle` 快速查看效果。演示球固定在启动时的位置，运行期间会影响其他任务的避障。显示的是模型计算的接触点，不是真机接触检测结果。
+
+### 轨迹平滑与规划比较
+
+`planning_compare` 从同一起点到同一目标，比较各方案的规划耗时、关节路程和预计执行时间，列出 Ruckig 平滑前后的结果。默认选择平滑后预计执行时间最短的可用方案，在 RViz 预览；添加 `--execute` 只执行选中的一条。
+
+| 参数 | 默认值 | 说明 |
+|---|---|---|
+| `--target` | 不指定 | 以 `home` / `ready` 等命名姿态为运动目标；不与 `--joint`、`--delta` 同用 |
+| `--joint` / `--delta` | 所选臂第 1 关节 / `0.1` rad | 相对关节目标，用法与 `joint_goal` 相同 |
+| `--pipelines` | `ompl chomp stomp` | 空格分隔要比较的规划器；也可只选一个观察平滑效果 |
+| `--ompl-planner` | `RRTConnect` | OMPL 算法，可选值见上方规划器说明 |
+| `--smoothing` | `ruckig` | 平滑方式；`none` 使用规划器原始结果 |
+| `--jerk` | `10` rad/s³ | 加速度变化率上限，正数；越小通常越慢、更柔和 |
+| `--select` | `duration` | 按预计执行时间选方案；`length` 按关节路程选 |
+
+规划耗时是电脑计算用时，预计执行时间是手臂运动时长。关节路程用于比较各关节转动量，单位为 rad，并非末端移动的米数。
+平滑后路程通常不变，运动时间可能增加。某个方案失败会显示原因并继续比较其余方案；开启平滑时，平滑失败的方案不参与选择。实际平顺性请在真机上对比。
+若提示轨迹控制器未激活，先退出拖动或遥操作；若服务曾反馈失联，恢复通信后重启机械臂服务，再运行执行命令。
 
 ### 夹爪开合
 

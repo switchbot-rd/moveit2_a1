@@ -1,6 +1,7 @@
-"""Shared stopped splines and scaled limits for continuous Cartesian execution."""
+"""Trajectory limits, smoothing and comparison helpers."""
 import math
 
+import numpy as np
 from builtin_interfaces.msg import Duration
 from rcl_interfaces.srv import GetParameters
 from scipy.interpolate import BPoly
@@ -33,6 +34,87 @@ def _scaled_limits(node, names, error):
         limits.append((velocity.double_value*node.args.velocity,
                        acceleration.double_value*node.args.acceleration))
     return limits
+
+
+def trajectory_metrics(trajectory):
+    path = trajectory.joint_trajectory
+    if not path.joint_names or len(set(path.joint_names)) != len(path.joint_names) or len(path.points) < 2:
+        raise ValueError('轨迹需要完整关节名称和至少两个路径点')
+    positions = np.array([point.positions for point in path.points], dtype=float)
+    if positions.shape != (len(path.points), len(path.joint_names)) or not np.isfinite(positions).all():
+        raise ValueError('轨迹关节位置不完整或无效')
+    times = np.array([_seconds(point.time_from_start) for point in path.points])
+    if not np.isfinite(times).all() or times[0] != 0. or np.any(np.diff(times) <= 0.):
+        raise ValueError('轨迹时间必须从零开始并严格递增')
+    return {'points': len(path.points), 'duration': float(times[-1]),
+            'length': float(np.linalg.norm(np.diff(positions, axis=0), axis=1).sum())}
+
+
+def _timed_curve(trajectory):
+    trajectory_metrics(trajectory)
+    path = trajectory.joint_trajectory
+    derivatives = np.array([[p.positions, p.velocities, p.accelerations] for p in path.points], dtype=float)
+    if derivatives.shape != (len(path.points), 3, len(path.joint_names)) or not np.isfinite(derivatives).all():
+        raise ValueError('平滑需要完整有效的位置、速度和加速度')
+    times = np.array([_seconds(p.time_from_start) for p in path.points])
+    return times, BPoly.from_derivatives(times, derivatives)
+
+
+def smooth_trajectory(client, trajectory, *, jerk=10.):
+    from rclpy.serialization import deserialize_message, serialize_message
+    from moveit_msgs.msg import RobotTrajectory
+    from .continuous import geometry
+    from .moveit_client import MoveItError
+
+    if not math.isfinite(jerk) or jerk <= 0:
+        raise MoveItError('加速度变化率上限必须为有限正数')
+    try:
+        _timed_curve(trajectory)
+        names = list(trajectory.joint_trajectory.joint_names)
+        if set(names) != set(client.joints):
+            raise ValueError('平滑轨迹的关节必须与所选手臂一致')
+        limits = dict(zip(client.joints, _scaled_limits(client, client.joints, MoveItError)))
+        context = geometry(client, refresh=True)
+        start = client.planned_start_state or client.robot_state(client.start)
+        result = deserialize_message(context.smooth(
+            client.group, serialize_message(start), serialize_message(trajectory),
+            {name: limits[name][0] for name in names}, {name: limits[name][1] for name in names},
+            {name: jerk for name in names}), RobotTrajectory)
+        if list(result.joint_trajectory.joint_names) != names:
+            raise ValueError('平滑返回了不同的关节顺序')
+        times, curve = _timed_curve(result)
+        # JTC executes quintic segments. Bound that interpolation as well as
+        # Ruckig's waypoints; uniform time scaling preserves the geometric path.
+        peaks = [abs(curve.derivative(order).c).max(axis=(0, 1)) for order in (1, 2, 3)]
+        stretch = max(1., float(max(peaks[0]/[limits[n][0] for n in names])),
+                      math.sqrt(float(max(peaks[1]/[limits[n][1] for n in names]))),
+                      float(np.cbrt(max(peaks[2])/jerk)))
+        if not math.isfinite(stretch):
+            raise ValueError('平滑后轨迹时间无效')
+        if stretch > 1.:
+            stretch *= 1.001
+            for point, stamp in zip(result.joint_trajectory.points, times):
+                point.time_from_start = _duration(float(stamp*stretch))
+                point.velocities = [float(v/stretch) for v in point.velocities]
+                point.accelerations = [float(a/stretch**2) for a in point.accelerations]
+            times, curve = _timed_curve(result)
+        client.planning_start_state({})  # Load the actual position limits once.
+        bounds = [client._joint_position_bounds[name] for name in names]
+        constraints = getattr(client, '_motion_path_constraints', None)
+        constraints = serialize_message(constraints) if constraints is not None else b''
+        speeds = abs(curve.derivative().c).max(axis=(0, 2))
+        for index, (begin, end) in enumerate(zip(times, times[1:])):
+            steps = max(1, math.ceil((end-begin)/.02), math.ceil((end-begin)*speeds[index]/.01))
+            for stamp in np.linspace(begin, end, steps+1):
+                positions = curve(stamp)
+                if any(not low-1e-9 <= q <= high+1e-9 for q, (low, high) in zip(positions, bounds)):
+                    raise ValueError('平滑后轨迹超出关节限位')
+                valid, pairs = context.validity(dict(zip(names, map(float, positions))), client.group, constraints)
+                if not valid:
+                    raise MoveItError(f'平滑后轨迹存在碰撞或无效状态：{pairs}')
+        return result
+    except (ValueError, RuntimeError) as exc:
+        raise MoveItError(f'轨迹平滑失败：{exc}') from exc
 
 
 def _curve(trajectory, names, limits, error):

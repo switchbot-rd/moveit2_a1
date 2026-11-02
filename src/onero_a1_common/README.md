@@ -41,6 +41,7 @@
 | `plan_upright_position(start, position, tip_to_object)` | 把物体直立放到指定位置，允许绕竖直轴转向 |
 | `plan_continuous(start, goals)` | 将同一手臂的多个目标连成一段连续运动 |
 | `dual_cartesian_path()` | 生成双臂同步路径，两臂同时到达对应路径点并停止 |
+| `smooth_trajectory(trajectory, jerk=10.)` | 平滑已有轨迹，限制加速度变化率，并检查平滑后的路径 |
 | `show_plan(trajectory)` | 在 RViz 预览轨迹 |
 | `execute(trajectory)` | 执行轨迹 |
 
