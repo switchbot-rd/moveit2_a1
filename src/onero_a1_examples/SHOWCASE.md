@@ -4,6 +4,8 @@
 
 [单臂命令](#单臂运行指令) · [双臂命令](#双臂运行指令)
 
+先启动对应服务，再在另一终端加载环境，选择需要的示例运行。先不带 `--execute` 查看预览或检查结果，确认后再添加此参数执行；查询和记录命令不需要此参数。
+
 ## 单臂运行指令
 
 ### 右单臂运行指令
@@ -141,6 +143,21 @@ ros2 run onero_a1_examples collision_check --target ready
 ros2 run onero_a1_examples collision_check --target home
 ```
 
+碰撞接触点可视化（以下命令任选一条，持续运行，Ctrl+C 结束）：
+
+```bash
+# 观察当前姿态与现有场景的碰撞
+ros2 run onero_a1_examples collision_contacts
+
+# 仿真快速演示：在当前法兰处放置临时球体，立即查看接触点
+ros2 run onero_a1_examples collision_contacts --demo-obstacle
+
+# 检查命名姿态，不移动机器人；球体也按该姿态放置
+ros2 run onero_a1_examples collision_contacts --target ready --demo-obstacle
+```
+
+在 RViz 的 `Collision Contacts` 查看紫色接触点与对象标签，退出后自动清理。显示设置和参数见[碰撞接触点可视化](README.md#碰撞接触点可视化)。
+
 #### 13. 规划器选择
 
 ```bash
@@ -250,6 +267,14 @@ ros2 run onero_a1_examples collision_check --arm both --target ready
 ros2 run onero_a1_examples collision_check --arm both --target home
 ```
 
+```bash
+# 持续显示两臂与统一场景的接触点；Ctrl+C 结束
+ros2 run onero_a1_examples collision_contacts --arm both
+
+# 仿真演示：在右臂法兰处放临时球体，也可改为 --arm left / right
+ros2 run onero_a1_examples collision_contacts --arm both --demo-obstacle
+```
+
 #### 零重力拖动（仅 real）
 
 ```bash
@@ -308,13 +333,17 @@ ros2 run onero_a1_examples arm_gripper_task --velocity 0.5 --acceleration 0.5 --
 
 #### 固定位置抓取放置
 
+默认由右臂 A→B、左臂 B→C 完成单程接力：
+
 ```bash
-# 检查完整往返路径并预览
+# 先预览单程接力
 ros2 run onero_a1_examples fixed_pick_place --velocity 0.5 --acceleration 0.5
 
 # 在 A 点摆一个水瓶、清空 B/C 点后执行
 ros2 run onero_a1_examples fixed_pick_place --velocity 0.5 --acceleration 0.5 --execute
 ```
+
+需要把水瓶送回 A 点时，先在预览命令中加 `--round-trip`，预览完成后使用相同参数加 `--execute` 执行。点位调整见[固定位置抓取放置](README.md#固定位置抓取放置)。
 
 #### 双臂规划器选择
 

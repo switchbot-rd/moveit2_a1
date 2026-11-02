@@ -51,7 +51,11 @@ def run_freedrive(node, *, damping, duration, execute, error):
                             ListControllers.Request()).controller
     states = {controller.name: controller.state for controller in controllers}
     for name in node.arm_controllers:
-        if states.get(name) not in ('active', 'inactive'):
+        # A failed scene check leaves trajectory controllers unloaded. The
+        # bridge can still guide/hold the arm so the pose can be corrected.
+        if name not in states:
+            continue
+        if states[name] not in ('active', 'inactive'):
             raise error(f'轨迹控制器 {name} 未就绪')
         if _boolean(node, '/'+name, 'set_last_command_interface_value_as_state_on_activation', error):
             raise error('控制器需要从实测位置激活，请更新并重启服务')
@@ -71,7 +75,7 @@ def run_freedrive(node, *, damping, duration, execute, error):
             if not result.success:
                 raise error(result.message)
             entered.append(bridge)
-            if states[controller] == 'active':
+            if states.get(controller) == 'active':
                 paused.append(controller)
         _switch(node, paused, False, error)
         print('已进入零重力拖动，可手动引导所选手臂；停止拖动后按 Ctrl+C 恢复当前位置保持。')
@@ -111,4 +115,7 @@ def run_freedrive(node, *, damping, duration, execute, error):
                 failures.append(str(exc))
         if failures:
             raise error('拖动退出或控制器恢复失败，请检查服务状态：'+'；'.join(failures))
-    print('已退出拖动，保持当前位置并恢复原先激活的轨迹控制器。')
+    if any(name not in states for name in node.arm_controllers):
+        print('已退出拖动，保持当前位置。恢复自动运动前，请重启服务并确认起始姿态检查通过。')
+    else:
+        print('已退出拖动，保持当前位置并恢复原先激活的轨迹控制器。')

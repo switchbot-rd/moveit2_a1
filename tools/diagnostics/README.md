@@ -17,6 +17,7 @@ SDK 直接执行使用 `ONERO_RUNTIME_PYTHON`，默认指向项目 `.venv`。
 | `sdk_compare` | 比较 MoveIt 与 SDK 的执行效果 |
 | `check_collision` | 检查手臂自身是否碰撞 |
 | `servo_debug` | 记录遥操作输入、实际运动和停止原因 |
+| `validate_relay_snapshot` | 用已有场景快照离线检查固定抓放接力 |
 
 ## Servo 运动记录
 
@@ -36,17 +37,20 @@ python3 -m tools.diagnostics.servo_debug
 服务启用 `trace_control:=true`，发送运动前启动记录，动作结束后继续采集保持段，再 Ctrl+C 停止：
 
 ```bash
+# 记录一次运动，结束后等 5 秒再按 Ctrl+C
 python3 -m tools.diagnostics.record_tracking
+```
+
+也可选择定时记录或只观察当前状态：
+
+```bash
 python3 -m tools.diagnostics.record_tracking --output .logs/tracking/control.jsonl --duration 20
 python3 -m tools.diagnostics.record_tracking --observe-only --duration 10
 ```
 
 默认输出 `.logs/tracking/*.jsonl` 及同名 `.summary.json`，用于比较目标位置和实际位置。
-`--observe-only` 仅观察，不会停止机械臂。
-
-报告包含目标与实际位置、运行耗时、负载设置及通信故障。
-
-判断是否到位应查看实际位置；反馈力矩不能直接当作夹持力。
+采集工具不会驱动或停止机械臂；`--observe-only` 用于不发起新运动时的观察记录。
+报告包含目标与实际位置、运行耗时、负载设置及通信故障。判断是否到位应查看实际位置；反馈力矩不能直接当作夹持力。
 
 ## 实测姿态存档
 
@@ -101,7 +105,7 @@ python3 -m tools.diagnostics.compare_trials \
 
 仅适用于 `gripper_model:=none` 的单臂。在相同设备、起点和运动设置下，分别用 MoveIt 和 SDK 执行，比较保持或运动效果。
 
-1. 准备完整执行报告和控制记录。默认保持段为 10 s，A 阶段动作结束后须再采集至少 11 s。
+1. 先用 MoveIt 完成一次运动，保存执行报告和控制记录。动作结束后继续记录至少 11 s，以便比较默认的 10 s 保持段。
 2. 导出对照包：`hold` 比较位置保持，`motion` 比较运动及保持；设备、模型或环境变化后重新导出。
 
 ```bash
@@ -109,14 +113,14 @@ python3 -m tools.diagnostics.sdk_compare export \
   --from-report .logs/trials/replay_01.json --trace .logs/tracking/control.jsonl \
   --phase hold --output .logs/trials/sdk_hold.json
 
-# 预览 B 阶段命令
+# 查看 SDK 将执行的命令，不驱动手臂
 "$ONERO_RUNTIME_PYTHON" -m tools.diagnostics.sdk_compare run --bundle .logs/trials/sdk_hold.json
 
-# 同配置 MoveIt 服务下返回 A 阶段起点；默认只规划，添加 --execute 执行
+# 用原 MoveIt 服务返回之前的起点；默认只规划，添加 --execute 执行
 python3 -m tools.diagnostics.sdk_compare prepare --bundle .logs/trials/sdk_hold.json
 ```
 
-`prepare` 使用 0.05 速度/加速度缩放。起点检查通过后，结束占用 CAN 的桥接服务，保持场景与姿态，再运行 B 阶段。
+`prepare` 使用 0.05 速度/加速度缩放。回到起点后，结束原 MoveIt 设备服务，保持场景与姿态，再用 SDK 执行下面的命令。
 七关节须已使能且无故障，起点差 ≤0.01 rad / 5 mm；工具不会自动追赶起点。
 
 ```bash
@@ -154,21 +158,21 @@ python3 -m tools.diagnostics.check_collision
 | 目标不可达 / 路径不完整 | 调整起点、目标位置或朝向，检查障碍物 |
 | 运动中止 | 查看日志中的停止原因、运动误差和通信状态 |
 | 运动卡顿 / 延迟 | 检查电脑负载和 CAN 通信，保存运动记录 |
-| 低速稳定偏差 | 负载、重力补偿、增益、驱动限制 |
+| 低速时一直偏离目标 | 核对负载、重力补偿和增益设置，查看是否触及驱动限制 |
 | 软件位置准确但实物有偏差 | 核对关节零位、安装位置和指尖标定 |
 
 判断原目标是否到位，应比较原目标与实际位置；停下后能稳定保持，不代表已到达原目标。
 
 ## 固定抓放接力快照验证
 
-只启动独立规划服务，不加载控制器或连接真机。快照目录包含 `robot.urdf`、`robot.srdf`、`scene.bin`、`state.json`；当前支持 world/base_link 重合的双臂快照。
+用于已有双臂场景快照的离线排查，不连接真机。将 `/path/to/snapshot` 换成实际目录，其中需包含 `robot.urdf`、`robot.srdf`、`scene.bin`、`state.json`。当前只支持 world 与 base_link 重合的双臂快照。
 
 ```bash
-ROS_DOMAIN_ID=87 ros2 launch tools/diagnostics/relay_snapshot.launch.py snapshot:=/tmp/a1-relay-collision-query
+ROS_DOMAIN_ID=87 ros2 launch tools/diagnostics/relay_snapshot.launch.py snapshot:=/path/to/snapshot
 # 另一终端，同一 ROS_DOMAIN_ID；输出目录必须尚不存在
 ROS_DOMAIN_ID=87 python3 -m tools.diagnostics.validate_relay_snapshot \
-  --snapshot /tmp/a1-relay-collision-query --output .logs/relay_validation
+  --snapshot /path/to/snapshot --output .logs/relay_validation
 ```
 
-检查完整右 A→B、左 B→C、左 C→B、右 B→A；记录各阶段规划耗时、关节余量、腕部偏离参考量、肘部外展距离，并使用原场景的碰撞规则检查双臂每个 MoveIt 轨迹点。安装底座与安装板的固定装配接触不属于 `both_arms` 检查组。
-`report.json` 保存通过/失败结果与四次释放位姿；逐段 `.bin` 保留原始轨迹和场景，`postures.json` 保存姿态骨架供复核。检查不改写或插值轨迹，连续边段由 MoveIt 的规划验证负责。阶段耗时包含 IK 候选比较和规划重试；`--planning-time` 是单次 MoveIt 请求预算。
+检查右 A→B、左 B→C、左 C→B、右 B→A 的完整往返。完成后打开输出目录的 `report.json`，查看通过/失败结果、放置位置和规划耗时；排查问题时保留整个输出目录。
+可用 `--planning-time` 调整单次规划的最长用时，整个检查的耗时可能更长。

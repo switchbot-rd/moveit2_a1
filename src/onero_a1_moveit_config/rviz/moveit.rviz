@@ -97,6 +97,18 @@ Visualization Manager:
         Show Scene Robot: true
         Value: true
       Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Collision Contacts
+      Namespaces: {}
+      Queue Size: 100
+      Topic:
+        Depth: 1
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /collision_contacts
+      Value: true
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false

@@ -19,10 +19,14 @@ Python 环境默认使用 `.venv`，自定义解释器通过 `ONERO_RUNTIME_PYTH
 
 ## 启动服务
 
+以下命令二选一，启动后保持该终端运行：
+
 ```bash
 # 单臂模拟，默认右臂
 ros2 launch onero_a1_moveit_config moveit.launch.py hardware_mode:=sim
+```
 
+```bash
 # 单臂真机：加载环境，仅预览轨迹
 ros2 launch onero_a1_moveit_config moveit.launch.py \
   hardware_mode:=real allow_execution:=false \
@@ -35,9 +39,13 @@ ros2 launch onero_a1_moveit_config moveit.launch.py \
 
 ## 双臂控制
 
+按需要选择模拟或真机服务：
+
 ```bash
 ros2 launch onero_a1_moveit_config dual_moveit.launch.py hardware_mode:=sim
+```
 
+```bash
 ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
   hardware_mode:=real \
   environment_file:="$PWD/src/onero_a1_moveit_config/config/environment.dual_desktop.yaml"
@@ -48,9 +56,8 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 
 ## 功能示例
 
-启动服务后，在另一终端运行基础运动、夹爪开合、抓取放置或键盘遥操作示例。
-
-- [示例功能与参数](src/onero_a1_examples/README.md)：选择示例、查看参数和使用条件。
+保持服务运行，在另一终端执行 `source setup_env.sh`，再从[运行命令](src/onero_a1_examples/SHOWCASE.md)中选择示例。
+示例涵盖基础运动、夹爪开合、抓取放置、碰撞显示和键盘遥操作；参数见[示例说明](src/onero_a1_examples/README.md)。
 
 ## 服务启动参数
 
@@ -76,7 +83,7 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 | `arm` | `right` | `left` / `right` |
 | `model` | 左 `A1L`，右 `A1R` | 必须与选臂匹配 |
 | `can_channel` | 左 `can1`，右 `can0` | 实际 CAN 接口，如 `slcan0` |
-| `mounting` | 左 `humanoid_left`，右 `humanoid_right` | 坐标映射和重力补偿的安装方向 |
+| `mounting` | 左 `humanoid_left`，右 `humanoid_right` | 机械臂安装方向，须与实物一致 |
 
 显式填写 `mounting` 时须随选臂修改；省略时自动选择，单臂桌面环境随左臂镜像加载。
 其他安装方向：`upright`、`a1_vertical`、`side_mount_left`、`side_mount_right`、`ceiling`。
@@ -98,9 +105,9 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 | `control_rate` | sim `200`，real `100` Hz | 控制更新频率 | 两者 |
 | `gravity_compensation` | sim `false`，real `true` | 真机重力补偿 | 两者 |
 | `payload_mass` | `0.0` kg | 额外负载质量，非负 | 单臂 |
-| `payload_cog` | `[0.0, 0.0, 0.0]` m | 基线重心，SDK 末端坐标系 | 单臂 |
+| `payload_cog` | `[0.0, 0.0, 0.0]` m | 额外负载重心，使用 SDK 末端坐标系 | 单臂 |
 | `left_payload_mass` / `right_payload_mass` | `0.0` kg | 各臂额外负载质量，非负 | 双臂 |
-| `left_payload_cog` / `right_payload_cog` | `[0.0, 0.0, 0.0]` m | 各臂基线重心 | 双臂 |
+| `left_payload_cog` / `right_payload_cog` | `[0.0, 0.0, 0.0]` m | 各臂额外负载重心 | 双臂 |
 | `payload_transition_time` | `0.5` s | 运行时负载切换时长，正数 | 两者 |
 | `velocity_feedforward` | sim `false`，real `true` | 七关节目标速度前馈 | 两者 |
 | `velocity_feedforward_timeout` | `0.1` s | 命令过期后速度前馈归零 | 单臂 |
@@ -110,7 +117,7 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 
 ### 机械臂执行容差
 
-以下均适用单/双臂。省略时沿用 [ros2_controllers.yaml](src/onero_a1_bringup/config/ros2_controllers.yaml)，显式设置时统一覆盖各关节。
+以下参数决定运动偏差多大时判定失败，均适用单/双臂。省略时使用 [ros2_controllers.yaml](src/onero_a1_bringup/config/ros2_controllers.yaml) 中的值；指定后所有关节使用同一容差。
 
 | 参数 | YAML 默认值 | 含义 |
 |---|---|---|
@@ -194,7 +201,7 @@ ros2 service call /gripper_controller/stop std_srvs/srv/Trigger '{}'
 标定结果自动保存到 `.ros/gripper_calibration/`。标定期间不能开合；失败时保留原设置，更换设备或开合端点后重新标定。
 **关闭调用终端不会停止标定，需要使用上面的 stop 命令。**
 
-实物未装原装夹爪时设置 `with_gripper:=false`。更换工具后须核对负载和 TCP，加载外形模型不会自动校准。
+实物未装原装夹爪时设置 `with_gripper:=false`。更换工具后须核对负载和工具工作点（TCP）；加载外形模型不会自动校准实物位置。
 开合命令仅设置目标开度；抓取确认请使用抓放任务示例。
 
 ## 模型与参数配置
@@ -212,7 +219,16 @@ ros2 service call /gripper_controller/stop std_srvs/srv/Trigger '{}'
 ## 状态监控与服务
 
 反馈失联时自动停止运动，日志显示通信或电机故障；连接恢复后重启服务。需要排查时使用[诊断工具](tools/diagnostics/README.md)。
-`/onero_topic_bridge/payload_state` 可查看负载设置；放下物体后用 `/onero_topic_bridge/reset_payload` 恢复启动值。
+单臂查看负载设置、放下物体后恢复启动值：
+
+```bash
+# 查看当前负载
+ros2 topic echo /onero_topic_bridge/payload_state --once
+# 确认已放下物体后，恢复启动时的负载
+ros2 service call /onero_topic_bridge/reset_payload std_srvs/srv/Trigger '{}'
+```
+
+双臂分别在上述名称前加 `/left` 或 `/right`，如 `/left/onero_topic_bridge/payload_state`。
 失能会卸除支撑力矩，请按下方步骤操作。
 
 ## 机械臂失能
