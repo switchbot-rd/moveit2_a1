@@ -19,6 +19,19 @@ SDK 直接执行使用 `ONERO_RUNTIME_PYTHON`，默认指向项目 `.venv`。
 | `servo_debug` | 记录遥操作输入、实际运动和停止原因 |
 | `validate_relay_snapshot` | 用已有场景快照离线检查固定抓放接力 |
 
+## ROS 本机通信
+
+服务、RViz 和示例都在同一台电脑时，`setup_env.sh` 会为 Cyclone DDS 自动加载本机通信配置。
+遇到 `ddsi_udp_conn_write ... failed` 后，先结束正在运行的 ROS 服务、RViz 和示例，再在每个使用本项目的终端中执行：
+
+```bash
+# 在工作区根目录运行
+source setup_env.sh
+```
+
+执行一次 `ros2 daemon stop`，然后重新启动服务、RViz 和示例。所有终端使用相同的 `ROS_DOMAIN_ID`。
+已设置 `CYCLONEDDS_URI` 时沿用自定义配置。需要跨电脑通信时，在加载环境前将它设为自己的配置文件，例如 `export CYCLONEDDS_URI="file:///path/to/cyclonedds.xml"`，然后重启 ROS 进程。
+
 ## Servo 运动记录
 
 启动服务时添加 `servo_debug:=true` 自动记录遥操作过程。单臂服务还可添加 `trace_control:=true` 记录详细控制数据。
@@ -158,6 +171,7 @@ python3 -m tools.diagnostics.check_collision
 | 目标不可达 / 路径不完整 | 调整起点、目标位置或朝向，检查障碍物 |
 | 运动中止 | 查看日志中的停止原因、运动误差和通信状态 |
 | 运动卡顿 / 延迟 | 检查电脑负载和 CAN 通信，保存运动记录 |
+| `ddsi_udp_conn_write` 持续报错 | 检查网络；全部节点在同机时可使用[本机通信配置](#ros-本机通信) |
 | 低速时一直偏离目标 | 核对负载、重力补偿和增益设置，查看是否触及驱动限制 |
 | 软件位置准确但实物有偏差 | 核对关节零位、安装位置和指尖标定 |
 

@@ -73,6 +73,7 @@ PY
 _onero_load_environment() {
   local onero_workspace="$1" onero_load_workspace="${2:-true}" onero_overlay="未使用"
   local onero_sdk_status
+  local onero_local_dds="file://${onero_workspace}/tools/diagnostics/cyclonedds_local.xml"
   # Restore PATH before reloading ROS, then activate the project environment
   # after loading the workspace so repeated sourcing preserves the new paths.
   if [[ "${onero_load_workspace}" == true && -n "${VIRTUAL_ENV:-}" ]] \
@@ -84,6 +85,9 @@ _onero_load_environment() {
   export ROS_HOME="${onero_workspace}/.ros"
   export ROS_LOG_DIR="${ROS_HOME}/log"
   mkdir -p "${ROS_LOG_DIR}" || return 1
+  if [[ "${RMW_IMPLEMENTATION:-}" == rmw_cyclonedds_cpp && -z "${CYCLONEDDS_URI:-}" ]]; then
+    export CYCLONEDDS_URI="${onero_local_dds}"
+  fi
   export ONERO_RUNTIME_PYTHON="${ONERO_RUNTIME_PYTHON:-${onero_workspace}/.venv/bin/python}"
 
   if [[ -d "${onero_workspace}/overlay/share" ]]; then
@@ -109,6 +113,9 @@ _onero_load_environment() {
   echo "  WS_DIR      = ${onero_workspace}"
   echo "  ROS_HOME    = ${ROS_HOME}"
   echo "  ROS_DISTRO  = ${ROS_DISTRO}"
+  if [[ "${RMW_IMPLEMENTATION:-}" == rmw_cyclonedds_cpp && "${CYCLONEDDS_URI:-}" == "${onero_local_dds}" ]]; then
+    echo "  ROS 通信    = Cyclone DDS（仅本机）"
+  fi
   echo "  overlay     = ${onero_overlay}"
   echo "  Python      = ${ONERO_RUNTIME_PYTHON}"
   echo "  onero-sdk   = ${onero_sdk_status}"

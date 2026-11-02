@@ -18,6 +18,7 @@ from rclpy.action import ActionClient
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from rcl_interfaces.srv import GetParameters
+from controller_manager_msgs.srv import ListControllers
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose
 from moveit_msgs.action import ExecuteTrajectory, MoveGroup
@@ -1124,6 +1125,10 @@ class MoveItClient(Node):
         self.planned_start_state = result.trajectory_start
         return result.planned_trajectory
 
+    def smooth_trajectory(self, trajectory, *, jerk=10.):
+        from .trajectory_tools import smooth_trajectory
+        return smooth_trajectory(self, trajectory, jerk=jerk)
+
     def show_plan(self, trajectory):
         points = trajectory.joint_trajectory.points
         if not points:
@@ -1132,6 +1137,18 @@ class MoveItClient(Node):
             model_id="onero_a1", trajectory=[trajectory],
             trajectory_start=self.planned_start_state or self.robot_state(self.start)))
         print(f"规划成功：{len(points)} 点，时长 {seconds(points[-1].time_from_start):.3f}s")
+
+    def check_arm_controllers(self, controllers=None):
+        names = (self.arm_controllers if controllers is None else
+                 [name for name in controllers if name in self.arm_controllers])
+        if not names:
+            return
+        states = {item.name: item.state for item in self.call(
+            ListControllers, '/controller_manager/list_controllers', ListControllers.Request()).controller}
+        unavailable = [f'{name}={states.get(name, "未加载")}' for name in names if states.get(name) != 'active']
+        if unavailable:
+            raise MoveItError('手臂轨迹控制器未激活：'+', '.join(unavailable)+
+                              '；请检查服务状态。若曾反馈失联，恢复通信后重启机械臂服务。')
 
     def execute(self, trajectory, controller=None):
         points = trajectory.joint_trajectory.points
@@ -1150,6 +1167,7 @@ class MoveItClient(Node):
             controllers = [self.gripper_controller if controller == "gripper_controller" else controller]
         else:
             controllers = list(controller)
+        self.check_arm_controllers(controllers)
         goal = ExecuteTrajectory.Goal(trajectory=trajectory, controllers=controllers)
         duration = seconds(points[-1].time_from_start)
         settings = self.call(GetParameters, "/move_group/get_parameters", GetParameters.Request(names=[

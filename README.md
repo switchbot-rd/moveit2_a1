@@ -16,6 +16,7 @@ source setup_env.sh
 修改配置后重启对应服务；更新代码后重新执行 `source setup_env.sh`。
 Python 环境默认使用 `.venv`，自定义解释器通过 `ONERO_RUNTIME_PYTHON` 指定。
 依赖及版本见 [requirements-runtime.txt](tools/requirements-runtime.txt) 和 [constraints-runtime.txt](tools/constraints-runtime.txt)。
+使用 Cyclone DDS 时默认采用本机通信配置；跨电脑通信需指定自定义配置，见 [ROS 本机通信](tools/diagnostics/README.md#ros-本机通信)。
 
 ## 启动服务
 

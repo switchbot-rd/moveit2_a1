@@ -12,6 +12,7 @@
 #include <moveit/robot_state/conversions.hpp>
 #include <moveit/robot_trajectory/robot_trajectory.hpp>
 #include <moveit/trajectory_processing/time_optimal_trajectory_generation.hpp>
+#include <moveit/trajectory_processing/ruckig_traj_smoothing.hpp>
 #include <urdf_parser/urdf_parser.h>
 #include <srdfdom/model.h>
 #include <cstring>
@@ -217,6 +218,22 @@ public:
     }
     return {{"cost",cost+previous_cost},{"start_roll",start},{"peak_roll",peak},{"end_roll",end}};
   }
+  py::bytes smooth(const std::string& group,const py::bytes& start,const py::bytes& message,
+                   const std::unordered_map<std::string,double>& velocity,
+                   const std::unordered_map<std::string,double>& acceleration,
+                   const std::unordered_map<std::string,double>& jerk) const
+  {
+    auto reference=scene_->getCurrentState();
+    moveit::core::robotStateMsgToRobotState(decode<moveit_msgs::msg::RobotState>(start),reference);
+    robot_trajectory::RobotTrajectory result(model_,group);
+    result.setRobotTrajectoryMsg(reference,decode<moveit_msgs::msg::RobotTrajectory>(message));
+    if (!result.getGroup() || result.getWayPointCount()<2)
+      throw std::invalid_argument("Smoothing needs a valid group and at least two waypoints");
+    // Validate the controller's actual interpolation in the Python caller.
+    if (!trajectory_processing::RuckigSmoothing::applySmoothing(result,velocity,acceleration,jerk))
+      throw std::runtime_error("Ruckig could not smooth the trajectory");
+    moveit_msgs::msg::RobotTrajectory output;result.getRobotTrajectoryMsg(output);return encode(output);
+  }
   py::bytes retime(const std::string& group,const py::bytes& start,const std::vector<py::bytes>& paths,
                    const std::unordered_map<std::string,double>& velocity,
                    const std::unordered_map<std::string,double>& acceleration, double tolerance) const
@@ -251,6 +268,7 @@ void bindNativePlanning(py::module_& module)
     .def("upright_ik",&PlanningGeometry::taskIK)
     .def("posture",&PlanningGeometry::posture)
     .def("motion_posture",&PlanningGeometry::motionPosture)
+    .def("smooth",&PlanningGeometry::smooth)
     .def("retime",&PlanningGeometry::retime,py::arg("group"),py::arg("start"),py::arg("paths"),
          py::arg("velocity"),py::arg("acceleration"),py::arg("tolerance")=.005);
 }

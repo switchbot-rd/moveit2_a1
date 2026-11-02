@@ -187,6 +187,25 @@ ros2 run onero_a1_examples freedrive --damping 0.3 --execute
 ros2 run onero_a1_examples freedrive --damping 0.3 --duration 30 --execute
 ```
 
+#### 15. 轨迹平滑与规划比较
+
+```bash
+# 比较三个规划器及平滑前后结果，只预览选中的方案
+ros2 run onero_a1_examples planning_compare --delta 0.2 \
+  --velocity 0.5 --acceleration 0.5
+
+# 只看 OMPL 的平滑效果，目标为 ready 姿态
+ros2 run onero_a1_examples planning_compare --pipelines ompl --target ready --jerk 10 \
+  --velocity 0.5 --acceleration 0.5
+
+# 按关节路程最短选择并执行一条平滑后的方案
+ros2 run onero_a1_examples planning_compare --delta 0.2 --select length \
+  --velocity 0.5 --acceleration 0.5 --execute
+```
+
+关闭平滑可加 `--smoothing none`。双臂服务下使用 `--arm left` 或 `--arm right` 选择一侧。
+[参数与结果说明](README.md#轨迹平滑与规划比较)。
+
 ### 左单臂运行指令
 
 | 项目 | 右臂参数 | 左臂修改 |
