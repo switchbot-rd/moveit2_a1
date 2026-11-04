@@ -224,51 +224,36 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 
 ### MTC 抓取放置
 
-`mtc_pick_place` 默认右臂 A→B、左臂 B→C；加 `--round-trip` 后继续左臂 C→B、右臂 B→A。左臂在 B 点取料前先向左后方退开 3–6 cm，腾出手腕空间再夹取；右臂取料时优先让左臂保持原位，规划失败才让左臂局部直线退开。B 点松爪后先直线退开，再转动让位。
-默认只规划，按手臂分别发布方案。在 RViz 的 `Task Tree` 中依次单击成功数大于 0 的任务，再到右侧的解列表选择一条方案播放动画；双击任务行只会展开或折叠阶段。
-保持预览终端运行，Ctrl+C 结束；添加 `--execute` 才执行。
+`mtc_pick_place` 让右臂将水瓶从 A 搬到 B，再由左臂从 B 搬到 C；加 `--round-trip` 接力返回 A 点。
 
-先执行 `source setup_env.sh` 安装 MTC 依赖，首次安装需要 sudo。启动双臂服务，加载 `environment.dual_desktop.yaml` 并启用 Woan Picker；本示例不传 `--arm`。
+1. 执行 `source setup_env.sh`，启动双臂服务，加载 `environment.dual_desktop.yaml` 并启用 Woan Picker。
+2. 按[运行命令](SHOWCASE.md#mtc-抓取放置)先预览。在 RViz `Task Tree` 中单击有成功方案的任务，再从右侧解列表选择方案；保持终端运行，Ctrl+C 结束。
+3. 在 A 点摆瓶、清空 B/C 点，按实物质量设置 `--mass`，添加 `--execute` 执行。本示例不传 `--arm`。
 
 | 参数 | 默认值 | 说明 |
 |---|---|---|
 | `--config PATH` | [双臂预设](config/mtc_pick_place.yaml) | A/B/C 点位、瓶子尺寸及抓取设置 |
 | `--round-trip` | 关闭 | 在 A→B→C 后继续 C→B→A |
 | `--max-solutions` | `3` | 最多搜索的完整方案数，正整数 |
-| `--grasp-angle-step` | `1.5708` rad | 抓取方向的采样间隔，默认每 90° 一个方向 |
+| `--grasp-angle-step` | `1.5708` rad | 抓取朝向间隔，默认 90° |
 | `--task-timeout` | `60` s | 每段搜索时限 |
-| `--planning-time` | `10` s | 单次连接规划的时间预算 |
-| `--planner` | `RRTConnect` | 搬运路径使用的 OMPL 算法 |
-| `--mass` | `0.1` kg | 实物质量，执行前按实物填写，用于负载补偿 |
-| `--smoothing` | `none` | `none` 关闭平滑；`ruckig` 开启，可能增加运动时间 |
-| `--reset-task` | 关闭 | 实物取下且夹爪全张开后，清理本臂 MTC 模型并恢复负载；搭配 `--execute` |
+| `--planning-time` | `10` s | 单次连接规划时限 |
+| `--planner` | `RRTConnect` | 搬运路径的 OMPL 规划器 |
+| `--mass` | `0.1` kg | 用于负载补偿，执行前按实物填写 |
+| `--smoothing` | `none` | `ruckig` 开启平滑，可能增加运动时间 |
+| `--reset-task` | 关闭 | 清理任务模型并恢复两臂启动负载；搭配 `--execute` |
 
-点位使用 world 坐标系中的瓶身中心，单位为米：A 为 `pick_position`，B 为 `place_position`，C 为 `c_position`，C 沿用固定位置抓放预设。在 A 点摆一个水瓶，清空 B/C 点后执行。
-`right_a_grasp_offset` 修正右臂在 A 点的夹取位置，默认沿 world +X 前移 1 cm。
-`left_b_grasp_offset` 仅修正左臂在 B 点的夹取位置，按 world 的 XYZ 填写，单位 m；设为 `null` 关闭。
-`right_b_place_offset` 修正右臂在 B 点的放置位置，同样按 world 的 XYZ 填写；默认向左 2 cm、向前 1 cm，Z 不动。
-`left_c_place_offset` 修正左臂在 C 点的放置位置，默认向右 1 cm、向后 1 cm；回程在 C 点夹取时自动按补偿后的位置规划。
-`grasp_limit` 控制每个取料点最多尝试的抓取方向数，默认 24；规划偏慢时可调小，代价是可选朝向变少。
-`max_arm_pitch_deviation` 限制 joint-2 偏离自然构型的角度，默认 30°；调小手臂更“正”，但可能规划不出；调大更容易出解。
-`left_c_height_offset` 校准左臂 C 点的抓放高度，负值下移，单位 m；预设 `-0.035`，设为 `0` 关闭，模拟模式忽略。
-预设瓶身高 16 cm，另有 2 cm 瓶颈；修改瓶身高度时同步调整三个点的中心高度。
-接近、夹取和搬运时使用配置中的 `carry_kp`（默认 `120`）；松爪或未持物退出后恢复原刚度。
-放置偏差会自动小幅修正，位置和倾斜检查通过后才松爪。
-抓取和松爪时优先保持直腕；抬升和高位过渡允许 joint-6 弯曲。
-夹取或放置检查失败会停止后续动作；若仍持瓶，会保留夹持、模型和负载。先支撑并处理实物，再恢复负载和清理模型。
-各运动阶段之间会停稳；夹爪操作、放置修正和重新规划时也会有停顿。
+点位、瓶子尺寸和夹取/放置补偿见[任务配置](config/mtc_pick_place.yaml)。A/B/C 为 world 坐标系中的瓶身中心，单位 m；修改瓶高时同步调整三个点的中心高度，再重新预览。
 
-若提示“场景中已有本任务的附着水瓶”，先用手支撑水瓶，再依次操作：
+夹取或放置失败后会停止后续动作，持瓶时保留夹持、模型和负载。若提示已有附着水瓶，先托住水瓶，再依次操作：
 
 ```bash
-# 张爪后取下实物水瓶
+# 张开两侧夹爪后，取下实物水瓶
 ros2 run onero_a1_examples dual_gripper --left-opening 1 --right-opening 1 --execute
 
-# 确认实物已取下，再恢复负载并清理模型
+# 确认实物已取下，再恢复两臂负载并清理模型
 ros2 run onero_a1_examples mtc_pick_place --reset-task --execute
 ```
-
-恢复后可重新运行接力。
 
 ### 双臂动作
 

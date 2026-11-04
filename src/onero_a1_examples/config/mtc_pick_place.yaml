@@ -14,10 +14,10 @@ diameter: 0.04
 bottle_height: 0.16
 
 # Link7 的参考侧夹朝向：[roll, pitch, yaw]，单位 rad。
-# MTC 会绕水瓶采样其他抓取方向；tcp_offset 为标定后的夹持中心偏移。
+# MTC 还会尝试其他抓取朝向；tcp_offset 为标定后的夹持中心偏移。
 grasp_rpy: [2.2179678116524157, 1.4835488028900694, 2.321477392904749]
 grasp_height: 0.04
-# 每个取料点最多尝试的抓取方向数，按自然构型由近到远排序；越小规划越快。
+# 每个取料点最多尝试的抓取朝向数；越小规划越快，但可能找不到合适朝向。
 grasp_limit: 24
 # 右臂在 A 点抓取时沿 world +X 前移 1 cm；只修正抓取目标，不改 A 点瓶位。
 right_a_grasp_offset: [0.010, 0.0, 0.0]
@@ -50,9 +50,8 @@ position_tolerance: 0.015
 # 松爪前，模型瓶底到支撑面的高度误差门限，单位 m，范围 (0, 0.01]。
 placement_height_tolerance: 0.008
 orientation_tolerance: 0.1
-# 手腕轴向转动上限 45°，零空间目标优先少扭转；抓取/放置 joint-6 弯折最多 20°。
-# 抬升和高位过渡允许 joint-6 弯曲。
-# 肩部旋转最多 60°，joint-2 俯仰最多 30°，joint-3 参与自然构型择优。
+# 手腕转动上限 45°；抓取和放置时 joint-6 弯折最多 20°，抬升和过渡可放宽。
+# 肩部旋转最多 60°，joint-2 俯仰最多 30°；数值越大手臂活动范围越大，越容易规划出解。
 max_wrist_roll_deviation: 0.7853981633974483
 max_wrist_bend_deviation: 0.3490658503988659
 max_arm_swivel_deviation: 1.0471975511965976
