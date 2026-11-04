@@ -1,0 +1,16 @@
+src/onero_a1_examples/README.md
+  h_3ce05673bb5060 227,238,251,258-259
+src/onero_a1_examples/config/mtc_pick_place.yaml
+  h_3ce05673bb5060 17,20,53-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cb4daf17fcc53a595b45248b401c39d64f258a14",
+  "prompts": {},
+  "humans": {
+    "h_3ce05673bb5060": {
+      "author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  }
+}
