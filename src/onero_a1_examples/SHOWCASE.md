@@ -364,6 +364,19 @@ ros2 run onero_a1_examples fixed_pick_place --velocity 0.5 --acceleration 0.5 --
 
 需要把水瓶送回 A 点时，先在预览命令中加 `--round-trip`，预览完成后使用相同参数加 `--execute` 执行。点位调整见[固定位置抓取放置](README.md#固定位置抓取放置)。
 
+#### MTC 抓取放置
+
+```bash
+# 预览右 A→B、左 B→C；在 RViz MTC Tasks 中选择方案，Ctrl+C 结束
+ros2 run onero_a1_examples mtc_pick_place --velocity 0.3 --acceleration 0.3
+
+# 在 A 点摆瓶、清空 B/C 点后执行；--mass 按实物填写
+ros2 run onero_a1_examples mtc_pick_place --mass 0.3 \
+  --velocity 0.3 --acceleration 0.3 --execute
+```
+
+回程加 `--round-trip`；平滑默认关闭，开启加 `--smoothing ruckig`。C 点见[任务配置](config/mtc_pick_place.yaml)，参数见 [README](README.md#mtc-抓取放置)。
+
 #### 双臂规划器选择
 
 ```bash

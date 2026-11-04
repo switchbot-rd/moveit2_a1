@@ -5,11 +5,13 @@ been checked. This module is imported only in real-hardware mode.
 """
 
 import math
+import time
 
 from onero_sdk import Arm
-from onero_sdk.backend import ArmBackend
+from onero_sdk.backend import ArmBackend, ArmState
 from onero_sdk.can_backend import CanBackend
 from onero_sdk.model_registry import get_model
+from onero_sdk.protocol import MotorError
 from onero_sdk.safety import SafetyConfig
 from onero_sdk.zero_calibration import load_zero_offset, validate_offsets
 from onero_sdk.zero_offset_backend import ZeroOffsetBackend
@@ -20,6 +22,42 @@ from .payload import Payload
 # Gripper register/MIT replies share the arm's transport and lock, but need
 # their own response budget rather than the arm's 3 ms batch deadline.
 GRIPPER_FEEDBACK_TIMEOUT = .01
+
+
+class _StartupCheckedCanBackend(CanBackend):
+    """Require fresh feedback before SDK 0.3.0 can establish a hold target."""
+
+    def enable(self):
+        with self._lock:
+            self._startup_feedback_required = True
+            try:
+                return super().enable()
+            finally:
+                self._startup_feedback_required = False
+
+    def _get_state_impl(self):
+        if not getattr(self, '_startup_feedback_required', False):
+            return super()._get_state_impl()
+        # SDK 0.3.0 otherwise substitutes its initial zero-valued cache when
+        # this final enable-time read misses, even after valid preflight reads.
+        # Keep the SDK's normal cached-feedback tolerance outside enable().
+        states = []
+        timestamp = time.monotonic()
+        for index, motor in enumerate(self._motors):
+            state = motor.get_feedback()
+            if (state is None or state.error != MotorError.ENABLED
+                    or not all(map(math.isfinite, (state.position, state.velocity, state.torque)))):
+                raise RuntimeError(
+                    f'关节 {index + 1} 启动反馈缺失或无效，拒绝建立持位目标；'
+                    '未发送运动目标，也未失能电机'
+                )
+            states.append(state)
+        self._last_states = states
+        return ArmState(
+            joints=[state.position for state in states],
+            velocities=[state.velocity for state in states],
+            torques=[state.torque for state in states], timestamp=timestamp,
+        )
 
 
 class _DeferredBackend(ArmBackend):
@@ -102,7 +140,7 @@ class _DeferredBackend(ArmBackend):
 class SDKArmSession:
     def __init__(self, *, model_name, channel, mounting, with_gripper,
                  gravity_compensation, control_rate, max_gravity_torque,
-                 on_miss=None, on_fault=None, backend_factory=CanBackend,
+                 on_miss=None, on_fault=None, backend_factory=_StartupCheckedCanBackend,
                  gripper_model="none", payload_mass=0., payload_cog=(0., 0., 0.)):
         self.model = get_model(model_name)
         self._gravity = gravity_compensation

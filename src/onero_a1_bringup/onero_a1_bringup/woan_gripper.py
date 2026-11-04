@@ -361,8 +361,8 @@ class WoanGripperController(Node):
                         goal.succeed()
                     else:
                         self.get_logger().error(
-                            f'夹爪停止运动但尚未到位；目标={target*STROKE:.6f} rad，'
-                            f'反馈={result.position:.6f} rad，SDK反馈={self._sdk_opening:.7f}，'
+                            f'夹爪停止运动但尚未到位；标定后目标开度={target:.6f}，'
+                            f'反馈开度={position:.6f}（0=全闭，1=全开），SDK反馈={self._sdk_opening:.7f}，'
                             f'SDK指令={sent_command:.7f}；allow_stalling=false')
                         goal.abort()
                     return result

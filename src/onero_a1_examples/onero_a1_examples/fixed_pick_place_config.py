@@ -31,6 +31,8 @@ class TaskConfig:
     lift_distance: float = .03
     retreat_distance: float = .05
     carry_kp: float = 120.
+    # Jerk limit used when the MTC executor re-times each arm segment.
+    smoothing_jerk: float = 1000.
     orientation_tolerance: float = .1
     position_tolerance: float = .015
     placement_height_tolerance: float = .003
@@ -106,6 +108,7 @@ class TaskConfig:
                      'retreat_distance'):
             scalar(name, 0., strict=True)
         scalar('carry_kp', 0., 500., strict=True)
+        scalar('smoothing_jerk', 1., 10000., strict=True)
         scalar('orientation_tolerance', 0., .2, strict=True)
         scalar('max_wrist_roll_deviation', 0., math.pi, strict=True)
         scalar('position_tolerance', 0., .02, strict=True)

@@ -6,7 +6,9 @@
 #include <pluginlib/class_list_macros.hpp>
 #include <chrono>
 #include <algorithm>
+#include <cmath>
 #include <limits>
+#include <stdexcept>
 #include <Eigen/Cholesky>
 #include <Eigen/SVD>
 
@@ -18,6 +20,7 @@ class NaturalPostureIK : public kdl_kinematics_plugin::KDLKinematicsPlugin
   moveit::core::RobotModelConstPtr model_;
   const moveit::core::JointModelGroup* group_=nullptr;
   Profile profile_;
+  bool private_profile_=false;
 
   static Eigen::VectorXd vector(const std::vector<double>& values)
   { return Eigen::Map<const Eigen::VectorXd>(values.data(),values.size()); }
@@ -35,6 +38,21 @@ public:
       model_=moveit::core::RobotModelConstPtr(&model,[](const moveit::core::RobotModel*){});
       group_=model.getJointModelGroup(group);
       profile_=loadProfile(getJointNames());
+      const auto prefix="robot_description_kinematics."+group+".";
+      const auto reference_parameter=prefix+"natural_reference",weights_parameter=prefix+"natural_weights";
+      const bool has_reference=node->has_parameter(reference_parameter),has_weights=node->has_parameter(weights_parameter);
+      if (has_reference!=has_weights)
+        throw std::invalid_argument("natural_reference and natural_weights must be configured together");
+      private_profile_=has_reference;
+      if (has_reference)
+      {
+        Profile configured(vector(node->get_parameter(reference_parameter).as_double_array()),
+                           vector(node->get_parameter(weights_parameter).as_double_array()));
+        profile_.reference=std::move(configured.reference);
+        profile_.weights=std::move(configured.weights);
+        profile_.refinement_steps=std::max(profile_.refinement_steps,20);
+        profile_.limit_weight=5.;
+      }
       Eigen::VectorXd low(getJointNames().size()),high(low.size());
       for (Eigen::Index i=0;i<low.size();++i)
       {
@@ -111,7 +129,23 @@ public:
     Eigen::Isometry3d target=Eigen::Isometry3d::Identity();
     target.translation()=target_position;target.linear()=target_rotation.normalized().toRotationMatrix();
     std::vector<Eigen::VectorXd> seeds{initial};
-    if (!local && consistency.empty())seeds.push_back(profile_.reference);
+    if (!local && consistency.empty())
+    {
+      seeds.push_back(profile_.reference);
+      if (private_profile_ && initial.size()==7)
+      {
+        auto add_twists=[&](const Eigen::VectorXd& center,double angle){
+          for (double sign:{-1.,1.})
+          {
+            Eigen::VectorXd candidate=center;
+            candidate[2]=std::clamp(candidate[2]+sign*angle,profile_.lower[2],profile_.upper[2]);
+            seeds.push_back(candidate);
+          }
+        };
+        add_twists(initial,std::acos(-1.)/4.);
+        add_twists(profile_.reference,std::acos(-1.)/2.);
+      }
+    }
     bool found=false;double best=std::numeric_limits<double>::infinity();
     for (std::size_t seed_index=0;seed_index<seeds.size() && remaining()>0.;++seed_index)
     {

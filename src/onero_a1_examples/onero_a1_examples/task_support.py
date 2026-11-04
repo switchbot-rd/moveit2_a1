@@ -177,8 +177,8 @@ def wait_seconds(node, duration):
 
 
 def wait_for_arm_settled(node, timeout=5.):
-    """Wait for fresh feedback to settle after changing the position gain."""
-    print('等待增益切换后的手臂反馈稳定。')
+    """Wait for fresh feedback to settle after a gain change or a short move."""
+    print('等待手臂反馈稳定。')
     earliest = node.get_clock().now().nanoseconds
     deadline = time.monotonic()+timeout
     reference, since, previous = None, None, earliest-1
