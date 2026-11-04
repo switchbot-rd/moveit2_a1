@@ -378,6 +378,10 @@ class OneroTopicBridge(Node):
             f"SDK Arm.servoj | 故障处置={self._on_fault_action}"
         )
         self.get_logger().info(
+            f"启动持位 | 实测关节(rad)={[round(v, 6) for v in self._state_pos]} | "
+            f"初始目标(rad)={[round(v, 6) for v in self._cmd_pos]}"
+        )
+        self.get_logger().info(
             f"SDK 安装={gp('mounting').value} | 原装夹爪={gp('with_gripper').value} "
             f"| 重力补偿={self._gravity_compensation} "
             f"| 夹爪标定系数={self._backend.arm.gravity_profile_scales} "

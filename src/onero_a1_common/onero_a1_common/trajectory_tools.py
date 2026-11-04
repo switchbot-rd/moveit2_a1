@@ -1,10 +1,11 @@
 """Trajectory limits, smoothing and comparison helpers."""
+from copy import deepcopy
 import math
 
 import numpy as np
 from builtin_interfaces.msg import Duration
 from rcl_interfaces.srv import GetParameters
-from scipy.interpolate import BPoly
+from scipy.interpolate import BPoly, PPoly
 
 
 def _seconds(duration):
@@ -60,6 +61,68 @@ def _timed_curve(trajectory):
     return times, BPoly.from_derivatives(times, derivatives)
 
 
+def resample(trajectory, step=.01):
+    """Sample the existing quintic curve; this does not remove its overshoot."""
+    times, curve = _timed_curve(trajectory)
+    count = max(2, math.ceil((times[-1]-times[0])/step)+1)
+    result = deepcopy(trajectory)
+    template = trajectory.joint_trajectory.points[0]
+    points = []
+    for stamp in np.linspace(times[0], times[-1], count):
+        point = deepcopy(template)
+        point.positions = [float(v) for v in curve(stamp)]
+        point.velocities = [float(v) for v in curve.derivative()(stamp)]
+        point.accelerations = [float(v) for v in curve.derivative(2)(stamp)]
+        point.time_from_start = _duration(float(stamp))
+        points.append(point)
+    result.joint_trajectory.points = points
+    return result
+
+
+def _derivative_peaks(curve, order):
+    """Bound each joint's actual spline, including both sides of every knot."""
+    polynomial = PPoly.from_bernstein_basis(curve.derivative(order))
+    edges = np.r_[curve.x, np.nextafter(curve.x[1:], curve.x[:-1])]
+    peaks = abs(polynomial(edges)).max(axis=0)
+    for index in range(len(peaks)):
+        joint = PPoly(polynomial.c[:, :, index], polynomial.x, extrapolate=False)
+        extrema = joint.derivative().roots(discontinuity=False, extrapolate=False)
+        extrema = extrema[np.isfinite(extrema)]
+        peaks[index] = max(peaks[index], abs(joint(extrema)).max(initial=0.))
+    return peaks
+
+
+def validate_trajectory(client, trajectory, *, context=None):
+    """Check the controller's interpolated path without changing its timing."""
+    from rclpy.serialization import serialize_message
+    from .continuous import geometry
+    from .moveit_client import MoveItError
+
+    try:
+        times, curve = _timed_curve(trajectory)
+        names = list(trajectory.joint_trajectory.joint_names)
+        if set(names) != set(client.joints):
+            raise ValueError('检查轨迹的关节必须与所选手臂一致')
+        if context is None:
+            context = geometry(client, refresh=True)
+        client.planning_start_state({})  # Load the actual position limits once.
+        bounds = [client._joint_position_bounds[name] for name in names]
+        constraints = getattr(client, '_motion_path_constraints', None)
+        constraints = serialize_message(constraints) if constraints is not None else b''
+        speeds = abs(curve.derivative().c).max(axis=(0, 2))
+        for index, (begin, end) in enumerate(zip(times, times[1:])):
+            steps = max(1, math.ceil((end-begin)/.02), math.ceil((end-begin)*speeds[index]/.01))
+            for stamp in np.linspace(begin, end, steps+1):
+                positions = curve(stamp)
+                if any(not low-1e-9 <= q <= high+1e-9 for q, (low, high) in zip(positions, bounds)):
+                    raise ValueError('轨迹超出关节限位')
+                valid, pairs = context.validity(dict(zip(names, map(float, positions))), client.group, constraints)
+                if not valid:
+                    raise MoveItError(f'轨迹存在碰撞或无效状态：{pairs}')
+    except (ValueError, RuntimeError) as exc:
+        raise MoveItError(f'轨迹检查失败：{exc}') from exc
+
+
 def smooth_trajectory(client, trajectory, *, jerk=10.):
     from rclpy.serialization import deserialize_message, serialize_message
     from moveit_msgs.msg import RobotTrajectory
@@ -85,10 +148,16 @@ def smooth_trajectory(client, trajectory, *, jerk=10.):
         times, curve = _timed_curve(result)
         # JTC executes quintic segments. Bound that interpolation as well as
         # Ruckig's waypoints; uniform time scaling preserves the geometric path.
-        peaks = [abs(curve.derivative(order).c).max(axis=(0, 1)) for order in (1, 2, 3)]
-        stretch = max(1., float(max(peaks[0]/[limits[n][0] for n in names])),
-                      math.sqrt(float(max(peaks[1]/[limits[n][1] for n in names]))),
-                      float(np.cbrt(max(peaks[2])/jerk)))
+        # Exact extrema avoid conservative Bernstein bounds and spikes missed
+        # by fixed-rate sampling, especially in short final intervals.
+        peaks = [_derivative_peaks(curve, order) for order in (1, 2, 3)]
+        velocity_ratio = float(max(peaks[0]/[limits[n][0] for n in names]))
+        acceleration_ratio = float(max(peaks[1]/[limits[n][1] for n in names]))
+        jerk_ratio = float(np.max(peaks[2])/jerk)
+        stretch = max(1., velocity_ratio, math.sqrt(acceleration_ratio), jerk_ratio**(1./3.))
+        if stretch > 1.001:
+            print(f'平滑限速 {stretch:.2f}×（峰值/限值）：速度 {velocity_ratio:.2f}、'
+                  f'加速度 {acceleration_ratio:.2f}、jerk {jerk_ratio:.2f}')
         if not math.isfinite(stretch):
             raise ValueError('平滑后轨迹时间无效')
         if stretch > 1.:
@@ -97,21 +166,7 @@ def smooth_trajectory(client, trajectory, *, jerk=10.):
                 point.time_from_start = _duration(float(stamp*stretch))
                 point.velocities = [float(v/stretch) for v in point.velocities]
                 point.accelerations = [float(a/stretch**2) for a in point.accelerations]
-            times, curve = _timed_curve(result)
-        client.planning_start_state({})  # Load the actual position limits once.
-        bounds = [client._joint_position_bounds[name] for name in names]
-        constraints = getattr(client, '_motion_path_constraints', None)
-        constraints = serialize_message(constraints) if constraints is not None else b''
-        speeds = abs(curve.derivative().c).max(axis=(0, 2))
-        for index, (begin, end) in enumerate(zip(times, times[1:])):
-            steps = max(1, math.ceil((end-begin)/.02), math.ceil((end-begin)*speeds[index]/.01))
-            for stamp in np.linspace(begin, end, steps+1):
-                positions = curve(stamp)
-                if any(not low-1e-9 <= q <= high+1e-9 for q, (low, high) in zip(positions, bounds)):
-                    raise ValueError('平滑后轨迹超出关节限位')
-                valid, pairs = context.validity(dict(zip(names, map(float, positions))), client.group, constraints)
-                if not valid:
-                    raise MoveItError(f'平滑后轨迹存在碰撞或无效状态：{pairs}')
+        validate_trajectory(client, result, context=context)
         return result
     except (ValueError, RuntimeError) as exc:
         raise MoveItError(f'轨迹平滑失败：{exc}') from exc

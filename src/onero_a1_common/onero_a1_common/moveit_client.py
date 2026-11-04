@@ -241,10 +241,10 @@ class MoveItClient(Node):
             raise MoveItError('记录期间手臂服务已重启，请重新记录起始位置')
         return self.startup_snapshot()
 
-    def freedrive(self, *, damping=.3, duration=None, execute=False):
+    def freedrive(self, *, damping=.3, duration=None, execute=False, keep_payload=False):
         from .freedrive import run_freedrive
         return run_freedrive(self, damping=damping, duration=duration,
-                             execute=execute, error=MoveItError)
+                             execute=execute, error=MoveItError, keep_payload=keep_payload)
 
     def fk(self, q, link=None):
         if all(name in q for name in self.joints):

@@ -41,6 +41,7 @@
   <exec_depend>moveit_servo</exec_depend>
   <exec_depend>onero_a1_servo</exec_depend>
   <exec_depend>onero_a1_kinematics</exec_depend>
+  <exec_depend>moveit_task_constructor_visualization</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

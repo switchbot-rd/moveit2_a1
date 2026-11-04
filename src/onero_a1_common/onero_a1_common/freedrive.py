@@ -9,6 +9,8 @@ from rclpy.parameter import Parameter
 from rcl_interfaces.srv import GetParameters, SetParametersAtomically
 from std_srvs.srv import SetBool, Trigger
 
+from .payload import PayloadClient
+
 
 def _boolean(node, target, name, error):
     values = node.call(GetParameters, target+'/get_parameters', GetParameters.Request(names=[name])).values
@@ -35,7 +37,7 @@ def _switch(node, names, activate, error):
         raise error('轨迹控制器切换失败：'+', '.join(names))
 
 
-def run_freedrive(node, *, damping, duration, execute, error):
+def run_freedrive(node, *, damping, duration, execute, error, keep_payload=False):
     if not math.isfinite(damping) or not 0. <= damping <= 5.:
         raise error('拖动阻尼必须在 [0, 5] 内')
     if duration is not None and (not math.isfinite(duration) or duration <= 0):
@@ -62,6 +64,12 @@ def run_freedrive(node, *, damping, duration, execute, error):
     if not execute:
         print('拖动条件检查通过；添加 --execute 进入零重力拖动模式。')
         return
+    if not keep_payload:
+        for session in sessions:
+            PayloadClient(node, session['bridge']).restore_baseline()
+        print('已恢复所选手臂的启动负载基线。')
+    else:
+        print('保留当前负载补偿。')
     entered, paused, failures = [], [], []
     try:
         for session, controller in zip(sessions, node.arm_controllers):

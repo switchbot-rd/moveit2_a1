@@ -14,11 +14,12 @@ def configure(parser):
     parser.add_argument('--execute', action='store_true', help='进入拖动模式；省略时只检查条件')
     parser.add_argument('--damping', type=damping, default=.3, help='拖动阻尼 kd，默认 0.3')
     parser.add_argument('--duration', type=positive, help='拖动持续时间，秒；省略时按 Ctrl+C 退出')
+    parser.add_argument('--keep-payload', action='store_true', help='带物拖动时保留当前负载；默认恢复启动基线')
 
 
 def example(node):
     node.freedrive(damping=node.args.damping, duration=node.args.duration,
-                   execute=node.args.execute)
+                   execute=node.args.execute, keep_payload=node.args.keep_payload)
 
 
 def main(args=None):

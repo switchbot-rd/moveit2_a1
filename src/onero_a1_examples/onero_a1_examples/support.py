@@ -1,13 +1,80 @@
 """Small CLI and lifecycle helpers shared by the runnable examples."""
 import argparse
 from copy import deepcopy
+from datetime import datetime
 import math
+import os
+from pathlib import Path
 import sys
+import threading
 
 import rclpy
 from rclpy.signals import SignalHandlerOptions
 from onero_a1_common.constants import JOINTS, OMPL_PLANNERS, PLANNING_PIPELINES
 from onero_a1_common.moveit_client import MoveItClient, MoveItError
+
+
+def mirror_console(case):
+    """Copy everything written to stdout/stderr into one run log.
+
+    Python prints and the C-level ROS console share the same file
+    descriptors, so a duplicate of fd 1/2 catches both. Returns the log path
+    and a closer, or None when the log directory cannot be created.
+    """
+    try:
+        root = Path(os.environ.get('ROS_LOG_DIR')
+                    or Path(os.environ.get('ROS_HOME', Path.home()/'.ros'))/'log')
+        root.mkdir(parents=True, exist_ok=True)
+        path = root/f'onero_a1_{case}_{datetime.now():%Y%m%d_%H%M%S}_{os.getpid()}.log'
+        sink = open(path, 'ab', buffering=0)
+        for stream in (sys.stdout, sys.stderr):
+            stream.flush()
+            try:
+                stream.reconfigure(line_buffering=True)
+            except (AttributeError, ValueError):
+                pass
+        saved = (os.dup(1), os.dup(2))
+        read_fd, write_fd = os.pipe()
+        os.dup2(write_fd, 1)
+        os.dup2(write_fd, 2)
+        os.close(write_fd)
+    except OSError:
+        return None
+
+    def pump():
+        while True:
+            try:
+                chunk = os.read(read_fd, 65536)
+            except OSError:
+                break
+            if not chunk:
+                break
+            for write in (sink.write, lambda data: os.write(saved[0], data)):
+                try:
+                    write(chunk)
+                except OSError:
+                    pass
+
+    worker = threading.Thread(target=pump, name='console-log', daemon=True)
+    worker.start()
+
+    def close():
+        for stream in (sys.stdout, sys.stderr):
+            try:
+                stream.flush()
+            except (OSError, ValueError):
+                pass
+        os.dup2(saved[0], 1)
+        os.dup2(saved[1], 2)
+        worker.join(timeout=2.)
+        for fd in (read_fd, *saved):
+            try:
+                os.close(fd)
+            except OSError:
+                pass
+        sink.close()
+    return path, close
+
 
 
 def finite(value):
@@ -54,6 +121,10 @@ def finish_arm_plan(node, trajectory):
 def run_example(name, description, configure, scenario, args=None, *, query_only=False,
                 planning_pipelines=PLANNING_PIPELINES, dual=False, allow_both=False, cleanup=None,
                 default_planning_time=10.):
+    # Redirection to the example log is block buffered by default, which
+    # scrambles planning progress and C++ output.
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(line_buffering=True)
     parser = argparse.ArgumentParser(description=description)
     parser.set_defaults(pipeline="ompl", planner=None)
     if dual:
@@ -81,35 +152,42 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
     if options.pipeline != "ompl" and options.planner is not None:
         parser.error("--planner 仅用于 --pipeline ompl；CHOMP/STOMP 省略此参数")
     options.case = name
-    rclpy.init(args=supplied[split:], signal_handler_options=SignalHandlerOptions.NO)
-    node = None
-    cleanup_ready = False
-    code = 0
+    mirror = mirror_console(name)
     try:
-        node = MoveItClient(options)
-        node.select_arm(options.arm)
-        cleanup_ready = True
-        node.start = {n: q for n, q in node.state().items() if n in node.joints}
-        scenario(node)
-    except (Exception, KeyboardInterrupt) as exc:
-        print(f"示例失败：{str(exc) or 'interrupted'}", file=sys.stderr)
-        code = 1
-    finally:
-        if node is not None:
-            try:
-                if not node.cleanup():
-                    code = 1
-            except (Exception, KeyboardInterrupt) as exc:
-                print(f'取消或清理请求失败：{str(exc) or "interrupted"}', file=sys.stderr)
-                code = 1
-            finally:
-                if cleanup_ready and cleanup is not None:
-                    try:
-                        cleanup(node)
-                    except (Exception, KeyboardInterrupt) as exc:
-                        print(f'清理示例场景失败：{str(exc) or "interrupted"}', file=sys.stderr)
+        if mirror is not None:
+            print(f'本次运行日志：{mirror[0]}')
+        rclpy.init(args=supplied[split:], signal_handler_options=SignalHandlerOptions.NO)
+        node = None
+        cleanup_ready = False
+        code = 0
+        try:
+            node = MoveItClient(options)
+            node.select_arm(options.arm)
+            cleanup_ready = True
+            node.start = {n: q for n, q in node.state().items() if n in node.joints}
+            scenario(node)
+        except (Exception, KeyboardInterrupt) as exc:
+            print(f"示例失败：{str(exc) or 'interrupted'}", file=sys.stderr)
+            code = 1
+        finally:
+            if node is not None:
+                try:
+                    if not node.cleanup():
                         code = 1
-                node.destroy_node()
-        if rclpy.ok():
-            rclpy.shutdown()
-    return code
+                except (Exception, KeyboardInterrupt) as exc:
+                    print(f'取消或清理请求失败：{str(exc) or "interrupted"}', file=sys.stderr)
+                    code = 1
+                finally:
+                    if cleanup_ready and cleanup is not None:
+                        try:
+                            cleanup(node)
+                        except (Exception, KeyboardInterrupt) as exc:
+                            print(f'清理示例场景失败：{str(exc) or "interrupted"}', file=sys.stderr)
+                            code = 1
+                    node.destroy_node()
+            if rclpy.ok():
+                rclpy.shutdown()
+        return code
+    finally:
+        if mirror is not None:
+            mirror[1]()

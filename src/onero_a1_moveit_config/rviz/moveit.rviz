@@ -97,6 +97,12 @@ Visualization Manager:
         Show Scene Robot: true
         Value: true
       Value: true
+    - Class: moveit_task_constructor/Motion Planning Tasks
+      Enabled: true
+      Name: MTC Tasks
+      Robot Description: robot_description
+      Task Solution Topic: /mtc_pick_place/solution
+      Value: true
     - Class: rviz_default_plugins/MarkerArray
       Enabled: true
       Name: Collision Contacts

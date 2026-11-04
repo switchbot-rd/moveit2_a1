@@ -20,6 +20,7 @@
 | [gripper](onero_a1_examples/gripper.py) | 夹爪开合 |
 | [arm_gripper_task](onero_a1_examples/arm_gripper_task.py) | 双臂镜像取瓶、同步搬运并放回 |
 | [fixed_pick_place](onero_a1_examples/fixed_pick_place.py) | 单瓶 A→B→C 双臂接力，可选往返 |
+| [mtc_pick_place](onero_a1_examples/mtc_pick_place.py) | MTC 单瓶 A→B→C 双臂接力，可选回程 |
 | [record_startup](onero_a1_examples/record_startup.py) | 记录起始位置，不运动 |
 | [return_startup](onero_a1_examples/return_startup.py) | 返回已记录的起始位置 |
 | [freedrive](onero_a1_examples/freedrive.py) | 重力补偿手动拖动 |
@@ -31,6 +32,14 @@
 ## 示例运行指令
 
 完整命令见 [SHOWCASE.md](SHOWCASE.md)：[单臂](SHOWCASE.md#单臂运行指令) / [双臂](SHOWCASE.md#双臂运行指令)。
+
+## 运行日志
+
+每次运行会在 `.ros/log/` 下多一个 `onero_a1_<示例名>_<时间>_<进程号>.log`，开头会打印本次路径。它包含终端上的全部内容：示例自己的打印、ROS 的 `[INFO]`/`[WARN]`/`[ERROR]`。排查问题或反馈时直接把这个文件发出来即可。
+
+`.ros/log/` 位于工作区（`setup_env.sh` 把 `ROS_HOME` 指到这里），不是用户主目录的 `~/.ros/log`。同目录下另有 ROS 自己按节点写的日志，那里只有 `[INFO]`，没有示例打印。
+
+终端太吵时，可只保留警告和错误：在命令末尾加 `--ros-args --log-level warn`。
 
 ## 起始位置与返回
 
@@ -44,7 +53,7 @@
 | 示例 | `--arm` |
 |---|---|
 | `named_pose`、`record_startup`、`return_startup`、`collision_check`、`collision_contacts`、`freedrive` | `left` / `right` / `both` |
-| `dual_joint_goal`、`dual_cartesian_square`、`dual_gripper`、`arm_gripper_task`、`fixed_pick_place` | 自动双臂，不传此参数 |
+| `dual_joint_goal`、`dual_cartesian_square`、`dual_gripper`、`arm_gripper_task`、`fixed_pick_place`、`mtc_pick_place` | 自动双臂，不传此参数 |
 | `servo_keyboard` | `left` / `right` / `both`；双臂窗口用 Tab 切换 |
 | 其余示例 | `left` / `right`；双臂服务默认 `right`，单臂自动识别 |
 
@@ -213,6 +222,54 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 若左臂在 B 点对位有偏差，可调整 `left_b_grasp_offset`；设为 `null` 关闭。该修正不能代替双臂安装位置和工具工作点标定。
 松爪前会检查瓶子位置、瓶底高度和倾斜，超出配置中的容差时中止。放置结果保存在 `$ROS_HOME/tasks/fixed_pick_place_<arm>_placement.json`；仍需核对实物与桌面位置。
 
+### MTC 抓取放置
+
+`mtc_pick_place` 默认右臂 A→B、左臂 B→C；加 `--round-trip` 后继续左臂 C→B、右臂 B→A。左臂在 B 点取料前先向左后方退开 3–6 cm，腾出手腕空间再夹取；右臂取料时优先让左臂保持原位，规划失败才让左臂局部直线退开。B 点松爪后先直线退开，再转动让位。
+默认只规划，按手臂分别发布方案。在 RViz 的 `Task Tree` 中依次单击成功数大于 0 的任务，再到右侧的解列表选择一条方案播放动画；双击任务行只会展开或折叠阶段。
+保持预览终端运行，Ctrl+C 结束；添加 `--execute` 才执行。
+
+先执行 `source setup_env.sh` 安装 MTC 依赖，首次安装需要 sudo。启动双臂服务，加载 `environment.dual_desktop.yaml` 并启用 Woan Picker；本示例不传 `--arm`。
+
+| 参数 | 默认值 | 说明 |
+|---|---|---|
+| `--config PATH` | [双臂预设](config/mtc_pick_place.yaml) | A/B/C 点位、瓶子尺寸及抓取设置 |
+| `--round-trip` | 关闭 | 在 A→B→C 后继续 C→B→A |
+| `--max-solutions` | `3` | 最多搜索的完整方案数，正整数 |
+| `--grasp-angle-step` | `1.5708` rad | 抓取方向的采样间隔，默认每 90° 一个方向 |
+| `--task-timeout` | `60` s | 每段搜索时限 |
+| `--planning-time` | `10` s | 单次连接规划的时间预算 |
+| `--planner` | `RRTConnect` | 搬运路径使用的 OMPL 算法 |
+| `--mass` | `0.1` kg | 实物质量，执行前按实物填写，用于负载补偿 |
+| `--smoothing` | `none` | `none` 关闭平滑；`ruckig` 开启，可能增加运动时间 |
+| `--reset-task` | 关闭 | 实物取下且夹爪全张开后，清理本臂 MTC 模型并恢复负载；搭配 `--execute` |
+
+点位使用 world 坐标系中的瓶身中心，单位为米：A 为 `pick_position`，B 为 `place_position`，C 为 `c_position`，C 沿用固定位置抓放预设。在 A 点摆一个水瓶，清空 B/C 点后执行。
+`right_a_grasp_offset` 修正右臂在 A 点的夹取位置，默认沿 world +X 前移 1 cm。
+`left_b_grasp_offset` 仅修正左臂在 B 点的夹取位置，按 world 的 XYZ 填写，单位 m；设为 `null` 关闭。
+`right_b_place_offset` 修正右臂在 B 点的放置位置，同样按 world 的 XYZ 填写；默认向左 2 cm、向前 1 cm，Z 不动。
+`left_c_place_offset` 修正左臂在 C 点的放置位置，默认向右 1 cm、向后 1 cm；回程在 C 点夹取时自动按补偿后的位置规划。
+`grasp_limit` 控制每个取料点最多尝试的抓取方向数，默认 24；规划偏慢时可调小，代价是可选朝向变少。
+`max_arm_pitch_deviation` 限制 joint-2 偏离自然构型的角度，默认 30°；调小手臂更“正”，但可能规划不出；调大更容易出解。
+`left_c_height_offset` 校准左臂 C 点的抓放高度，负值下移，单位 m；预设 `-0.035`，设为 `0` 关闭，模拟模式忽略。
+预设瓶身高 16 cm，另有 2 cm 瓶颈；修改瓶身高度时同步调整三个点的中心高度。
+接近、夹取和搬运时使用配置中的 `carry_kp`（默认 `120`）；松爪或未持物退出后恢复原刚度。
+放置偏差会自动小幅修正，位置和倾斜检查通过后才松爪。
+抓取和松爪时优先保持直腕；抬升和高位过渡允许 joint-6 弯曲。
+夹取或放置检查失败会停止后续动作；若仍持瓶，会保留夹持、模型和负载。先支撑并处理实物，再恢复负载和清理模型。
+各运动阶段之间会停稳；夹爪操作、放置修正和重新规划时也会有停顿。
+
+若提示“场景中已有本任务的附着水瓶”，先用手支撑水瓶，再依次操作：
+
+```bash
+# 张爪后取下实物水瓶
+ros2 run onero_a1_examples dual_gripper --left-opening 1 --right-opening 1 --execute
+
+# 确认实物已取下，再恢复负载并清理模型
+ros2 run onero_a1_examples mtc_pick_place --reset-task --execute
+```
+
+恢复后可重新运行接力。
+
 ### 双臂动作
 
 `dual_joint_goal`：`--joint-index` 默认 `1`（范围 1…7），`--left-delta` / `--right-delta` 默认 `-0.2` / `0.2` rad。
@@ -221,6 +278,7 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 ### 零重力拖动
 
 `freedrive --damping` 默认 `0.3`，范围 `[0, 5]`，越大越难拖动；`--duration` 为正数秒，默认不限时。
+默认进入拖动前恢复启动负载基线；确实带物拖动时加 `--keep-payload` 保留当前负载补偿。
 仅用于已开启重力补偿的真机。手臂静止时用手托住，再添加 `--execute` 进入拖动；Ctrl+C 退出并保持当前位置。
 起始姿态碰撞导致轨迹控制器未启动时，也可用拖动调整姿态；调整后重启服务，重新进行起始姿态检查。
 拖动时不会自动避障，手臂可能缓慢漂移。连接中断后自动保持；强制退出后可重启服务恢复。
