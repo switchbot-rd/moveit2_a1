@@ -1,0 +1,45 @@
+src/onero_a1_examples/README.md
+  s_340bf177f95280::t_c9b7b018db45cb 229-231,238,240-244,246,248,251,254
+  s_340bf177f95280::t_66fc58c91de806 227
+  s_49ae74125cc651::t_5974ad42c301fe 245
+  s_adaf0ac70199bf::t_e713ec8f8d4e49 247
+src/onero_a1_examples/config/mtc_pick_place.yaml
+  h_3ce05673bb5060 17,20,53-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c8248dac5ea52225affec32e6f991adcef7597e7",
+  "prompts": {},
+  "humans": {
+    "h_3ce05673bb5060": {
+      "author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  },
+  "sessions": {
+    "s_340bf177f95280": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a621-0ffd-7c32-b623-b19be6a99117",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": null
+    },
+    "s_49ae74125cc651": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19a50-b3a7-7c80-8a35-b0677d8fa6f4",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    },
+    "s_adaf0ac70199bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f6f-7e2a-71a0-b655-83401ed788c5",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  }
+}
