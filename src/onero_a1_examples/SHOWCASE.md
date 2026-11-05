@@ -324,6 +324,36 @@ ros2 run onero_a1_examples dual_cartesian_square --size 0.10 \
   --velocity 0.5 --acceleration 0.5 --execute
 ```
 
+#### 双臂关节角度误差测量
+
+先预览一对关节的往返轨迹，确认后执行；执行时自动保存运动曲线、误差曲线和 CSV。
+
+```bash
+ros2 run onero_a1_examples dual_joint_tracking --joint-index 1
+
+ros2 run onero_a1_examples dual_joint_tracking --joint-index 1 --execute
+
+# 全部七对关节，每组重复三次
+ros2 run onero_a1_examples dual_joint_tracking --repeats 3 --execute
+```
+
+默认幅度 `0.1` rad、每段移动至少 `3` s、停点保持 `1` s。参数与结果说明见[误差测量](README.md#关节角度与轨迹误差测量)。
+
+#### 三个抓放示例的轨迹误差采集
+
+完成各示例要求的预览和实物摆放后，在原执行命令中加入 `--record-tracking`：
+
+```bash
+ros2 run onero_a1_examples arm_gripper_task --execute --record-tracking
+
+ros2 run onero_a1_examples fixed_pick_place --execute --record-tracking
+
+ros2 run onero_a1_examples mtc_pick_place --mass 0.3 --execute --record-tracking
+```
+
+沿用本次预览时的配置与运动参数，`--mass` 按实物填写。
+默认输出到 `.logs/joint_tracking/`；也可在命令中指定 `--tracking-output .logs/joint_tracking/run01`，目录须尚不存在。
+
 #### 双夹爪开合
 
 ```bash

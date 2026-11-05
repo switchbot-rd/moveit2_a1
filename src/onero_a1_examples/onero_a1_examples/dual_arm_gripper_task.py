@@ -218,6 +218,7 @@ class DualBottleTask:
                 if index == 3 and not node.bottle_simulated:
                     grasp_both(node, self.arms, self.geometries)
                 else:
+                    node.tracking_label = step.label
                     node.execute(step.trajectory, controller=[arm.gripper_controller for arm in self.arms.values()]
                                  if step.kind == 'gripper' else None)
                     if step.kind == 'gripper':

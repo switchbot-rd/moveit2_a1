@@ -421,6 +421,7 @@ class FixedTask:
                                 skip_open = True
                         if not skip_open:
                             try:
+                                node.tracking_label = step.label
                                 node.execute(step.trajectory, controller='gripper_controller' if step.kind == 'gripper' else None)
                             except MoveItError:
                                 if execute and index == 1 and step.kind == 'gripper':
@@ -758,4 +759,4 @@ def example(node):
 
 def main(args=None):
     return run_example('fixed_pick_place', __doc__, configure, example, args,
-                       planning_pipelines=(), dual=True, cleanup=cleanup, default_planning_time=10.)
+                       planning_pipelines=(), dual=True, cleanup=cleanup, default_planning_time=10., tracking=True)

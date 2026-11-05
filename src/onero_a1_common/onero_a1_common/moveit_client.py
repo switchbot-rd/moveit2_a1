@@ -1150,7 +1150,7 @@ class MoveItClient(Node):
             raise MoveItError('手臂轨迹控制器未激活：'+', '.join(unavailable)+
                               '；请检查服务状态。若曾反馈失联，恢复通信后重启机械臂服务。')
 
-    def execute(self, trajectory, controller=None):
+    def execute(self, trajectory, controller=None, *, label=None):
         points = trajectory.joint_trajectory.points
         if not points or seconds(points[-1].time_from_start) <= 0:
             print("目标与当前状态重合，无需执行运动。")
@@ -1180,7 +1180,17 @@ class MoveItClient(Node):
                            for value in settings]
         if not math.isfinite(scaling) or scaling <= 0 or not math.isfinite(margin) or margin < 0:
             raise MoveItError("MoveIt 轨迹执行等待参数无效")
-        self.action(self.execution_client, goal, max(30., 2.*duration+5., scaling*duration+margin+5.))
+        observer = getattr(self, 'execution_observer', None)
+        recording = observer.begin(trajectory, controllers, label or getattr(self, 'tracking_label', None)) \
+            if observer is not None else None
+        try:
+            self.action(self.execution_client, goal, max(30., 2.*duration+5., scaling*duration+margin+5.))
+        except (Exception, KeyboardInterrupt) as exc:
+            if observer is not None:
+                observer.end(recording, False, str(exc) or 'interrupted')
+            raise
+        if observer is not None:
+            observer.end(recording, True)
         print("MoveIt 执行成功。")
 
     def cleanup(self):

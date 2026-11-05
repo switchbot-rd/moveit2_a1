@@ -304,6 +304,7 @@ def execute(node, scene, steps, geometry=None, gains=None):
                 node.show_plan(trajectory)
                 feedback = CarryFeedback(node, current)
                 try:
+                    node.tracking_label = '连续搬运：提起、返回、放回'
                     node.execute(trajectory)
                 finally:
                     feedback.close()
@@ -319,6 +320,7 @@ def execute(node, scene, steps, geometry=None, gains=None):
             if index == 3 and not node.bottle_simulated:
                 grasp_bottle(node, geometry)
             else:
+                node.tracking_label = step.label
                 node.execute(trajectory, controller='gripper_controller' if step.kind == 'gripper' else None)
             if step.kind == 'gripper' and (index != 3 or node.bottle_simulated):
                 confirm_opening(node, step.target)
@@ -444,4 +446,4 @@ def cleanup(node):
 
 def main(args=None):
     return run_example('arm_gripper_task', __doc__, configure, example, args,
-                       planning_pipelines=(), dual=True, cleanup=cleanup)
+                       planning_pipelines=(), dual=True, cleanup=cleanup, tracking=True)
