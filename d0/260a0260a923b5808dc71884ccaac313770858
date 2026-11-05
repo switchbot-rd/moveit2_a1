@@ -1,0 +1,53 @@
+src/onero_a1_examples/README.md
+  s_49ae74125cc651::t_64ec444421f15d 152
+  s_49ae74125cc651::t_d286e3fda5c7cd 162
+  s_49ae74125cc651::t_8e007d50848b24 19,62,146-151,153-161
+  s_49ae74125cc651::t_d0d32a574a7ff5 163
+src/onero_a1_common/README.md
+  s_49ae74125cc651::t_8e007d50848b24 44
+src/onero_a1_examples/SHOWCASE.md
+  s_49ae74125cc651::t_8e007d50848b24 190-208
+tools/diagnostics/cyclonedds_local.xml
+  s_49ae74125cc651::t_b966e46d29e5e5 1-18
+README.md
+  s_49ae74125cc651::t_b00854db90f1cb 19
+tools/diagnostics/README.md
+  s_49ae74125cc651::t_b966e46d29e5e5 22-23,26-27,30-32,34,174
+  s_49ae74125cc651::t_b00854db90f1cb 24-25,28-29,33
+src/onero_a1_examples/setup.py
+  s_49ae74125cc651::t_f61188643d9806 6
+src/onero_a1_common/onero_a1_common/trajectory_tools.py
+  s_49ae74125cc651::t_8e007d50848b24 110
+  s_49ae74125cc651::t_f61188643d9806 1,4,39-109,111-117
+  s_49ae74125cc651::t_249271ca7b67f5 118-119
+src/onero_a1_common/onero_a1_common/moveit_client.py
+  s_49ae74125cc651::t_f61188643d9806 1128-1131
+  s_49ae74125cc651::t_d286e3fda5c7cd 21,1141-1152,1170
+src/onero_a1_kinematics/src/native_planning.cpp
+  s_49ae74125cc651::t_f61188643d9806 15,221-231,234-236,271
+  s_49ae74125cc651::t_ef76f5faa328f8 232-233
+src/onero_a1_examples/onero_a1_examples/planning_compare.py
+  s_49ae74125cc651::t_d286e3fda5c7cd 36-37
+  s_49ae74125cc651::t_8e007d50848b24 54
+  s_49ae74125cc651::t_f61188643d9806 1-35,38-53,55-84
+src/onero_a1_common/package.xml
+  s_49ae74125cc651::t_f61188643d9806 19
+setup_env.sh
+  s_49ae74125cc651::t_b00854db90f1cb 76,88-90,116-118
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d0260a0260a923b5808dc71884ccaac313770858",
+  "prompts": {},
+  "sessions": {
+    "s_49ae74125cc651": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19a50-b3a7-7c80-8a35-b0677d8fa6f4",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  }
+}
