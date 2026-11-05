@@ -389,6 +389,7 @@ class MtcExecutor:
         try:
             trajectory = self._arm_trajectory(sub, motions=specs, constraints=constraints)
             trajectory = self._stopped_arm_trajectory(trajectory)
+            self.node.tracking_label = sub.info.comment or f'MTC stage {sub.info.stage_id}'
             self.node.execute(trajectory, controller=controller)
             if self._release_confirmed and not self.scene.attached:
                 self._release_clearance_complete = True

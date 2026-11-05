@@ -127,7 +127,7 @@ _onero_prepare_environment() {
   local onero_build_stamp onero_source_fingerprint
   local -a onero_missing=() onero_sudo=()
   local -a onero_packages=(
-    build-essential cmake python3-colcon-common-extensions python3-packaging python3-scipy python3-tk
+    build-essential cmake python3-colcon-common-extensions python3-packaging python3-scipy python3-tk python3-matplotlib
     python3-dev ros-jazzy-ament-cmake-python ros-jazzy-pybind11-vendor ros-jazzy-yaml-cpp-vendor
     ros-jazzy-moveit ros-jazzy-moveit-servo ros-jazzy-moveit-planners-chomp ros-jazzy-moveit-planners-stomp
     ros-jazzy-moveit-task-constructor-core ros-jazzy-moveit-task-constructor-visualization

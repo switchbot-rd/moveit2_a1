@@ -26,6 +26,7 @@
 | [freedrive](onero_a1_examples/freedrive.py) | 重力补偿手动拖动 |
 | [servo_keyboard](onero_a1_examples/servo_keyboard.py) | 键盘平移、旋转与夹爪抓放 |
 | [dual_joint_goal](onero_a1_examples/dual_joint_goal.py) | 双臂同步关节运动 |
+| [dual_joint_tracking](onero_a1_examples/dual_joint_tracking.py) | 双臂逐对关节往返，测量角度误差并绘图 |
 | [dual_cartesian_square](onero_a1_examples/dual_cartesian_square.py) | 双臂同时画正方形 |
 | [dual_gripper](onero_a1_examples/dual_gripper.py) | 双夹爪协调开合 |
 
@@ -53,7 +54,7 @@
 | 示例 | `--arm` |
 |---|---|
 | `named_pose`、`record_startup`、`return_startup`、`collision_check`、`collision_contacts`、`freedrive` | `left` / `right` / `both` |
-| `dual_joint_goal`、`dual_cartesian_square`、`dual_gripper`、`arm_gripper_task`、`fixed_pick_place`、`mtc_pick_place` | 自动双臂，不传此参数 |
+| `dual_joint_goal`、`dual_joint_tracking`、`dual_cartesian_square`、`dual_gripper`、`arm_gripper_task`、`fixed_pick_place`、`mtc_pick_place` | 自动双臂，不传此参数 |
 | `servo_keyboard` | `left` / `right` / `both`；双臂窗口用 Tab 切换 |
 | 其余示例 | `left` / `right`；双臂服务默认 `right`，单臂自动识别 |
 
@@ -259,6 +260,31 @@ ros2 run onero_a1_examples mtc_pick_place --reset-task --execute
 
 `dual_joint_goal`：`--joint-index` 默认 `1`（范围 1…7），`--left-delta` / `--right-delta` 默认 `-0.2` / `0.2` rad。
 `dual_cartesian_square`：两侧同时在 YZ 平面向上、向外、向下、返回，保持朝向；对应角点停顿，全路径通过碰撞检查后才执行。
+
+### 关节角度与轨迹误差测量
+
+启动双臂真机服务（`hardware_mode:=real`），加载现场环境，从有活动余量的静止姿态开始，先预览再执行。
+`dual_joint_tracking` 逐对测量左右同编号关节：向两侧往返、停点保持，执行时自动记录。[运行命令](SHOWCASE.md#双臂关节角度误差测量)
+起点余量不足时自动调整；当前角度已越过硬限位、幅度无法容纳或路径碰撞时直接报错。
+
+| 参数 | 默认值 | 说明 |
+|---|---|---|
+| `--joint-index` | `1 2 3 4 5 6 7` | 测量哪些关节，可选一个或多个 |
+| `--amplitude` | `0.1` rad，约 5.73° | 从起点向两侧运动的幅度 |
+| `--move-time` | `3` s | 每段移动的最短时间，限速时自动延长 |
+| `--hold-time` | `1` s | 每个停点的保持时间 |
+| `--repeats` | `1` | 整组重复次数 |
+| `--tracking-output` | 自动生成 | 指定尚不存在的输出目录 |
+
+`arm_gripper_task`、`fixed_pick_place`、`mtc_pick_place` 在原执行命令后加 `--record-tracking` 即可采集；只预览时不记录。
+
+结果默认保存在工作区 `.logs/joint_tracking/<时间_进程号>/`：
+
+- `*_tracking.png`：左右臂各七个关节的目标、反馈和误差曲线。
+- `left.csv`、`right.csv`：各时刻的角度数据；`metrics.csv`：各关节误差统计。
+- `summary.json`、`motions.jsonl`：分段执行结果和原始轨迹。
+
+误差为“目标角度 − 反馈角度”，单位为度。执行失败或中途停止时仍保存已有数据。
 
 ### 零重力拖动
 

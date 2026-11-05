@@ -154,4 +154,4 @@ def cleanup(node):
 
 def main(args=None):
     return run_example('mtc_pick_place', __doc__, configure, example, args,
-                       planning_pipelines=(), dual=True, cleanup=cleanup)
+                       planning_pipelines=(), dual=True, cleanup=cleanup, tracking=True)

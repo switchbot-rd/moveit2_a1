@@ -24,6 +24,7 @@ def arm_clients(node):
         child = MoveItClient(args)
         node.task_nodes.append(child)
         child.select_arm(side)
+        child.execution_observer = getattr(node, 'execution_observer', None)
         result[side] = child
     return result
 

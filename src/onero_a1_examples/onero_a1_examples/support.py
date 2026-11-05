@@ -120,7 +120,7 @@ def finish_arm_plan(node, trajectory):
 
 def run_example(name, description, configure, scenario, args=None, *, query_only=False,
                 planning_pipelines=PLANNING_PIPELINES, dual=False, allow_both=False, cleanup=None,
-                default_planning_time=10.):
+                default_planning_time=10., tracking=False):
     # Redirection to the example log is block buffered by default, which
     # scrambles planning progress and C++ output.
     if hasattr(sys.stdout, 'reconfigure'):
@@ -133,6 +133,9 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
         parser.add_argument("--arm", choices=["left", "right"]+(["both"] if allow_both else []),
                             help="选择手臂；单臂自动识别，双臂默认 right")
     configure(parser)
+    if tracking:
+        parser.add_argument('--record-tracking', action='store_true', help='执行时记录关节误差并生成曲线')
+        parser.add_argument('--tracking-output', type=Path, help='误差采集输出目录，必须尚不存在；指定后自动开启采集')
     parser.add_argument("--frame", choices=["world", "base_link"], default="world", help="参考系，默认 world")
     if query_only:
         parser.set_defaults(execute=False)
@@ -158,6 +161,7 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
             print(f'本次运行日志：{mirror[0]}')
         rclpy.init(args=supplied[split:], signal_handler_options=SignalHandlerOptions.NO)
         node = None
+        recorder = None
         cleanup_ready = False
         code = 0
         try:
@@ -165,6 +169,11 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
             node.select_arm(options.arm)
             cleanup_ready = True
             node.start = {n: q for n, q in node.state().items() if n in node.joints}
+            if tracking and options.execute and (options.record_tracking or options.tracking_output):
+                from .joint_tracking import JointTracking
+                recorder = JointTracking(node, options.tracking_output)
+                node.execution_observer = recorder
+                recorder.wait_ready()
             scenario(node)
         except (Exception, KeyboardInterrupt) as exc:
             print(f"示例失败：{str(exc) or 'interrupted'}", file=sys.stderr)
@@ -184,7 +193,14 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
                         except (Exception, KeyboardInterrupt) as exc:
                             print(f'清理示例场景失败：{str(exc) or "interrupted"}', file=sys.stderr)
                             code = 1
-                    node.destroy_node()
+                    try:
+                        if recorder is not None:
+                            recorder.close(code == 0)
+                    except (Exception, KeyboardInterrupt) as exc:
+                        print(f'误差记录导出失败：{str(exc) or "interrupted"}', file=sys.stderr)
+                        code = 1
+                    finally:
+                        node.destroy_node()
             if rclpy.ok():
                 rclpy.shutdown()
         return code
