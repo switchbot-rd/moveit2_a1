@@ -1,0 +1,61 @@
+.gitignore
+  s_591eb378892848::t_1b9a6f24040320 15-17
+src/onero_a1_examples/SHOWCASE.md
+  s_591eb378892848::t_39e1f6f9e9e1a1 327-356
+src/onero_a1_examples/onero_a1_examples/mtc_execution.py
+  s_591eb378892848::t_579e0dd6c3b8b5 392
+src/onero_a1_examples/onero_a1_examples/dual_joint_tracking.py
+  s_591eb378892848::t_82048aa0d46a10 1,32-55,57,72-83,93,101-109,111,117
+  s_591eb378892848::t_a229ccffccc6f8 2-31,56,58-71,84-92,94-100,110,112-116,118-122
+src/onero_a1_common/onero_a1_common/moveit_client.py
+  s_591eb378892848::t_579e0dd6c3b8b5 1184-1185
+  s_591eb378892848::t_8bef4564ff0bc6 1153,1183,1186-1193
+src/onero_a1_examples/onero_a1_examples/arm_gripper_task.py
+  s_591eb378892848::t_579e0dd6c3b8b5 307,323
+  s_591eb378892848::t_8bef4564ff0bc6 449
+src/onero_a1_examples/onero_a1_examples/fixed_pick_place.py
+  s_591eb378892848::t_579e0dd6c3b8b5 424
+  s_591eb378892848::t_8bef4564ff0bc6 762
+src/onero_a1_examples/onero_a1_examples/joint_tracking.py
+  s_591eb378892848::t_f934e06f2cb057 1-19,21-58,60-90,96-104,109-113,117-149,151-157,159-162,167-223,225,227-277,288-294
+  s_591eb378892848::t_44aab74ff99d1e 20,91-95
+  s_591eb378892848::t_fd272232ae6438 105-108,163-166,278-287
+  s_591eb378892848::t_df1a6c058677df 59,150,158
+  s_591eb378892848::t_579e0dd6c3b8b5 114-116,224,226
+src/onero_a1_examples/setup.py
+  s_591eb378892848::t_8bef4564ff0bc6 8
+src/onero_a1_examples/onero_a1_examples/dual_task_support.py
+  s_591eb378892848::t_8bef4564ff0bc6 27
+setup_env.sh
+  s_591eb378892848::t_8bef4564ff0bc6 130
+src/onero_a1_examples/onero_a1_examples/support.py
+  s_591eb378892848::t_8bef4564ff0bc6 123,136-138,164,172-176,196-203
+src/onero_a1_examples/onero_a1_examples/dual_arm_gripper_task.py
+  s_591eb378892848::t_579e0dd6c3b8b5 221
+src/onero_a1_examples/README.md
+  s_591eb378892848::t_39e1f6f9e9e1a1 29,57,264-265,269-271,278,280,282,286
+  s_591eb378892848::t_60fdd1fe6ed3d8 266-267,272-277,279,281,283-285,287
+  s_591eb378892848::t_82048aa0d46a10 268
+  s_591eb378892848::t_a89270bad8d96a 288
+src/onero_a1_examples/package.xml
+  s_591eb378892848::t_8bef4564ff0bc6 27
+  s_591eb378892848::t_fd272232ae6438 12
+src/onero_a1_examples/onero_a1_examples/mtc_pick_place.py
+  s_591eb378892848::t_8bef4564ff0bc6 157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5961168aaba7f48e3381e441d017aef4b7fa13bb",
+  "prompts": {},
+  "sessions": {
+    "s_591eb378892848": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a96b-fc1d-7841-8b76-31e396f5426d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "yangxiao <yangxiao@wondertechlabs.com>"
+    }
+  }
+}
