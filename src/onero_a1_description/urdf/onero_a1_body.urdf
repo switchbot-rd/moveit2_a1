@@ -15,10 +15,22 @@
         <color rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9iYXNlX2xpbmsuU1RMIiAvPgogICAgICA8L2dlb21ldHJ5PgogICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.000199686735868 -2.23852694035e-05 0.00249999994159" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/base_link.STL" />
+        <cylinder radius="0.0427008263008" length="0.00499999989329" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9iYXNlX2xpbmsuU1RMIiAvPgogICAgICA8L2dlb21ldHJ5PgogICAgPC9jb2xsaXNpb24-">
+      <origin xyz="3.75863164663e-05 0 0.0308749992375" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0317874968452" length="0.0617499984851" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9iYXNlX2xpbmsuU1RMIiAvPgogICAgICA8L2dlb21ldHJ5PgogICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 -0.0222499994561 0.0649999957532" rpy="0 0 0" />
+      <geometry>
+        <box size="0.00999999977648 0.00300000049174 0.00649999454618" />
       </geometry>
     </collision>
   </link>
@@ -37,10 +49,28 @@
         <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="-2.25380063057e-07 -1.49011611938e-08 0.0339190567029" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0401664635003" length="0.0661205988145" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="3.68040055037e-05 0.00315110292286 0.127476392314" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0462917959466" length="0.0685978103429" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link1.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link1_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link1_1.STL" />
       </geometry>
     </collision>
   </link>
@@ -66,10 +96,46 @@
         <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link2.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_6.STL" />
       </geometry>
     </collision>
   </link>
@@ -95,10 +161,34 @@
         <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="-8.04662704468e-07 -0.000150511041284 0.0411161193624" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0417713622103" length="0.0257322397083" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="-7.87898898125e-07 -0.00878869369626 0.140249973163" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0417506995532" length="0.0822764858603" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link3.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link3_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link3_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link3_2.STL" />
       </geometry>
     </collision>
   </link>
@@ -124,10 +214,40 @@
         <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link4.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_6.STL" />
       </geometry>
     </collision>
   </link>
@@ -153,10 +273,34 @@
         <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="-3.72529029846e-08 7.82310962677e-07 0.0404593413696" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0385051020251" length="0.0349186826497" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="1.63912773132e-05 -9.31322574615e-08 0.133016750216" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0370004892504" length="0.0555002503097" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link5.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link5_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link5_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link5_2.STL" />
       </geometry>
     </collision>
   </link>
@@ -182,10 +326,46 @@
         <color rgba="1 1 1 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link6.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_6.STL" />
       </geometry>
     </collision>
   </link>
@@ -211,10 +391,16 @@
         <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
-    <collision>
+    <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0.000132977962494 0.00300000413503" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0207011438403" length="0.00599998252103" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgPG9yaWdpbiB4eXo9IjAgMCAwIiBycHk9IjAgMCAwIiAvPgogICAgICA8Z2VvbWV0cnk-CiAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNy5TVEwiIC8-CiAgICAgIDwvZ2VvbWV0cnk-CiAgICA8L2NvbGxpc2lvbj4">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://onero_a1_description/meshes/A1_r/Link7.STL" />
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link7_1.STL" />
       </geometry>
     </collision>
   </link>

@@ -6,6 +6,11 @@ from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
 
+try:
+    from tools.collision_meshes import apply_collision_meshes
+except ModuleNotFoundError:
+    from collision_meshes import apply_collision_meshes
+
 XACRO = 'http://www.ros.org/wiki/xacro'
 ET.register_namespace('xacro', XACRO)
 ROOT = Path(__file__).resolve().parent.parent
@@ -91,6 +96,13 @@ def main():
             for i, value in enumerate(values, 1):
                 ET.SubElement(state, 'joint', name=f'joint{i}-a1_{suffix}', value=str(value))
 
+    semantic.append(ET.Comment(
+        '仅适用于本项目已确认的固定安装：左右 Link1–Link4 永不互碰；调整安装后需重新核实。'))
+    for left in range(1, 5):
+        for right in range(1, 5):
+            ET.SubElement(semantic, 'disable_collisions',
+                          link1=f'left_Link{left}', link2=f'right_Link{right}', reason='Never')
+
     gripper = xacro('macro', name='onero_dual_woan_picker', params='prefix')
     for element in ET.parse(ROOT/'src/onero_a1_description/urdf/onero_woan_picker.urdf').getroot():
         gripper.append(prefixed(element, joints=True))
@@ -115,6 +127,7 @@ def main():
         for side in ('left', 'right'):
             source = semantic.find(f"group_state[@name='{name}'][@group='{side}_arm']")
             state.extend(deepcopy(list(source)))
+    apply_collision_meshes(macro, ROOT/'src/onero_a1_description')
     write(macro, ROOT/'src/onero_a1_description/urdf/onero_a1_arms.urdf.xacro')
     write(semantic, ROOT/'src/onero_a1_moveit_config/config/onero_a1_dual.srdf.xacro')
     single = ET.Element('robot', name='onero_a1')

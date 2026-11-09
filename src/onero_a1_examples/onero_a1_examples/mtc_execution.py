@@ -15,6 +15,11 @@ from .support import MoveItError
 from .task_support import confirm_opening, grasp_bottle, task_state, wait_for_arm_settled
 
 
+def placement_support_gap(scene, config, position, support):
+    height = scene.support_height(position, config.diameter/2., object_id=support)
+    return None if height is None else float(position[2]-config.bottle_height/2.-height)
+
+
 def reset_task(node):
     """Operator-confirmed recovery after removing the physical bottle."""
     if not node.args.execute:
@@ -30,12 +35,13 @@ def reset_task(node):
 
 class MtcExecutor:
     def __init__(self, node, config, geometry, scene, *, mass=.1, simulated=False,
-                 planner=None, motions=None, yield_target=None):
+                 planner=None, motions=None, yield_target=None, release_transform=None):
         if not math.isfinite(mass) or mass <= 0.:
             raise MoveItError('水瓶质量必须是大于零的有限数值')
         self.node, self.config, self.geometry, self.scene = node, config, geometry, scene
         self.mass, self.simulated = float(mass), simulated
         self.planner, self.motions, self.yield_target = planner, motions or {}, yield_target
+        self.release_transform = release_transform
         self.holding = self.completed = False
         self.gains = self.payload = None
         self._gains_changed = self._payload_changed = False
@@ -67,15 +73,21 @@ class MtcExecutor:
         center = transform[:3, 3]-transform[:3, 2]*self.config.grasp_height
         error = center-np.asarray(self.config.place_position)
         tilt = math.acos(float(np.clip(transform[2, 2], -1., 1.)))
+        reported = self.release_transform(transform) if self.release_transform is not None else transform
+        physical_center = reported[:3, 3]-reported[:3, 2]*self.config.grasp_height
+        gap = placement_support_gap(self.scene, self.config, physical_center, self.config.place_support)
         valid = (np.linalg.norm(error) <= self.config.position_tolerance
                  and abs(error[2]) <= self.config.placement_height_tolerance
+                 and gap is not None and abs(gap) <= self.config.placement_height_tolerance
                  and tilt <= self.config.orientation_tolerance)
-        return transform, error, tilt, bool(valid)
+        return transform, error, tilt, bool(valid), gap
 
     def _check_place(self):
-        transform, error, tilt, valid = self._placement(task_state(self.node))
+        transform, error, tilt, valid, gap = self._placement(task_state(self.node))
+        support = (f'未找到支撑面 {self.config.place_support}（模型缺失或瓶底不满足 5 mm 边缘余量）'
+                   if gap is None else f'瓶底距支撑面 {gap*1000:+.1f} mm')
         detail = (f'XYZ 偏差 [{error[0]*1000:+.1f}, {error[1]*1000:+.1f}, '
-                  f'{error[2]*1000:+.1f}] mm，倾斜 {tilt:.4f} rad')
+                  f'{error[2]*1000:+.1f}] mm，倾斜 {tilt:.4f} rad，{support}')
         if not valid:
             raise MoveItError(f'放置反馈超差（模型 FK）：{detail}；保持夹持，不松爪')
         print(f'放置反馈（模型 FK）：{detail}。')
@@ -90,7 +102,7 @@ class MtcExecutor:
         previous = None
         for attempt in range(3):
             current = task_state(self.node)
-            _, error, tilt, valid = self._placement(current)
+            transform, error, tilt, valid, gap = self._placement(current)
             norm = float(np.linalg.norm(error))
             # A correction that does not measurably improve the fresh feedback
             # is chasing servo noise or support contact; stop instead of
@@ -99,6 +111,18 @@ class MtcExecutor:
             if (valid or attempt == 2 or norm > .03 or not improved
                     or tilt > self.config.orientation_tolerance):
                 return self._check_place()
+            if gap is None:
+                # A held bottle can lose the 5 mm release margin without its
+                # footprint leaving the plate. Permit only an inward correction
+                # from full physical support toward a target with the full margin.
+                reported = self.release_transform(transform) if self.release_transform is not None else transform
+                center = reported[:3, 3]-reported[:3, 2]*self.config.grasp_height
+                radius, support = self.config.diameter/2., self.config.place_support
+                # Conservatively include the tilted body's horizontal projection.
+                footprint = radius+self.config.bottle_height/2.*math.sin(tilt)
+                if (self.scene.support_height(center, footprint, object_id=support, margin=0.) is None
+                        or self.scene.support_height(center-error, footprint, object_id=support) is None):
+                    return self._check_place()
             previous = norm
             # Use a half-step: full compensation can cross the support and
             # reverse the tracking error when the loaded arm settles.

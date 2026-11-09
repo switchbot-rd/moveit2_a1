@@ -3,6 +3,7 @@ from copy import deepcopy
 import json
 import os
 from pathlib import Path
+import time
 
 import numpy as np
 from action_msgs.msg import GoalStatus
@@ -18,7 +19,7 @@ from .arm_gripper_task import build_steps, candidates
 from .bottle_scene import BottleScene, PickerGeometry, matrix_pose, pose_matrix
 from .dual_task_support import Mirror, arm_clients, endpoint, synchronize
 from .support import MoveItError
-from .task_support import (Step, confirm_opening, plan_step, preview_segment, rounded_waypoints,
+from .task_support import (CartesianPathFailure, Step, confirm_opening, plan_step, preview_segment, rounded_waypoints,
                            task_state, wait_for_arm_settled, wait_seconds)
 
 
@@ -118,10 +119,12 @@ class DualBottleTask:
                 scene.world()
                 scene.allow_touch(True, support=True)
 
-    def prepare(self, initial):
+    def prepare(self, initial, *, preferred_height=None):
         right = self.arms['right']
-        errors = []
-        for bottle, pregrasp, grasp, lifted in candidates(right, self.reference, self.offsets['right'], self.scenes['right']):
+        errors, alignment_cache, last_failure = [], {}, None
+        began = time.monotonic()
+        for bottle, pregrasp, grasp, lifted in candidates(right, self.reference, self.offsets['right'],
+                self.scenes['right'], preferred_height=preferred_height):
             try:
                 left_bottle = deepcopy(bottle)
                 left_bottle.position.y *= -1.
@@ -135,16 +138,24 @@ class DualBottleTask:
                 self.steps['right'] = build_steps(right, self.reference, pregrasp, grasp, lifted, self.angles['right'])
                 self.steps['left'] = build_steps(self.arms['left'], self.reference,
                     *[self.mirror.pose(pose) for pose in (pregrasp, grasp, lifted)], self.angles['left'])
-                self.combined = self.run(initial)
+                self.combined = self.run(initial, alignment_cache=alignment_cache)
+                target = pose_matrix(grasp)
+                self.grasp_height = float((target @ np.r_[self.offsets['right'], 1.])[2]-bottle.position.z)
+                print(f'双臂预检查耗时 {time.monotonic()-began:.2f} s，'
+                      f'尝试 {len(errors)+1} 个候选，抓取点高于瓶身中心 {self.grasp_height*1000:.0f} mm。')
                 return
             except MoveItError as exc:
+                exc.__traceback__ = None
+                last_failure = exc
                 errors.append(str(exc))
                 print('镜像抓取方案不可用：'+str(exc))
             finally:
                 self.reset()
-        raise MoveItError('没有可行的双臂镜像取放方案：'+(errors[-1] if errors else '请调整右臂起点或加载桌面'))
+        detail = last_failure.explain() if isinstance(last_failure, CartesianPathFailure) else (
+            errors[-1] if errors else '请调整右臂起点或加载桌面')
+        raise MoveItError('没有可行的双臂镜像取放方案：'+detail)
 
-    def carry(self, current):
+    def carry(self, current, *, diagnose_failure=True):
         result = RobotTrajectory()
         result.joint_trajectory.joint_names = LEFT_JOINTS+JOINTS
         elapsed = 0.
@@ -158,10 +169,12 @@ class DualBottleTask:
                 origin = arm.fk(current)
                 contacts[side] = pose_matrix(origin if begin == 4 else steps[7].target)[:3, 3]
                 path = rounded_waypoints(origin, poses)
-                trajectories.append(plan_step(arm, current, Step('连续搬运', 'cartesian', path)))
+                trajectories.append(plan_step(arm, current, Step('连续搬运', 'cartesian', path),
+                                              diagnose_failure=diagnose_failure))
             permitted = dict.fromkeys(self.arms, True)
 
             def check(state):
+                changed = False
                 for side, arm in self.arms.items():
                     position = pose_matrix(arm.fk(state))[:3, 3]
                     contact = contacts[side]
@@ -169,6 +182,8 @@ class DualBottleTask:
                     if near != permitted[side]:
                         self.scenes[side].allow_touch(True, support=near)
                         permitted[side] = near
+                        changed = True
+                return changed
 
             try:
                 trajectory = synchronize(self.node, current, trajectories, check=check)
@@ -189,7 +204,31 @@ class DualBottleTask:
                 result.joint_trajectory.points.append(hold)
         return result
 
-    def run(self, initial, execute=False):
+    def alignment(self, current, target, cache=None):
+        # Reuse only inside one precheck. Every use still synchronizes and
+        # collision-checks against a fresh scene; execution never receives a cache.
+        key = tuple(sorted(current.items())), tuple(sorted(target.items()))
+
+        def checked(trajectory):
+            if (len(trajectory.joint_trajectory.points) > 1
+                    and _seconds(trajectory.joint_trajectory.points[-1].time_from_start) > 0.):
+                return synchronize(self.node, current, [trajectory])
+            return trajectory
+
+        if cache is not None and key in cache:
+            try:
+                return checked(deepcopy(cache[key]))
+            except MoveItError:
+                # A changed scene can invalidate the old path but allow a new one.
+                pass
+        planned = self.node.plan(current, self.node.joint_constraints(target))
+        result = checked(planned)
+        if (cache is not None and len(planned.joint_trajectory.points) > 1
+                and _seconds(planned.joint_trajectory.points[-1].time_from_start) > 0.):
+            cache[key] = deepcopy(planned)
+        return result
+
+    def run(self, initial, execute=False, *, alignment_cache=None):
         node, current, combined = self.node, dict(initial), []
         gains = {side: GainClient(arm, f'/{side}/onero_topic_bridge') for side, arm in self.arms.items()} if execute else {}
         # A coordinated joint goal holds the right arm at its measured reference while aligning the left.
@@ -201,16 +240,19 @@ class DualBottleTask:
             if execute:
                 current = task_state(node)
             step.start = self.scenes['right'].state(current)
+            began = time.monotonic()
             if index == -1:
-                step.trajectory = node.plan(current, node.joint_constraints(step.target))
+                step.trajectory = self.alignment(current, step.target, None if execute else alignment_cache)
             elif step.kind == 'gripper':
                 targets = {arm.gripper_joint:self.steps[side][index].target for side, arm in self.arms.items()}
                 step.trajectory = node.plan(current, node.joint_constraints(targets), group='both_grippers')
             elif index == 4:
-                step.trajectory = self.carry(current)
+                step.trajectory = self.carry(current, diagnose_failure=execute)
             else:
-                paths = [plan_step(arm, current, self.steps[side][index]) for side, arm in self.arms.items()]
+                paths = [plan_step(arm, current, self.steps[side][index], diagnose_failure=execute)
+                         for side, arm in self.arms.items()]
                 step.trajectory = synchronize(node, current, paths)
+            print(f'轨迹准备耗时 {time.monotonic()-began:.2f} s。')
             if execute:
                 node.show_plan(step.trajectory)
                 if index == 3:
@@ -276,6 +318,7 @@ def example(node):
     identity = {'version':'dual_mirror_v1', 'device':devices, **{name:getattr(node.args, name) for name in
         ('diameter','bottle_height','lift','reach','open_opening','grasp_opening','tcp_offset','support_height')}}
     path = Path(os.environ.get('ROS_HOME', str(Path.home()/'.ros')))/'tasks/arm_gripper_task_both.json'
+    preferred_height = None
     if node.args.execute:
         try:
             saved = json.loads(path.read_text())
@@ -286,9 +329,10 @@ def example(node):
         if node.args.bottle_position is not None and not np.allclose(node.args.bottle_position, saved['right_position'], atol=1e-6, rtol=0.):
             raise MoveItError('右瓶位置与预览不一致，请重新预览')
         arms['right'].args.bottle_position = saved['right_position']
+        preferred_height = saved.get('grasp_height')
     initial = task_state(node)
     task = DualBottleTask(node, arms, initial)
-    task.prepare(initial)
+    task.prepare(initial, preferred_height=preferred_height)
     positions = {side:pose_matrix(scene.bottle.pose)[:3, 3].tolist() for side, scene in task.scenes.items()}
     print(f'水瓶中心（world，m）：右={positions["right"]}，左={positions["left"]}。')
     if node.args.execute:
@@ -296,8 +340,9 @@ def example(node):
         print('双臂同步取放完成，两瓶已放回并松爪。')
     else:
         task.preview()
-        path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix('.tmp')
-        temporary.write_text(json.dumps({'config':identity, 'right_position':positions['right']}, ensure_ascii=False, indent=2))
-        temporary.replace(path)
         print('预览完成；按坐标摆放两个水瓶，添加 --execute 执行。')
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(json.dumps({'config':identity, 'right_position':positions['right'],
+                                    'grasp_height':task.grasp_height}, ensure_ascii=False, indent=2))
+    temporary.replace(path)

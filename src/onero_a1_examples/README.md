@@ -62,6 +62,9 @@
 
 默认 OMPL / RRTConnect；仅下列示例接受 `--pipeline` / `--planner`。
 
+RRTConnect 的搜索扩展距离由[规划配置](../onero_a1_moveit_config/config/ompl_planning.yaml)中的
+`rrtconnect_range` 设置，默认 `0.5`；设为 `0` 使用 OMPL 自动值。该值影响搜索步长，不改变执行速度；修改后重启服务。
+
 | 示例 | 可用管线 |
 |---|---|
 | `joint_goal`、`dual_joint_goal`、`named_pose`、`return_startup`、`planning_scene` | OMPL、CHOMP、STOMP |
@@ -196,6 +199,8 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 
 预览记录：`$ROS_HOME/tasks/arm_gripper_task_both.json`。
 
+先预览一次可记录可用的抓取高度，供随后执行时优先尝试。修改点位或环境后重新预览。
+
 ### 固定位置抓取放置
 
 `fixed_pick_place` 使用双臂搬运一个水瓶，默认 **右臂 A→B，左臂 B→C**。添加 `--round-trip` 后，再由 **左臂 C→B，右臂 B→A** 返回。交接时先放下、松爪并让位，再由另一臂取瓶；搬运中保持瓶身直立。
@@ -238,6 +243,7 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 | `--max-solutions` | `3` | 最多搜索的完整方案数，正整数 |
 | `--grasp-angle-step` | `1.5708` rad | 抓取朝向间隔，默认 90° |
 | `--task-timeout` | `60` s | 每段搜索时限 |
+| `--ik-search` | `auto` | 自动选择可用抓放方案；排查规划问题时可用 `full` 进行完整搜索 |
 | `--planning-time` | `10` s | 单次连接规划时限 |
 | `--planner` | `RRTConnect` | 搬运路径的 OMPL 规划器 |
 | `--mass` | `0.1` kg | 用于负载补偿，执行前按实物填写 |
@@ -245,6 +251,12 @@ OMPL 算法：`RRTConnect`、`RRTstar`、`PRM`、`EST`、`LBKPIECE`、`BiTRRT`�
 | `--reset-task` | 关闭 | 清理任务模型并恢复两臂启动负载；搭配 `--execute` |
 
 点位、瓶子尺寸和夹取/放置补偿见[任务配置](config/mtc_pick_place.yaml)。A/B/C 为 world 坐标系中的瓶身中心，单位 m；修改瓶高时同步调整三个点的中心高度，再重新预览。
+
+`--task-timeout` 设置每段规划的最长搜索时间；找到方案可提前结束。缩短时限可能导致规划失败，不能保证更快开始运动。
+
+默认 `auto` 会记录规划通过的抓放方向，供后续运行优先尝试；不可用时自动继续搜索。先预览一次有助于减少随后执行时的规划等待。修改环境、点位、瓶子尺寸或补偿后重新预览；预览通过后仍需核对实物夹持和放置结果。
+
+配置中的 `placement_height_tolerance` 同时限制目标高度偏差和模型瓶底与支撑面的间隙，默认均为 ±8 mm。超差时最多做 2 次小幅修正；仍不合格或缺少安全支撑区域时，保持夹持并停止。
 
 夹取或放置失败后会停止后续动作，持瓶时保留夹持、模型和负载。若提示已有附着水瓶，先托住水瓶，再依次操作：
 

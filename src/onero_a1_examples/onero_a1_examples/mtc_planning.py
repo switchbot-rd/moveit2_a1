@@ -146,7 +146,7 @@ def fixed_mounting_contacts(description, object_names):
     return result
 
 
-def task_parameters(node, config, grasp_angle):
+def task_parameters(node, config, grasp_angle, *, fast_ik=False):
     prefixes = ['robot_description', 'robot_description_semantic', 'robot_description_kinematics',
                 'robot_description_planning', 'ompl']
     names = node.call(ListParameters, '/move_group/list_parameters',
@@ -189,6 +189,15 @@ def task_parameters(node, config, grasp_angle):
         prefix = f'robot_description_kinematics.{node.group}.'
         parameters[prefix+'natural_reference'] = [reference[name] for name in node.joints]
         parameters[prefix+'natural_weights'] = list(IK_POSTURE_WEIGHTS)
+        parameters[prefix+'natural_fast_mode'] = fast_ik
+        if fast_ik:
+            from .mtc_ik_seeds import load_seeds
+            seeds = load_seeds(node)
+            if seeds:
+                parameters[prefix+'natural_seed_bank'] = [value for seed in seeds for value in seed]
+            print(f'MTC IK 快速搜索：已加载 {len(seeds)} 个已通过检查的构型作为初值。')
+        else:
+            parameters.pop(prefix+'natural_seed_bank', None)
     state = ET.SubElement(semantic, 'group_state', name='onero_mtc_natural', group=node.group)
     for name, value in reference.items():
         ET.SubElement(state, 'joint', name=name, value=str(float(value)))
@@ -198,7 +207,7 @@ def task_parameters(node, config, grasp_angle):
 
 class MtcPlanner:
     def __init__(self, node, config, geometry, object_id, *, yield_target=None,
-                 initial_clearance=None, rear_preparation=False):
+                 initial_clearance=None, rear_preparation=False, route=None):
         try:
             import rclcpp
             from moveit.task_constructor import core, stages
@@ -209,6 +218,8 @@ class MtcPlanner:
         self.directory = tempfile.TemporaryDirectory(prefix='onero_mtc_')
         self.initial_clearance = initial_clearance
         self.rear_preparation = rear_preparation
+        self.route = route
+        self._fast_ik = getattr(node.args, 'ik_search', 'auto') == 'auto'
         self._using_initial_clearance = False
         self._recipe = (node, config, geometry, object_id, core, stages, yield_target)
         try:
@@ -218,12 +229,14 @@ class MtcPlanner:
             raise
 
     def reset(self, node, config, geometry, object_id, *, yield_target=None, initial_clearance=None,
-              rear_preparation=False):
+              rear_preparation=False, route=None):
         """Build the next relay leg without restarting the native ROS context."""
         from moveit.task_constructor import core, stages
         self.solvers, self.task, self.native_node = (), None, None
         self.initial_clearance, self._using_initial_clearance = initial_clearance, False
         self.rear_preparation = rear_preparation
+        self.route = route
+        self._fast_ik = getattr(node.args, 'ik_search', 'auto') == 'auto'
         self._recipe = (node, config, geometry, object_id, core, stages, yield_target)
         try:
             self._build(*self._recipe)
@@ -234,10 +247,12 @@ class MtcPlanner:
     def _build(self, node, config, geometry, object_id, core, stages, yield_target,
                *, initial_clearance=None):
         self.motions = {}
+        from .mtc_directions import load_directions
+        self._preferred_directions = load_directions(node, self.route) if self._fast_ik else None
         self._using_initial_clearance = initial_clearance is not None
         rclcpp = self.rclcpp
         angle = geometry.angle if config.grasp_opening is None else config.grasp_opening*1.1
-        parameters = task_parameters(node, config, angle)
+        parameters = task_parameters(node, config, angle, fast_ik=self._fast_ik)
         path = Path(self.directory.name)/'parameters.yaml'
         path.write_text(yaml.safe_dump({'/**': {'ros__parameters': parameters}}, sort_keys=False))
         previous = signal.getsignal(signal.SIGINT)
@@ -253,12 +268,17 @@ class MtcPlanner:
         self.task = task = core.Task('mtc_pick_place')
         task.name = f'{node.arm_side} pick and place (natural)'
         task.loadRobotModel(self.native_node)
+        from .mtc_reachability import place_reach_bound
+        self._place_reach_bound = place_reach_bound(parameters, node.group, node.tip_link)
         self.supports = {config.pick_support, config.place_support}
         current = stages.CurrentState('current state')
         current.timeout = 5.
         task.add(current)
         world = node.call(GetPlanningScene, '/get_planning_scene', GetPlanningScene.Request(
-            components=PlanningSceneComponents(components=PlanningSceneComponents.WORLD_OBJECT_NAMES))).scene.world
+            components=PlanningSceneComponents(components=PlanningSceneComponents.WORLD_OBJECT_GEOMETRY))).scene.world
+        bottle = next((obj for obj in world.collision_objects if obj.id == object_id), None)
+        self._pick_yaw = (float(Rotation.from_matrix(pose_matrix(bottle.pose)[:3, :3]).as_euler('xyz')[2])
+                          if bottle is not None else 0.)
         contacts = fixed_mounting_contacts(parameters['robot_description'], {obj.id for obj in world.collision_objects})
         self.mounting_contacts = contacts
         if contacts:
@@ -356,7 +376,16 @@ class MtcPlanner:
         pipeline.max_velocity_scaling_factor = node.args.velocity
         pipeline.max_acceleration_scaling_factor = node.args.acceleration
         self.solvers += (pipeline,)
-        stage = stages.MoveTo(f'{node.arm_side} arm yield', pipeline)
+        solver = pipeline
+        if self._fast_ik:
+            direct = core.JointInterpolationPlanner()
+            direct.max_velocity_scaling_factor = node.args.velocity
+            direct.max_acceleration_scaling_factor = node.args.acceleration
+            solver = core.MultiPlanner()
+            solver.add(direct)
+            solver.add(pipeline)
+            self.solvers += (direct, solver)
+        stage = stages.MoveTo(f'{node.arm_side} arm yield', solver)
         stage.group = node.group
         stage.timeout = node.args.planning_time
         stage.path_constraints = axial_constraints(node, config, start=node.start if start is None else start)
@@ -420,8 +449,9 @@ class MtcPlanner:
             stage = stages.ComputeIK(name, generator)
             stage.group, stage.eef, stage.ik_frame = node.group, eef, frame
             stage.default_pose = 'onero_mtc_natural'
-            stage.max_ik_solutions, stage.min_solution_distance = 12, .1
-            stage.timeout = min(1., node.args.planning_time)
+            stage.max_ik_solutions = 3 if self._fast_ik else 12
+            stage.min_solution_distance = .1
+            stage.timeout = min(.15 if self._fast_ik else 1., node.args.planning_time)
             stage.constraints = comfortable
             stage.properties.configureInitFrom(core.Stage.PropertyInitializerSource.INTERFACE, ['target_pose'])
             stage.setCostTerm(natural.stage_cost)
@@ -445,7 +475,7 @@ class MtcPlanner:
             approach_touch.allowCollisions(object_id, tips, True)
             references = [reference, restore]
         pick_solver = pipeline
-        if node.arm_side == 'left':
+        if self._fast_ik or node.arm_side == 'left':
             pick_solver = core.MultiPlanner()
             pick_solver.add(gripper)
             pick_solver.add(pipeline)
@@ -470,6 +500,14 @@ class MtcPlanner:
             # The list is sorted by naturalness, so the closest postures are
             # tried first and the rest only cost planning time.
             targets = targets[:limit]
+        from .mtc_directions import preferred_targets
+        place_yaws = np.deg2rad([0., 30., -30., 60., -60., 90., -90., 180.]).tolist()
+        self._grasp_targets, self._place_yaws = targets, place_yaws
+        targets, place_yaws = preferred_targets(targets, place_yaws, self._preferred_directions,
+                                               pick_yaw=self._pick_yaw)
+        if len(place_yaws) == 1:
+            print(f'MTC 优先复用合格方案的抓放方向：抓取 {np.rad2deg(targets[0][0]):g}°，'
+                  f'放置 {np.rad2deg(place_yaws[0]):g}°；按当前目标重新求解。')
         for index, (yaw, pose) in enumerate(targets):
             target = PoseStamped()
             target.header.frame_id = 'world'
@@ -517,7 +555,8 @@ class MtcPlanner:
         # Composite bottle shapes get no yaw freedom from GeneratePlacePose.
         # Explicit upright poses retain the full bottle collision geometry.
         generate_place = core.Alternatives('upright place directions')
-        for degrees in (0., 30., -30., 60., -60., 90., -90., 180.):
+        for yaw in place_yaws:
+            degrees = float(np.rad2deg(yaw))
             pose = PoseStamped()
             pose.header.frame_id = 'world'
             pose.pose.orientation.z = float(np.sin(np.deg2rad(degrees)/2.))
@@ -527,6 +566,9 @@ class MtcPlanner:
             generator = stages.GeneratePose(f'place yaw {degrees:g}')
             generator.pose = pose
             generator.setMonitoredStage(place_contacts)
+            bound = getattr(self, '_place_reach_bound', None)
+            if bound is not None:
+                generator.setCostTerm(bound.object_cost(object_id, pose))
             generate_place.add(generator)
         object_frame = PoseStamped()
         object_frame.header.frame_id = object_id
@@ -741,12 +783,44 @@ class MtcPlanner:
                    if previous else None)
         return MtcMotionPlan(message, motions, constraints, restore)
 
-    def plan(self, max_solutions, timeout):
+    def plan(self, max_solutions, timeout, *, select=None):
+        if self._fast_ik:
+            started = time.monotonic()
+            try:
+                solution = self._plan_task(self.task, max_solutions, min(8., timeout*.25))
+                return select(self) if select is not None else solution
+            except MoveItError as exc:
+                print(f'MTC 快速搜索未得到合格完整方案，自动恢复完整搜索：{exc}', flush=True)
+                exc.__traceback__ = None
+            self._fast_ik = False
+            task_name = self.task.name
+            self.solvers, self.task, self.native_node = (), None, None
+            self._build(*self._recipe)
+            self.task.name = task_name
+            timeout -= time.monotonic()-started
+            if timeout <= 0.:
+                raise MoveItError('MTC 搜索时间已到；请增加 --task-timeout')
+        return self._plan_full(max_solutions, timeout, select=select)
+
+    def remember_directions(self, message):
+        from .mtc_directions import save_directions, solution_directions
+        node, _, _, object_id, *_ = self._recipe
+        try:
+            directions = solution_directions(node, message, object_id, self._grasp_targets, self._place_yaws)
+            save_directions(node, self.route, directions)
+        except (ValueError, RuntimeError) as exc:
+            print(f'MTC 抓放方向记录未更新：{exc}；不影响本次方案。')
+
+    def _plan_full(self, max_solutions, timeout, *, select=None):
+        def plan():
+            solution = self._plan_task(self.task, max_solutions, timeout)
+            return select(self) if select is not None else solution
+
         if self.initial_clearance is None or self._using_initial_clearance:
-            return self._plan_task(self.task, max_solutions, timeout)
+            return plan()
         print('MTC 优先保持左臂原位规划接力。')
         try:
-            return self._plan_task(self.task, max_solutions, timeout)
+            return plan()
         except MoveItError as exc:
             # No planning scene effects have been executed. Retry as another
             # complete MTC recipe, not an extra motion added by the executor.
@@ -758,13 +832,20 @@ class MtcPlanner:
         self._build(*self._recipe, initial_clearance=self.initial_clearance)
         if task_name is not None:
             self.task.name = task_name
-        return self._plan_task(self.task, max_solutions, timeout)
+        return plan()
 
     @staticmethod
     def _plan_task(task, max_solutions, timeout, *, timeout_option='--task-timeout'):
         expired = threading.Event()
         finished = threading.Event()
         started = time.monotonic()
+        diagnostics = None
+        if timeout_option == '--task-timeout':
+            from .mtc_diagnostics import PlanningDiagnostics
+            try:
+                diagnostics = PlanningDiagnostics(task.name, started)
+            except Exception as exc:
+                print(f'MTC 阶段统计未启动：{exc}')
 
         def report():
             while not finished.wait(5.):
@@ -790,7 +871,13 @@ class MtcPlanner:
             progress.join()
             timer.cancel()
             timer.join()
-        print(f'MTC 规划耗时 {time.monotonic()-started:.1f} s。', flush=True)
+            elapsed = time.monotonic()-started
+            if diagnostics is not None:
+                try:
+                    diagnostics.close(elapsed)
+                except Exception as exc:
+                    print(f'MTC 阶段统计未完成：{exc}；不影响规划结果。')
+        print(f'MTC 规划耗时 {elapsed:.1f} s。', flush=True)
         if not len(task.solutions):
             for line in MtcPlanner._failure_report(task):
                 print(line, flush=True)

@@ -1,0 +1,1639 @@
+{
+  "format_version": 1,
+  "representation": "Conservative convex arm blocks, analytic primitives and outer-profile gripper prisms; not a uniform surface-decimation error bound.",
+  "meshes": {
+    "A1_l/base_link.STL": {
+      "source_sha256": "b65022a6be0b88844ea912b7d1f59f61ad1ba79d38cff41a0fdff5a961422ce0",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.00027777813374996185,
+            2.7939677238464355e-08,
+            0.0024999999415944336
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04277417470485317,
+          "length": 0.004999999893293716,
+          "source_triangles": 1977
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -3.758631646633148e-05,
+            0.0,
+            0.030874999237514567
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.031787496845157456,
+          "length": 0.06174999848513399,
+          "source_triangles": 1683
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0,
+            0.022249999456107616,
+            0.06499999575316906
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            0.009999999776482584,
+            0.00300000049173832,
+            0.006499994546175004
+          ],
+          "source_triangles": 34
+        }
+      ],
+      "primitives_sha256": "17a53c38311cb5d9b40d58e842e7dabebaf9d79e2c307361d5121a37973965a3",
+      "covers_source_triangles": true,
+      "source_triangles": 3694,
+      "verified_source_triangles": 3694
+    },
+    "A1_l/Link1.STL": {
+      "source_sha256": "d99193c57ca4197710c90a0e5b6ffb75c427a03c6a8f1ab828e584acf91ba183",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -3.1478703022003174e-07,
+            1.4901161193847656e-08,
+            0.03392510657431558
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04016644124462112,
+          "length": 0.06613269855733962,
+          "source_triangles": 8346
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            1.5873461961746216e-05,
+            -0.0031511029228568077,
+            0.12745534256100655
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0.0,
+            0.0
+          ],
+          "radius": 0.046310315414618566,
+          "length": 0.06859781034290792,
+          "source_triangles": 9880
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link1_0.STL",
+          "collision_sha256": "5515b5671eee92cd2e2d08d726757bc7f473595f1f30dbddf8c5e4aa7f57662c"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link1_1.STL",
+          "collision_sha256": "081b271837399f30fd7a73fbe458168eb039d70dfabf70fddf734b63e3143bb8"
+        }
+      ],
+      "primitives_sha256": "f924f66deb3f06f3d470ff4062c1b47a5ed1ff7151b211878b2dbb0a58f1439c",
+      "covers_source_triangles": true,
+      "source_triangles": 20972,
+      "verified_source_triangles": 20972
+    },
+    "A1_l/Link2.STL": {
+      "source_sha256": "e532cf8e0fe371f5bcac6c30b036bd9b544048956e69ce69b0df1a91ab626fe7",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_0.STL",
+          "collision_sha256": "824f8423a7aaf9793d62c5771a6030f60b63e71b22a07de53c04efee0cb3e4f0"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_1.STL",
+          "collision_sha256": "e50fe4bd1d36a08e468f82c03620378a7d64002677c7d266545f1e760242bedf"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_2.STL",
+          "collision_sha256": "ba86fd2a0886a361358206244a4fa0b1aff316f721282e1f4b224f6595799f85"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_3.STL",
+          "collision_sha256": "c9ce18e987a0adc8640252b9245fc1395125f5729eb3e3e2b213524b137349bf"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_4.STL",
+          "collision_sha256": "00ab3a7e518e1bbd0207b5b2208747bbb8c4b78acaaffee3c631af3ae9c4c3e7"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_5.STL",
+          "collision_sha256": "af5aa7bca95b6d92bf1d879d3f04f4889bcee5975f107dec26beb50043789332"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link2_6.STL",
+          "collision_sha256": "bc5247e1920f54f63fa1ef02a1c6152754ad94894cc039a57f46fca34df8977b"
+        }
+      ],
+      "primitives_sha256": "422bec6f647b06292600c8b49f0fe41b7d09a9b0d48b2493f3e86181fa430867",
+      "covers_source_triangles": true,
+      "source_triangles": 20726,
+      "verified_source_triangles": 20726
+    },
+    "A1_l/Link3.STL": {
+      "source_sha256": "4cdc4b8d5e21cd20ebb2c7ce832dccb9c9970e5a826a12826d2b36d3a6de386a",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            8.046627044677734e-07,
+            0.00015051104128360748,
+            0.04111611936241388
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04177136928439921,
+          "length": 0.02573223970830441,
+          "source_triangles": 7996
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            5.755573511123657e-07,
+            0.008788352832198143,
+            0.14024769701063633
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04174976421766836,
+          "length": 0.08228060975670816,
+          "source_triangles": 7702
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link3_0.STL",
+          "collision_sha256": "ce79e5717396f6df2f3e13a0829a28599fa0ceaa8e07f2f1caf36ba95b9ed3dd"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link3_1.STL",
+          "collision_sha256": "dafe448dc5ef52002cadf67f1a27480b64c4c4c09f9126bea771ea71100b624d"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link3_2.STL",
+          "collision_sha256": "eda40f91425a4233fb5633b08d481a3d5962bd08a1a98413e7550103656239f5"
+        }
+      ],
+      "primitives_sha256": "b8347f3db37eef08c81cc3d0774c271dd8174a5b49658b6000c3065e3eb2c04b",
+      "covers_source_triangles": true,
+      "source_triangles": 26844,
+      "verified_source_triangles": 26844
+    },
+    "A1_l/Link4.STL": {
+      "source_sha256": "b6f964da28bf7b5f0db5d4342b4248e4abb1aa2d7ea4e7ca293835a0764d9bdc",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link4_1.STL",
+          "collision_sha256": "29a686b92385693b8877cbaaf135b6c9e9976c975a21be4634a5070f8dcf47fa"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link4_2.STL",
+          "collision_sha256": "25a99703d14e9f59b11fa281681c044be9dc54207d88b149b6a7828cba9ef722"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link4_3.STL",
+          "collision_sha256": "8b70cefef5f9e942f0f08f8b502d8ab530e9fc1c7de0959a476d1e880ffde9fe"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link4_4.STL",
+          "collision_sha256": "fe56977f73e37f02fb008492ab7414396d8563c8cf41e6fc5a0af42d2b9563f3"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link4_5.STL",
+          "collision_sha256": "e42f9a26075aa82a205e30b114c45f74961b50df9ac37a7af0deed71348ab7a5"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link4_6.STL",
+          "collision_sha256": "a91e0956f677ef7c7c6c6e0572b13a260c48fc22fa1fc38ac5a33103597c8dde"
+        }
+      ],
+      "primitives_sha256": "93ee69660c0d63ac76167d3640d2be98ef189fe62575fa24bdd1f5b57e518160",
+      "covers_source_triangles": true,
+      "source_triangles": 21620,
+      "verified_source_triangles": 21620
+    },
+    "A1_l/Link5.STL": {
+      "source_sha256": "ed380b8b727af3f0706fa606639737d31b0b89be25365c2a298e8ca5c770c205",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            3.725290298461914e-08,
+            -7.82310962677002e-07,
+            0.04195931646972895
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.03850510202513437,
+          "length": 0.03191873244941235,
+          "source_triangles": 7186
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -1.6391277313232422e-05,
+            9.313225746154785e-08,
+            0.13301675021648407
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0.0,
+            0.0
+          ],
+          "radius": 0.03700048925040948,
+          "length": 0.05550025030970574,
+          "source_triangles": 7896
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link5_0.STL",
+          "collision_sha256": "28360b3a41604dcf18e0aee2db0a22313907e30ed6b65ee2dc1eeb03f6e288a6"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link5_1.STL",
+          "collision_sha256": "ac3c70e1081387f409096f26789d7986ce4f06f8b87a82642e87974cb486c479"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link5_2.STL",
+          "collision_sha256": "a80adc664e951f89f01e5cd289609efd78490e435dcf74ec67a5495b3066dda3"
+        }
+      ],
+      "primitives_sha256": "39d09a77db0e97d18fd9b57c46fca770d62aba57862309bbd7f9a0ad941b3163",
+      "covers_source_triangles": true,
+      "source_triangles": 27250,
+      "verified_source_triangles": 27250
+    },
+    "A1_l/Link6.STL": {
+      "source_sha256": "af00eb37d81eb6566060545a8222e7589d70932c0b82fc8737bb172d3690f827",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_0.STL",
+          "collision_sha256": "164acfd118da75c83de8e3a916d7c7d4257a88ed2f5ec00be0dddb458c4cc678"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_1.STL",
+          "collision_sha256": "5940a0412978af0adbbce0ffdbb8a496df3f927446e7644e66df1d84107a5865"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_2.STL",
+          "collision_sha256": "b265f268f82346ebb43e2a327991d73a55e46f67693421c8379b0b6e8f5a6397"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_3.STL",
+          "collision_sha256": "ea7c77ddab63292adf4c2ae78355d7ee21b1a4b57115ebf88ca9d7074c1db21b"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_4.STL",
+          "collision_sha256": "e1ebcf54c183d09e6e4bab22b214c9b4dbee9f1a482547cb646a1070b7075a8e"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_5.STL",
+          "collision_sha256": "be6d5d88b2e4a2e315fe670cbea651ee9dccb5aec2a39c21435842f8da0bd32f"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link6_6.STL",
+          "collision_sha256": "858c10cf0c8d2368d39e6c5c78c43cd19496ea85700f5fae901d1890e76aa62d"
+        }
+      ],
+      "primitives_sha256": "b0e0d196350ee25e423b596f12603519d268c2579b7fe3b5cbc2e11a860122eb",
+      "covers_source_triangles": true,
+      "source_triangles": 17066,
+      "verified_source_triangles": 17066
+    },
+    "A1_l/Link7.STL": {
+      "source_sha256": "44fb29011e38c02b33b0d797443bf699cce3d245c316675f2391c33d61f47c37",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.00013298168778419495,
+            0.0030000023604364046
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.02070114384029141,
+          "length": 0.00599998327624185,
+          "source_triangles": 1359
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_l/Link7_1.STL",
+          "collision_sha256": "166e3a7830d292d8f24e2fad38c193d05035a588bd702acc2b787c8e9f7423a7"
+        }
+      ],
+      "primitives_sha256": "47b6b878e8ffb58dc2be6036149eb5f9852c85565dde0da14a35071d42ca57c6",
+      "covers_source_triangles": true,
+      "source_triangles": 1506,
+      "verified_source_triangles": 1506
+    },
+    "A1_r/base_link.STL": {
+      "source_sha256": "4e87134bbbb060353cd775f7cc4ae27c6eb95341d895a2ed1d2cdde76c772237",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.00019968673586845398,
+            -2.238526940345764e-05,
+            0.00249999994159443
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04270082630078661,
+          "length": 0.004999999893293723,
+          "source_triangles": 2199
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            3.758631646633148e-05,
+            0.0,
+            0.030874999237514564
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.031787496845157456,
+          "length": 0.061749998485133996,
+          "source_triangles": 1683
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0,
+            -0.022249999456107616,
+            0.06499999575316906
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            0.009999999776482584,
+            0.00300000049173832,
+            0.006499994546175004
+          ],
+          "source_triangles": 34
+        }
+      ],
+      "primitives_sha256": "4a9875723244ebb43041b8e2e8847b8d0c5f79fa70bf00803a6986fe4e4130fb",
+      "covers_source_triangles": true,
+      "source_triangles": 3916,
+      "verified_source_triangles": 3916
+    },
+    "A1_r/Link1.STL": {
+      "source_sha256": "ce57c22a5b46aed102bc1623cd435d12dbd0f50fc8a3ba089791bf013f98691a",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -2.253800630569458e-07,
+            -1.4901161193847656e-08,
+            0.033919056702870876
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04016646350032312,
+          "length": 0.06612059881445022,
+          "source_triangles": 8261
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            3.680400550365448e-05,
+            0.0031511029228568077,
+            0.127476392313838
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0.0,
+            0.0
+          ],
+          "radius": 0.04629179594661228,
+          "length": 0.06859781034290792,
+          "source_triangles": 10024
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link1_0.STL",
+          "collision_sha256": "0b2df591c6907c0b31c76ac6a0fad8f31d515221fdfc8602df77e26d0e035107"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link1_1.STL",
+          "collision_sha256": "f0456cac0a907fb10e99f777e6c9be52bb9739b5b45741183f2edcc05b76adcb"
+        }
+      ],
+      "primitives_sha256": "619015480425dfefcafaaa263eed711a8c00acb078fd370f0c08f587030e4f65",
+      "covers_source_triangles": true,
+      "source_triangles": 21018,
+      "verified_source_triangles": 21018
+    },
+    "A1_r/Link2.STL": {
+      "source_sha256": "76b84009a598a72cb180c057b5ba65bcbf0b96800da30de41166d34062d80051",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_0.STL",
+          "collision_sha256": "6de4d6a241326aeffd9aeea657955a806dabe20e5797b23881394f1fc6e3673d"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_1.STL",
+          "collision_sha256": "8b25c0ca7124d530f53a0041b1d2786372c178d3abfd7c08dff5cdf1570b8811"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_2.STL",
+          "collision_sha256": "6506662e1da9d6d4e3eefb7c836d9492541af5e358a97d95f3686dc9c713879d"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_3.STL",
+          "collision_sha256": "0f53f7bde0e5f23b0b9daa08ba438a95844495efd73325052679934988c3995a"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_4.STL",
+          "collision_sha256": "17bd57e937eacc6c50893e8c9348cb9569d6b7a22b28f8d0ecc4821923a6810f"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_5.STL",
+          "collision_sha256": "3670e805c9058314498bb4b439a7a90c373e3b12e1376d437d39f1d8b1611939"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link2_6.STL",
+          "collision_sha256": "473874f641020c6c07649424f490bee189fb322086d7497131f0b2783fbdf728"
+        }
+      ],
+      "primitives_sha256": "9a182e8e38abb1bade1e2f76c9642c5327c0473e3b7aa82248299afb6b5d877c",
+      "covers_source_triangles": true,
+      "source_triangles": 22616,
+      "verified_source_triangles": 22616
+    },
+    "A1_r/Link3.STL": {
+      "source_sha256": "40e8737ce7a4f8cfbc37ad04c4c6e9f2ba9b0a81a9341cdfb1c3dd46af1ff0c2",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -8.046627044677734e-07,
+            -0.00015051104128360748,
+            0.04111611936241388
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.041771362210250546,
+          "length": 0.02573223970830441,
+          "source_triangles": 7996
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -7.878988981246948e-07,
+            -0.008788693696260452,
+            0.1402499731630087
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0.0,
+            0.0
+          ],
+          "radius": 0.041750699553219306,
+          "length": 0.08227648586034776,
+          "source_triangles": 7700
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link3_0.STL",
+          "collision_sha256": "6fb4b36ef045d46ffd70529bf85b05966a99089bad4103ca6898c7b1c9c630c2"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link3_1.STL",
+          "collision_sha256": "91b979a821c4022929f09d7828fad69f785cd07d7fd71b0d87a9bc23330d82a6"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link3_2.STL",
+          "collision_sha256": "d16f9d10ac81d0bfa62e93e6c4d50d2c116321b83e2d8757259636ea1019b615"
+        }
+      ],
+      "primitives_sha256": "7427984b968a73e87c082cc40859852bee7a60239a6eae289e080ddada60a4c3",
+      "covers_source_triangles": true,
+      "source_triangles": 26842,
+      "verified_source_triangles": 26842
+    },
+    "A1_r/Link4.STL": {
+      "source_sha256": "8901305677c45690ab0fc251292135e07ad54a59ba7aeeb89d7eb33620137ef3",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link4_1.STL",
+          "collision_sha256": "59b2d34d6b6460647983bb0bedb4a34d07d590c084cdde0ffb6ea2b9e8447f6e"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link4_2.STL",
+          "collision_sha256": "89eb672b3ead462acaa23461be0afdb490b279b54893565b64ce1122198a92f6"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link4_3.STL",
+          "collision_sha256": "44ffdc475276ac6f69aaaa5307e8a6e66fc5f7cae7ce27e480ac136718bd4614"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link4_4.STL",
+          "collision_sha256": "065ac348fec63a9b142c2e1ea31a8998cc24b743f7342011ec5d96f40625cd08"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link4_5.STL",
+          "collision_sha256": "bb8c627eecf831111ab332dc0b0e316bbac97bab6e28d0fabf074c59c38a0c88"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link4_6.STL",
+          "collision_sha256": "1e7cc8b8983a465edbd0274cfb110e2386241613e8761231e2c4cfde06edebd9"
+        }
+      ],
+      "primitives_sha256": "a7333d8c3dac1005f4630941788b69b23412940a5f00ff840c9f8335d3eb41db",
+      "covers_source_triangles": true,
+      "source_triangles": 21620,
+      "verified_source_triangles": 21620
+    },
+    "A1_r/Link5.STL": {
+      "source_sha256": "9986ccc5b3554b46b636436f93b1dcf540e745a41504e0902277ba53af9fae48",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -3.725290298461914e-08,
+            7.82310962677002e-07,
+            0.0404593413695693
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.03850510202513437,
+          "length": 0.03491868264973164,
+          "source_triangles": 9180
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            1.6391277313232422e-05,
+            -9.313225746154785e-08,
+            0.13301675021648407
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0.0,
+            0.0
+          ],
+          "radius": 0.03700048925040948,
+          "length": 0.05550025030970574,
+          "source_triangles": 7897
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link5_0.STL",
+          "collision_sha256": "23eb8ded3e4f7289ba8b069758eecc0dae2cbd74c57ae56b6b617993e6336cbd"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link5_1.STL",
+          "collision_sha256": "f702439f2f0ddec8e2e9cb6701b08fb6ce7ded09b8bed8b22f8adbbacc5ec2ec"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link5_2.STL",
+          "collision_sha256": "4adec6b2d625dbbe19dfcf473289ee36ffc964235cb305522a8241b3219077d4"
+        }
+      ],
+      "primitives_sha256": "a2f74e79efc5f06f2e496961d8667d993166a2b1f0d1d82f242665921bc16fa2",
+      "covers_source_triangles": true,
+      "source_triangles": 29244,
+      "verified_source_triangles": 29244
+    },
+    "A1_r/Link6.STL": {
+      "source_sha256": "2b18f213a95c2606a680e8d35ca9ef20417f78fccee3bac9fe15b83ed75caa05",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_0.STL",
+          "collision_sha256": "bc3f966d98d55640e4bf9e18bbe0c7a36bd5a2b8ee2318130188c00acd945de7"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_1.STL",
+          "collision_sha256": "3ac67c528fff781301f4a626d2249d112486a64b1e34ca78c95332643e1f8df8"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_2.STL",
+          "collision_sha256": "9326efc3811ec365596fcb2175b8a00c47fd09921679fd8e487b78af0225f605"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_3.STL",
+          "collision_sha256": "1efc4382e628f835e1d942f4a370070b03c3ecee290f94bd6945a85f065b436f"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_4.STL",
+          "collision_sha256": "632febcc3dd84f854ab423d00eae5feece5202332359bb4613d55551fe4c5e17"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_5.STL",
+          "collision_sha256": "8c423d82502e9256f6d254001119070b3ab11fa25272743f552ba9f9c8b5de1a"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link6_6.STL",
+          "collision_sha256": "80d85787ded1b49a7237792817c903a02efb80d8c90e51cf5367630fb3d057d7"
+        }
+      ],
+      "primitives_sha256": "63c895dca2b42a001311f9ad6d6a3404c92d006b843981b60d7d7e2e1aad93c9",
+      "covers_source_triangles": true,
+      "source_triangles": 15250,
+      "verified_source_triangles": 15250
+    },
+    "A1_r/Link7.STL": {
+      "source_sha256": "f05fa5c4aa376a4c2a5404fad8997872cfa47a433640f9829b9a814cc617e06a",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.00013297796249389648,
+            0.003000004135025769
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.02070114384029141,
+          "length": 0.005999982521030845,
+          "source_triangles": 1359
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/arms/A1_r/Link7_1.STL",
+          "collision_sha256": "5f0df878e6e7b0b895c4e1852e3c7e8bec69a42a05f350b5e26553ee8f3cd4ba"
+        }
+      ],
+      "primitives_sha256": "ccf2be65231eea46fd23e4b30b0fe351b75585d15733c6a9204291e24e21e8ac",
+      "covers_source_triangles": true,
+      "source_triangles": 1506,
+      "verified_source_triangles": 1506
+    },
+    "grippers/woan_picker/Link_L1.STL": {
+      "source_sha256": "6da0382135977bfaeade36bbd03a185b06074d4158a3cf11b54fcbee9c4b3dd7",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/Link_L1_core.STL",
+          "collision_sha256": "d56078ac93caf224e88822eab7df14e82004a518ce2e893f199a153d73464333"
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.0045011,
+          "length": 0.0248022
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/Link_L1_fork_0.STL",
+          "collision_sha256": "7337773a6b0a94d30282cf3f07d5a8ce2f9d3dc75c9230fd9d5e72198d9d4176"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/Link_L1_fork_1.STL",
+          "collision_sha256": "63e8b387b7fc9abf26d376adf609668b9e09d3b7e5503396069c54ede9d2baa5"
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.02632071111787802,
+            0.00042251625498840924,
+            0.0
+          ],
+          "rpy": [
+            0,
+            0,
+            0.19784335506573736
+          ],
+          "size": [
+            0.003780828793877103,
+            0.005881035532354775,
+            0.0120002
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.02321777837602889,
+            0.008165630104064011,
+            0.0
+          ],
+          "rpy": [
+            0,
+            0,
+            0.19784335506573736
+          ],
+          "size": [
+            0.0007399214446007323,
+            0.0019405800750846645,
+            0.0120002
+          ]
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.029415,
+            0.005896700000000001,
+            0.00030200963374227275
+          ],
+          "radius": 0.0040011000000000005,
+          "length": 0.0041942354276448485
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.021505154221579673,
+            0.0029831467941927635,
+            0.0021525896453699557
+          ],
+          "rpy": [
+            0,
+            1.528709524559952,
+            -2.7822846440700073
+          ],
+          "radius": 0.0028646564735895566,
+          "length": 0.013166509667730747
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.02924992517100412,
+            -0.002217574717374121,
+            -0.0016295367471580759
+          ],
+          "rpy": [
+            0,
+            1.6252666135898974,
+            -1.9410416456549127
+          ],
+          "radius": 0.001416935794886633,
+          "length": 0.01471819167285047
+        }
+      ],
+      "primitives_sha256": "00471efedf414a64028479fbfd472e06d04bd77ddd985a1d61af7b34ed1a4585",
+      "covers_source_triangles": true,
+      "source_triangles": 8890,
+      "verified_source_triangles": 8890
+    },
+    "grippers/woan_picker/Link_L2.STL": {
+      "source_sha256": "f8ee5dfab89703b8451b81967c7e02c533c4daabca44389e9908f52b96ff02e3",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.008708800000000001,
+            -0.018004,
+            0.0
+          ],
+          "radius": 0.0060011000000000005,
+          "length": 0.0110002
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.008708800000000001,
+            -0.018004,
+            -0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.008708800000000001,
+            -0.018004,
+            0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            -0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            -0.00385
+          ],
+          "radius": 0.0060011000000000005,
+          "length": 0.0033001999999999997
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.00385
+          ],
+          "radius": 0.0060011000000000005,
+          "length": 0.0033001999999999997
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0056607408796744115,
+            -0.0117026431652648,
+            0.0
+          ],
+          "rpy": [
+            0,
+            0,
+            -1.1202616057812738
+          ],
+          "size": [
+            0.013999880333445333,
+            0.0085722,
+            0.0044002
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0043544000000000005,
+            -0.009002,
+            -0.003896
+          ],
+          "rpy": [
+            0,
+            0,
+            -1.1202616057812738
+          ],
+          "size": [
+            0.01999988033344533,
+            0.0085722,
+            0.0033921999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0043544000000000005,
+            -0.009002,
+            0.003896
+          ],
+          "rpy": [
+            0,
+            0,
+            -1.1202616057812738
+          ],
+          "size": [
+            0.01999988033344533,
+            0.0085722,
+            0.0033921999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.0029179300782327436,
+            0.006032336616813144,
+            -0.00385
+          ],
+          "rpy": [
+            0,
+            0,
+            -1.1202616057812738
+          ],
+          "size": [
+            0.0034021999999999993,
+            0.0040022,
+            0.0033001999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.0029179300782327436,
+            0.006032336616813144,
+            0.00385
+          ],
+          "rpy": [
+            0,
+            0,
+            -1.1202616057812738
+          ],
+          "size": [
+            0.0034021999999999993,
+            0.0040022,
+            0.0033001999999999997
+          ]
+        }
+      ],
+      "primitives_sha256": "8027081f305073101b1066b4648878b0767e482701bcbcf77f86144972957714",
+      "covers_source_triangles": true,
+      "source_triangles": 2816,
+      "verified_source_triangles": 2816
+    },
+    "grippers/woan_picker/Link_L3.STL": {
+      "source_sha256": "8d4183cbfa926bc6aec65d67ae15197d0b383f00f3f3a0404ab72670af5e1043",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper_layered/Link_L3.STL",
+          "collision_sha256": "aa0e4527f3bfff337b74e7775dddb92640cb8714b2320c28afa510f1b7db3c4b"
+        }
+      ],
+      "primitives_sha256": "9149ca3f9669179c96720ca0d27729a4ea661d1bf02c8899804f78d32f1274a4",
+      "covers_source_triangles": true,
+      "source_triangles": 10004,
+      "verified_source_triangles": 10004
+    },
+    "grippers/woan_picker/Link_L4.STL": {
+      "source_sha256": "bdab510df0466cbdaffcba763e549c08a25a9113a30a4e7069f17c06dd03d879",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            -0.021900000050663948
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.007500000465705577,
+          "length": 0.0062000006437301644,
+          "source_fragments": 388
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.03812333971261978,
+            -0.012107923924922943,
+            -0.009450000012293458
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.007823971409632924,
+          "length": 0.006100000347942115,
+          "source_fragments": 300
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.03812333971261978,
+            -0.012107923924922943,
+            0.009450000012293458
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.007843051228233616,
+          "length": 0.006100000347942115,
+          "source_fragments": 309
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.021900000050663948
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.007500000465705577,
+          "length": 0.0062000006437301644,
+          "source_fragments": 375
+        },
+        {
+          "type": "mesh",
+          "triangles": 404,
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "convex": false,
+          "collision": "collision/proxies/gripper_layered/Link_L4.STL",
+          "collision_sha256": "5b63bf0ea1ae18f41c5a83748b7cd1da8d7b151d8503c96cdedc164bc4563819"
+        }
+      ],
+      "primitives_sha256": "0ccade67527ebefc2bcc6663f58562a270e4376861f0933553ffccc9313bf26d",
+      "covers_source_triangles": true,
+      "source_triangles": 6358,
+      "verified_source_triangles": 6358
+    },
+    "grippers/woan_picker/Link_R1.STL": {
+      "source_sha256": "b080d275d4aa6e9f4156b9130821e17eb856f119ea0124b46798ee13f4160704",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/Link_R1_core.STL",
+          "collision_sha256": "91daa9c02754d5061ab71e5e60b469f52293c6f7780a748c8fe41a874a4b053b"
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.0045011,
+          "length": 0.0248022
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/Link_R1_fork_0.STL",
+          "collision_sha256": "4e90c189a3720ad3b695c58afefbe5ac1630ff7ff6e2750f8148da54e6ed47db"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/Link_R1_fork_1.STL",
+          "collision_sha256": "44e9856dc1102c6cc3c33a4ba8fe12ede8bc5d3379275df9ad1809b29ee7ff8b"
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.02321763752217306,
+            0.008166034778338315,
+            0.0
+          ],
+          "rpy": [
+            0,
+            0,
+            2.9437329571523385
+          ],
+          "size": [
+            0.0007399168403026089,
+            0.0019405757455566858,
+            0.0120002
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.026320701854805475,
+            0.0004229822339764716,
+            0.0
+          ],
+          "rpy": [
+            0,
+            0,
+            2.9437329571523385
+          ],
+          "size": [
+            0.0037808382747277283,
+            0.005881042913326426,
+            0.0120002
+          ]
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.029414999999999997,
+            0.0058972000000000035,
+            -0.00030200963374227275
+          ],
+          "radius": 0.0040011000000000005,
+          "length": 0.0041942354276448485
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.02995779449189035,
+            -0.0022005408572920004,
+            0.0016295367373198525
+          ],
+          "rpy": [
+            0,
+            1.516326040850836,
+            -1.28783497615736
+          ],
+          "radius": 0.0014169356351086528,
+          "length": 0.01471819267599767
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.02178914263254922,
+            0.0023052456836042327,
+            -0.0021525896641605815
+          ],
+          "rpy": [
+            0,
+            1.6128831288354148,
+            -0.4465919594338321
+          ],
+          "radius": 0.0028646563819976485,
+          "length": 0.013166510704146258
+        }
+      ],
+      "primitives_sha256": "5fbe89fab80f13a867fb5c47be56f5040439d0ce22830ea6b64d869b19749014",
+      "covers_source_triangles": true,
+      "source_triangles": 8890,
+      "verified_source_triangles": 8890
+    },
+    "grippers/woan_picker/Link_R2.STL": {
+      "source_sha256": "e206fa332f6012c86b406178a777b07dd989cefec0afb1fc57d05274db143567",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.0087091,
+            -0.018004,
+            0.0
+          ],
+          "radius": 0.0060011000000000005,
+          "length": 0.0110002
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.0087091,
+            -0.018004,
+            -0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.0087091,
+            -0.018004,
+            0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            -0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.005675049999999999
+          ],
+          "radius": 0.0068001,
+          "length": 0.00035030000000000044
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            -0.00385
+          ],
+          "radius": 0.0060011000000000005,
+          "length": 0.0033001999999999997
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.00385
+          ],
+          "radius": 0.0060011000000000005,
+          "length": 0.0033001999999999997
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.005660927347267517,
+            -0.011702625525049018,
+            0.0
+          ],
+          "rpy": [
+            0,
+            0,
+            -2.0213445511519734
+          ],
+          "size": [
+            0.014000010969356685,
+            0.0085722,
+            0.0044002
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.00435455,
+            -0.009002,
+            -0.003896
+          ],
+          "rpy": [
+            0,
+            0,
+            -2.0213445511519734
+          ],
+          "size": [
+            0.020000010969356684,
+            0.0085722,
+            0.0033921999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            -0.00435455,
+            -0.009002,
+            0.003896
+          ],
+          "rpy": [
+            0,
+            0,
+            -2.0213445511519734
+          ],
+          "size": [
+            0.020000010969356684,
+            0.0085722,
+            0.0033921999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0029180115346798797,
+            0.0060322972144511555,
+            -0.00385
+          ],
+          "rpy": [
+            0,
+            0,
+            -2.0213445511519734
+          ],
+          "size": [
+            0.0034021999999999993,
+            0.0040022,
+            0.0033001999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0029180115346798797,
+            0.0060322972144511555,
+            0.00385
+          ],
+          "rpy": [
+            0,
+            0,
+            -2.0213445511519734
+          ],
+          "size": [
+            0.0034021999999999993,
+            0.0040022,
+            0.0033001999999999997
+          ]
+        }
+      ],
+      "primitives_sha256": "f39f8643ca9e7a5dd8e86b927ba6ed1d6caa75b39e23ad821e09337f2b054a9b",
+      "covers_source_triangles": true,
+      "source_triangles": 2816,
+      "verified_source_triangles": 2816
+    },
+    "grippers/woan_picker/Link_R3.STL": {
+      "source_sha256": "6ed20a3d57900a82fb3fea29ce768c802de59218ddbf0639502445d9be67b20f",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper_layered/Link_R3.STL",
+          "collision_sha256": "a9ceeb5a39d9317dd15e7e49825da88e502572a972ab8a90f9b311912b7c5aa9"
+        }
+      ],
+      "primitives_sha256": "95b6fefe9beba42c308e3a798dd26f823677604f9837a352dba985f0964bdecc",
+      "covers_source_triangles": true,
+      "source_triangles": 10004,
+      "verified_source_triangles": 10004
+    },
+    "grippers/woan_picker/Link_R4.STL": {
+      "source_sha256": "91f5f812adcb6950d0d4b9dbd43b0f60579e384748b812198b5ec544e7a688a5",
+      "primitives": [
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            -0.021900000050663948
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.007500000298129261,
+          "length": 0.0062000006437301644,
+          "source_fragments": 375
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.03812365263700485,
+            -0.012106946036219597,
+            -0.009450000012293458
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.00784305050081751,
+          "length": 0.006100000347942115,
+          "source_fragments": 309
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            -0.03812365263700485,
+            -0.012106946036219597,
+            0.009450000012293458
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.0078239704528428,
+          "length": 0.006100000347942115,
+          "source_fragments": 300
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0.0,
+            0.0,
+            0.021900000050663948
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.007500000298129261,
+          "length": 0.0062000006437301644,
+          "source_fragments": 388
+        },
+        {
+          "type": "mesh",
+          "triangles": 352,
+          "xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "convex": false,
+          "collision": "collision/proxies/gripper_layered/Link_R4.STL",
+          "collision_sha256": "052dea5574236644702ba284e8fa271666cc24c4f8e222521b70d5295edfebc2"
+        }
+      ],
+      "primitives_sha256": "871734df98df2f6ad14b2b734d0a69aed4abc261beb8c0414a8912c2ce9237a0",
+      "covers_source_triangles": true,
+      "source_triangles": 6358,
+      "verified_source_triangles": 6358
+    },
+    "grippers/woan_picker/base_link.STL": {
+      "source_sha256": "1749a4d15f2f69080f6f5e84461e318ec5157040b82f56cd0f23b76743b7a7bc",
+      "primitives": [
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/base_center_0.STL",
+          "collision_sha256": "c22c374c5e0c85ec8e263c318bfebd9c848afc2306d3b62a3d1b7c5aaa1d5630"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/base_center_1.STL",
+          "collision_sha256": "e2a541b8c8ac76df8c31009169d013e3a9241bad40d8592feb14c337e97575b2"
+        },
+        {
+          "type": "mesh",
+          "collision": "collision/proxies/gripper/base_center_2.STL",
+          "collision_sha256": "22ab2428b4a48d1cceadebba8419c2a346d64ed71d1ea611b1421c2fcdcbe56a"
+        },
+        {
+          "type": "box",
+          "xyz": [
+            3.8743019104003906e-07,
+            -0.0007499950006604195,
+            -0.017450000435113907
+          ],
+          "size": [
+            0.08013769004013062,
+            0.05050002734627247,
+            0.018900020870227817
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            3.8743019104003906e-07,
+            -0.0007499950006604195,
+            0.017450000435113907
+          ],
+          "size": [
+            0.08013769004013062,
+            0.05050002734627247,
+            0.018900020870227817
+          ]
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0,
+            0.037181679625064135,
+            0
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0,
+            0
+          ],
+          "radius": 0.03055248834823728,
+          "length": 0.052236658031899925
+        },
+        {
+          "type": "cylinder",
+          "xyz": [
+            0,
+            0.06364999897778034,
+            0
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0,
+            0
+          ],
+          "radius": 0.027850014999439784,
+          "length": 0.01270002264048576
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0,
+            0.0012000016868114471,
+            -0.022550000809133053
+          ],
+          "size": [
+            0.031763659301061634,
+            0.04820002007748604,
+            0.011900022136826519
+          ]
+        },
+        {
+          "type": "box",
+          "xyz": [
+            0.0,
+            0.0012000016868114471,
+            0.02279999852180481
+          ],
+          "size": [
+            0.031763659301061634,
+            0.04820002007748604,
+            0.011400026711483005
+          ]
+        }
+      ],
+      "primitives_sha256": "6b9cbf60c7fa5fd871581da042ca0977bbd4e70106914511901f49f115f9f1aa",
+      "covers_source_triangles": true,
+      "source_triangles": 22532,
+      "verified_source_triangles": 22532
+    }
+  },
+  "retained_original": []
+}

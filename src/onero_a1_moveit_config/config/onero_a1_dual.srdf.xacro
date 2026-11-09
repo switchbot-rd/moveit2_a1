@@ -65,6 +65,23 @@
     <joint name="joint6-a1_r" value="0.5" />
     <joint name="joint7-a1_r" value="0.0" />
   </group_state>
+  <!--仅适用于本项目已确认的固定安装：左右 Link1–Link4 永不互碰；调整安装后需重新核实。-->
+  <disable_collisions link1="left_Link1" link2="right_Link1" reason="Never" />
+  <disable_collisions link1="left_Link1" link2="right_Link2" reason="Never" />
+  <disable_collisions link1="left_Link1" link2="right_Link3" reason="Never" />
+  <disable_collisions link1="left_Link1" link2="right_Link4" reason="Never" />
+  <disable_collisions link1="left_Link2" link2="right_Link1" reason="Never" />
+  <disable_collisions link1="left_Link2" link2="right_Link2" reason="Never" />
+  <disable_collisions link1="left_Link2" link2="right_Link3" reason="Never" />
+  <disable_collisions link1="left_Link2" link2="right_Link4" reason="Never" />
+  <disable_collisions link1="left_Link3" link2="right_Link1" reason="Never" />
+  <disable_collisions link1="left_Link3" link2="right_Link2" reason="Never" />
+  <disable_collisions link1="left_Link3" link2="right_Link3" reason="Never" />
+  <disable_collisions link1="left_Link3" link2="right_Link4" reason="Never" />
+  <disable_collisions link1="left_Link4" link2="right_Link1" reason="Never" />
+  <disable_collisions link1="left_Link4" link2="right_Link2" reason="Never" />
+  <disable_collisions link1="left_Link4" link2="right_Link3" reason="Never" />
+  <disable_collisions link1="left_Link4" link2="right_Link4" reason="Never" />
   <xacro:if value="${'$(arg gripper_model)' == 'woan_picker'}">
     <group name="both_grippers">
       <group name="left_gripper" />
@@ -97,6 +114,7 @@
     <disable_collisions link1="left_woan_picker_right_finger_link_2" link2="left_woan_picker_right_finger_link_3" reason="Adjacent" />
     <disable_collisions link1="left_woan_picker_base_link" link2="left_woan_picker_right_finger_link_4" reason="Adjacent" />
     <disable_collisions link1="left_Link7" link2="left_woan_picker_base_link" reason="Adjacent" />
+    <disable_collisions link1="left_Link6" link2="left_woan_picker_base_link" reason="Mounting" />
     <disable_collisions link1="left_woan_picker_left_finger_link_3" link2="left_woan_picker_left_finger_link_4" reason="Mechanism" />
     <disable_collisions link1="left_woan_picker_right_finger_link_3" link2="left_woan_picker_right_finger_link_4" reason="Mechanism" />
     <disable_collisions link1="left_woan_picker_left_finger_link_3" link2="left_woan_picker_right_finger_link_3" reason="FingerContact" />
@@ -127,6 +145,7 @@
     <disable_collisions link1="right_woan_picker_right_finger_link_2" link2="right_woan_picker_right_finger_link_3" reason="Adjacent" />
     <disable_collisions link1="right_woan_picker_base_link" link2="right_woan_picker_right_finger_link_4" reason="Adjacent" />
     <disable_collisions link1="right_Link7" link2="right_woan_picker_base_link" reason="Adjacent" />
+    <disable_collisions link1="right_Link6" link2="right_woan_picker_base_link" reason="Mounting" />
     <disable_collisions link1="right_woan_picker_left_finger_link_3" link2="right_woan_picker_left_finger_link_4" reason="Mechanism" />
     <disable_collisions link1="right_woan_picker_right_finger_link_3" link2="right_woan_picker_right_finger_link_4" reason="Mechanism" />
     <disable_collisions link1="right_woan_picker_left_finger_link_3" link2="right_woan_picker_right_finger_link_3" reason="FingerContact" />

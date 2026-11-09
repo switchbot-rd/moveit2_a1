@@ -190,3 +190,38 @@ ROS_DOMAIN_ID=87 python3 -m tools.diagnostics.validate_relay_snapshot \
 
 检查右 A→B、左 B→C、左 C→B、右 B→A 的完整往返。完成后打开输出目录的 `report.json`，查看通过/失败结果、放置位置和规划耗时；排查问题时保留整个输出目录。
 可用 `--planning-time` 调整单次规划的最长用时，整个检查的耗时可能更长。
+
+## 规划示例耗时采集
+
+`planning_profile` 在仿真中运行原示例，记录调用次数和耗时，不调整规划参数。结果文件必须尚不存在。
+使用独立 ROS 域和记录目录；以下环境设置在两个终端分别执行，域号须与其他运行中的服务不同：
+
+```bash
+source setup_env.sh
+export ROS_DOMAIN_ID=213
+export ROS_HOME="$PWD/.logs/planning_profile/manual/home"
+export ROS_LOG_DIR="$ROS_HOME/log"
+```
+
+第一个终端启动仿真：
+
+```bash
+ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
+  hardware_mode:=sim allow_execution:=false rviz:=false \
+  environment_file:="$PWD/src/onero_a1_moveit_config/config/environment.dual_desktop.yaml"
+```
+
+第二个终端采集；`--` 后面沿用原示例参数：
+
+```bash
+python -m tools.diagnostics.planning_profile \
+  --output .logs/planning_profile/manual/joint_goal.json \
+  joint_goal -- --arm right --delta 0.1 --velocity 0.5 --acceleration 0.5
+```
+
+工具核对服务的 `simulate` 状态，拒绝真机和 `--execute`。MTC 完成两段预览后按 Ctrl+C，正常清理后保存结果。
+返回起点示例需要先在该仿真环境运行 `record_startup`。其他前置条件与原示例一致。
+
+结果中 `inclusive_s` 包含子调用，`exclusive_s` 扣除已采集的子调用，不要把多层 `inclusive_s` 相加。
+`preview.wait_seconds` 是预览播放等待，应与规划计算分开。整个进程耗时还包含初始化和清理。
+需要进一步查看 Python 调用时，可在示例名称前加 `--python-profile`，同时生成 `.pstats`；该选项会增加采集开销。

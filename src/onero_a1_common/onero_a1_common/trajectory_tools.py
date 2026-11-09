@@ -92,6 +92,22 @@ def _derivative_peaks(curve, order):
     return peaks
 
 
+def _curve_position_extrema(curve):
+    polynomial = PPoly.from_bernstein_basis(curve)
+    edges = np.r_[curve.x, np.nextafter(curve.x[1:], curve.x[:-1])]
+    values = polynomial(edges)
+    minimum, maximum = values.min(axis=0), values.max(axis=0)
+    for index in range(len(minimum)):
+        joint = PPoly(polynomial.c[:, :, index], polynomial.x, extrapolate=False)
+        roots = joint.derivative().roots(discontinuity=False, extrapolate=False)
+        roots = roots[np.isfinite(roots)]
+        minimum[index] = min(minimum[index], joint(roots).min(initial=math.inf))
+        maximum[index] = max(maximum[index], joint(roots).max(initial=-math.inf))
+    if not np.isfinite(minimum).all() or not np.isfinite(maximum).all():
+        raise ValueError('轨迹插值位置无效')
+    return minimum, maximum
+
+
 def validate_trajectory(client, trajectory, *, context=None):
     """Check the controller's interpolated path without changing its timing."""
     from rclpy.serialization import serialize_message
@@ -110,15 +126,28 @@ def validate_trajectory(client, trajectory, *, context=None):
         constraints = getattr(client, '_motion_path_constraints', None)
         constraints = serialize_message(constraints) if constraints is not None else b''
         speeds = abs(curve.derivative().c).max(axis=(0, 2))
+        # This pass uses one scene snapshot and one set of constraints. Reuse
+        # exact configurations only within this call; never round nearby poses.
+        checked = set()
         for index, (begin, end) in enumerate(zip(times, times[1:])):
-            steps = max(1, math.ceil((end-begin)/.02), math.ceil((end-begin)*speeds[index]/.01))
-            for stamp in np.linspace(begin, end, steps+1):
-                positions = curve(stamp)
+            coefficients = curve.c[:, index, :]
+            if np.all(coefficients == coefficients[0]):
+                # Equal Bernstein coefficients prove the entire segment is a
+                # hold. Equal endpoints alone do not prove this.
+                samples = (coefficients[0],)
+            else:
+                steps = max(1, math.ceil((end-begin)/.02), math.ceil((end-begin)*speeds[index]/.01))
+                samples = map(curve, np.linspace(begin, end, steps+1))
+            for positions in samples:
                 if any(not low-1e-9 <= q <= high+1e-9 for q, (low, high) in zip(positions, bounds)):
                     raise ValueError('轨迹超出关节限位')
-                valid, pairs = context.validity(dict(zip(names, map(float, positions))), client.group, constraints)
+                key = tuple(map(float, positions))
+                if key in checked:
+                    continue
+                valid, pairs = context.validity(dict(zip(names, key)), client.group, constraints)
                 if not valid:
                     raise MoveItError(f'轨迹存在碰撞或无效状态：{pairs}')
+                checked.add(key)
     except (ValueError, RuntimeError) as exc:
         raise MoveItError(f'轨迹检查失败：{exc}') from exc
 
@@ -195,10 +224,104 @@ def _curve(trajectory, names, limits, error):
     for boundary in (derivatives[0], derivatives[-1]):
         boundary[1:] = [[0.]*len(names), [0.]*len(names)]
     curve = BPoly.from_derivatives(times, derivatives)
-    # Bernstein coefficients bound the entire spline, including between
-    # samples. Stretch enough to respect the actual scaled MoveIt limits.
-    velocities = abs(curve.derivative().c).max(axis=(0, 1))
-    accelerations = abs(curve.derivative(2).c).max(axis=(0, 1))
+    # Use actual extrema of the controller's quintic segments. Bernstein
+    # coefficients are only an upper bound and can needlessly multiply timing.
+    velocities = _derivative_peaks(curve, 1)
+    accelerations = _derivative_peaks(curve, 2)
     scale = max(1., *(max(v/v_limit, math.sqrt(a/a_limit))
                        for v, a, (v_limit, a_limit) in zip(velocities, accelerations, limits)))
+    if scale > 1.:
+        scale *= 1.001  # Leave room for nanosecond timestamp rounding.
     return times, curve, scale
+
+
+def _synchronized_trajectory(curves, names, limits, error):
+    """Emit stable controller knots, then enforce limits on their actual spline."""
+    from moveit_msgs.msg import RobotTrajectory
+    from trajectory_msgs.msg import JointTrajectoryPoint
+
+    duration = max(times[-1]*scale for times, _, scale in curves)
+    limits = np.asarray(limits, dtype=float)
+    minimum_interval_ns = 1_000_000
+    for _ in range(5):
+        duration_ns = max(1_000_000, math.ceil(duration*1e9))
+        duration = duration_ns*1e-9
+        scales = [duration/times[-1] for times, _, _ in curves]
+        stamps = {0, duration_ns}
+        for (times, _, _), scale in zip(curves, scales):
+            stamps.update(min(duration_ns, max(0, round(t*scale*1e9))) for t in times)
+        count = max(1, math.ceil(duration/.02))
+        stamps.update(round(duration_ns*i/count) for i in range(count+1))
+        # Nearly coincident left/right knots magnify floating-point position
+        # and timestamp rounding into acceleration spikes. Collision sampling
+        # is performed separately on the emitted spline, at the original bounds.
+        kept = [0]
+        for stamp in sorted(stamps)[1:-1]:
+            if stamp-kept[-1] >= minimum_interval_ns and duration_ns-stamp >= minimum_interval_ns:
+                kept.append(stamp)
+        kept.append(duration_ns)
+        result = RobotTrajectory()
+        result.joint_trajectory.joint_names = list(names)
+        for stamp in kept:
+            sec, nanosec = divmod(stamp, 1_000_000_000)
+            point = JointTrajectoryPoint(time_from_start=Duration(sec=sec, nanosec=nanosec))
+            for (times, curve, _), scale in zip(curves, scales):
+                sample = (stamp/duration_ns)*times[-1]
+                point.positions.extend(curve(sample).tolist())
+                point.velocities.extend((curve(sample, nu=1)/scale).tolist())
+                point.accelerations.extend((curve(sample, nu=2)/scale**2).tolist())
+            if stamp in (0, duration_ns):
+                point.velocities = [0.]*len(names)
+                point.accelerations = [0.]*len(names)
+            result.joint_trajectory.points.append(point)
+        _, controller_curve = _timed_curve(result)
+        # Bound the geometric difference on the union of all polynomial
+        # intervals. The Bernstein coefficients of their difference bound it
+        # everywhere, including between the collision samples.
+        comparison_times = set(controller_curve.x)
+        for (times, _, _), scale in zip(curves, scales):
+            comparison_times.update(min(duration, max(0., t*scale)) for t in times)
+        comparison_times = sorted(comparison_times)
+        differences = []
+        for stamp in comparison_times:
+            derivatives = []
+            for order in range(3):
+                reference = np.concatenate([curve(min(times[-1], max(0., stamp/scale)), nu=order)/scale**order
+                    for (times, curve, _), scale in zip(curves, scales)])
+                derivatives.append(controller_curve(stamp, nu=order)-reference)
+            differences.append(derivatives)
+        difference = BPoly.from_derivatives(comparison_times, differences)
+        deviation = float(abs(difference.c).max())
+        if not math.isfinite(deviation):
+            raise error('同步轨迹的路径误差无效')
+        if deviation > 1e-6:
+            if minimum_interval_ns <= 10_000:
+                raise error('同步轨迹时间点合并后偏离原路径，停止规划')
+            minimum_interval_ns //= 10
+            continue
+        velocities = _derivative_peaks(controller_curve, 1)
+        accelerations = _derivative_peaks(controller_curve, 2)
+        if not np.isfinite(velocities).all() or not np.isfinite(accelerations).all():
+            raise error('同步轨迹的插值导数无效')
+        stretch = max(1., float(max(velocities/limits[:, 0])),
+                      math.sqrt(float(max(accelerations/limits[:, 1]))))
+        if stretch <= 1.+1e-9:
+            return result, controller_curve
+        # Re-evaluate positions/derivatives at the new published times rather
+        # than just rounding a second set of scaled timestamps.
+        duration *= stretch*1.001
+    raise error('同步轨迹无法满足速度和加速度上限，停止规划')
+
+
+def _curve_sample_times(curve):
+    """Check every knot and bound intervals by 20 ms and 0.02 rad per joint."""
+    duration = curve.x[-1]
+    speed = float(max(_derivative_peaks(curve, 1)))*(1.+1e-9)
+    count = max(1, math.ceil(duration*max(50., speed/.02)))
+    times = set(curve.x)
+    times.update(np.linspace(0., duration, count+1).tolist())
+    previous = -1.
+    for stamp in sorted(times):
+        if stamp-previous > 1e-9:
+            yield stamp
+            previous = stamp

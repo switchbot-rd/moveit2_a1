@@ -263,11 +263,12 @@ class MoveItClient(Node):
             raise MoveItError(f"FK 失败：{response.error_code.val}")
         return response.pose_stamped[0].pose
 
-    def validity(self, q, constraints=None, group=None):
+    def validity(self, q, constraints=None, group=None, *, context=None):
         selected_group = group or self.group
         if constraints is None and selected_group == self.group:
             constraints = getattr(self, '_motion_path_constraints', None)
-        context = getattr(self, '_local_validation', None)
+        if context is None:
+            context = getattr(self, '_local_validation', None)
         if context is not None:
             valid, pairs = context.validity(q, selected_group, serialize_message(constraints) if constraints else b'')
             return SimpleNamespace(valid=valid, contacts=[SimpleNamespace(
