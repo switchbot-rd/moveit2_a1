@@ -181,6 +181,10 @@ ros2 launch onero_a1_moveit_config dual_moveit.launch.py \
 加载后可在 RViz 中查看和调整碰撞体。
 配置未包含的物品不会参与避障；现场新增障碍物时需补充配置。
 
+RViz 使用精细外观模型，碰撞检查使用简化外形。更新模型后须重新构建并重启 MoveIt。
+
+改变双臂安装方式或更换手爪后，须重新核对模型与碰撞检查配置，再预览运动。
+
 ## Woan Picker
 
 `gripper_model:=woan_picker` 启用夹爪显示、碰撞检查和开合控制；`none` 表示无夹爪模型。

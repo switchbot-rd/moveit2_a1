@@ -11,7 +11,7 @@ from onero_a1_common.payload import PayloadClient
 
 from .bottle_scene import BottleScene, PickerGeometry, clear_bottle, matrix_pose, pose_matrix
 from .dual_task_support import Mirror
-from .mtc_execution import MtcExecutor
+from .mtc_execution import MtcExecutor, placement_support_gap
 from .mtc_natural import NaturalArmPolicy
 from .mtc_planning import MtcMotionPlan, MtcPlanner, needs_rear_preparation
 from .mtc_posture import rank_solution
@@ -206,8 +206,8 @@ class MtcRelay:
         print(f'接力位置（world，m）：A={self.points["A"]}，B={self.points["B"]}，C={self.points["C"]}。')
 
     def check_support(self, scene, label, position, support):
-        height = scene.support_height(position, self.config.diameter/2., object_id=support)
-        if height is None or abs(position[2]-self.config.bottle_height/2.-height) > self.config.placement_height_tolerance:
+        gap = placement_support_gap(scene, self.config, position, support)
+        if gap is None or abs(gap) > self.config.placement_height_tolerance:
             raise MoveItError(f'{label} 点瓶底与支撑面不匹配，请核对任务配置和 environment_file')
         return scene.support_id
 
@@ -271,7 +271,8 @@ class MtcRelay:
         self.place_bottle(config, released)
         arm.start = task_state(arm)
         self.executor = MtcExecutor(arm, config, self.geometry[side], self.scene,
-                                    mass=self.node.args.mass, simulated=self.simulated)
+                                    mass=self.node.args.mass, simulated=self.simulated,
+                                    release_transform=lambda transform: self.reported_release(side, place, transform))
         yield_target = (self.standby[side] if index+1 < len(self.route)
                         and self.route[index+1][0] != side else None)
         clearance = ((self.arms['left'], self.leg_config(1), self.geometry['left'])
@@ -289,14 +290,18 @@ class MtcRelay:
         if self.planner is None:
             self.planner = MtcPlanner(arm, config, self.geometry[side], OBJECT_ID,
                                       yield_target=yield_target, initial_clearance=clearance,
-                                      rear_preparation=rear_preparation)
+                                      rear_preparation=rear_preparation, route=(pick, place))
         else:
             self.planner.reset(arm, config, self.geometry[side], OBJECT_ID,
                                 yield_target=yield_target, initial_clearance=clearance,
-                                rear_preparation=rear_preparation)
+                                rear_preparation=rear_preparation, route=(pick, place))
         self.planner.task.name = f'{side} {pick} → {place}'
-        self.planner.plan(self.node.args.max_solutions, self.node.args.task_timeout)
-        solution, message = select_solution(self.planner, list(self.arms.values()))
+        solution, message = self.planner.plan(
+            self.node.args.max_solutions, self.node.args.task_timeout,
+            select=lambda planner: select_solution(planner, list(self.arms.values())))
+        from .mtc_ik_seeds import remember_solution
+        remember_solution(arm, message)
+        self.planner.remember_directions(message)
         self.executor.planner = self.planner
         self.executor.motions = deepcopy(self.planner.motions)
         self.executor.yield_target = yield_target

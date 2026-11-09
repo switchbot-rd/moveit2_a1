@@ -82,6 +82,8 @@ def configure(parser):
     parser.add_argument('--planner', choices=OMPL_PLANNERS, default='RRTConnect')
     parser.add_argument('--max-solutions', type=positive_integer, default=3, help='最多搜索的完整方案数，默认 3')
     parser.add_argument('--task-timeout', type=positive, default=60., help='每段搜索时限，秒，默认 60')
+    parser.add_argument('--ik-search', choices=['auto', 'full'], default='auto',
+                        help='auto 优先快速 IK、无合格完整方案时恢复完整搜索；full 直接完整搜索')
     parser.add_argument('--grasp-angle-step', type=positive, default=math.pi/2, help='抓取方向采样间隔，rad，默认 π/2')
     parser.add_argument('--mass', type=positive, default=.1, help='实物质量，kg，执行前按实物填写，默认 0.1')
     parser.add_argument('--smoothing', choices=['ruckig', 'none'], default='none',

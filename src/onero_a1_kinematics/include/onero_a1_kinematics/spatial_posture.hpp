@@ -57,6 +57,17 @@ public:
                         std::max(.1,(w-e).norm()),weight});
     }
   }
+  bool isOutward(const moveit::core::RobotState& state) const
+  {
+    if (terms_.empty())return false;
+    for (const auto& term:terms_)
+    {
+      Eigen::Vector3d point=state.getGlobalLinkTransform(term.first).translation();
+      if (term.second)point=.5*(point+state.getGlobalLinkTransform(term.second).translation());
+      if ((point-term.base).dot(term.outward)<-1e-6)return false;
+    }
+    return true;
+  }
   std::pair<double,Eigen::VectorXd> evaluate(const moveit::core::RobotState& state, bool with_gradient=true) const
   {
     double cost=0.;

@@ -159,6 +159,8 @@ def run_example(name, description, configure, scenario, args=None, *, query_only
     try:
         if mirror is not None:
             print(f'本次运行日志：{mirror[0]}')
+        if not query_only:
+            print(f'本次运动参数：--velocity {options.velocity:g} --acceleration {options.acceleration:g}')
         rclpy.init(args=supplied[split:], signal_handler_options=SignalHandlerOptions.NO)
         node = None
         recorder = None

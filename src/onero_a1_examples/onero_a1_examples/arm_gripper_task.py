@@ -164,7 +164,7 @@ class CarryFeedback:
             print(f'回位反馈已收到，但 FK 读取失败：{exc}')
 
 
-def candidates(node, initial, offset, scene=None):
+def candidates(node, initial, offset, scene=None, *, preferred_height=None):
     tip = pose_matrix(node.fk(initial))
     forward = tip[:3, 2].copy()
     forward[2] = 0.
@@ -195,6 +195,9 @@ def candidates(node, initial, offset, scene=None):
         # restore reachability without moving the bottle or rotating the wrist.
         margin = max(0., node.args.bottle_height/2.-.025)
         heights = [height for height in (0., .01, .02, .03) if height <= margin]
+        if (isinstance(preferred_height, (int, float)) and not isinstance(preferred_height, bool)
+                and math.isfinite(preferred_height)):
+            heights.sort(key=lambda height: abs(height-preferred_height) >= 1e-6)
         for height in heights:
             grasp = np.eye(4); grasp[:3, :3] = rotation
             grasp[:3, 3] = position - rotation @ offset

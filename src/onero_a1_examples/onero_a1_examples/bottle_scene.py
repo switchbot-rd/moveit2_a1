@@ -255,7 +255,7 @@ class BottleScene:
         self.world()
         self.changed = True
 
-    def support_height(self, position, radius, object_id=None):
+    def support_height(self, position, radius, object_id=None, *, margin=.005):
         """Resolve returned scene geometry into world before testing table tops.
 
         MoveIt folds objects into its planning frame (base_link here), even
@@ -284,7 +284,7 @@ class BottleScene:
                 center = transform[:3, 3]
                 point = np.array([position[0], position[1], center[2]])
                 local = transform[:3, :3].T @ (point-center)
-                if all(abs(local[axis])+radius+.005 < primitive.dimensions[axis]/2. for axis in (0, 1)):
+                if all(abs(local[axis])+radius+margin < primitive.dimensions[axis]/2. for axis in (0, 1)):
                     heights.append((float(center[2]+primitive.dimensions[2]/2.), obj.id))
         if not heights:
             self.support_id = None

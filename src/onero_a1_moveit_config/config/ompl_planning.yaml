@@ -12,6 +12,10 @@
 planning_plugins:
   - ompl_interface/OMPLPlanner
 
+# RRTConnect 每次扩展的最大关节空间距离；0 使用 OMPL 自动值。
+# 不改变碰撞检查间距、规划时限或执行速度。修改后重启服务。
+rrtconnect_range: 0.5
+
 # 请求适配器按顺序作用于每个规划请求
 request_adapters:
   - default_planning_request_adapters/ResolveConstraintFrames

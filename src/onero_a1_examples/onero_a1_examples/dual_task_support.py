@@ -1,13 +1,12 @@
 """Shared dual-arm task state, reflection and synchronized trajectories."""
 from copy import deepcopy
-import math
 
 import numpy as np
-from moveit_msgs.msg import RobotTrajectory
-from trajectory_msgs.msg import JointTrajectoryPoint
 from onero_a1_common.constants import JOINTS, LEFT_JOINTS
 from onero_a1_common.moveit_client import MoveItClient, MoveItError
-from onero_a1_common.trajectory_tools import _curve, _duration, _scaled_limits
+from onero_a1_common.trajectory_tools import (
+    _curve, _scaled_limits, _synchronized_trajectory, _curve_sample_times, _curve_position_extrema,
+)
 
 from .bottle_scene import matrix_pose, pose_matrix
 
@@ -77,6 +76,7 @@ def endpoint(initial, steps):
 
 def synchronize(node, start, trajectories, *, check=None):
     """Stretch both stopped splines to a common duration; validate the combined path."""
+    from onero_a1_common.continuous import geometry
     names = [name for trajectory in trajectories for name in trajectory.joint_trajectory.joint_names]
     if len(names) != len(set(names)):
         raise MoveItError('同步轨迹包含重复关节')
@@ -86,35 +86,25 @@ def synchronize(node, start, trajectories, *, check=None):
         joints = list(trajectory.joint_trajectory.joint_names)
         curves.append(_curve(trajectory, joints, limits[offset:offset+len(joints)], MoveItError))
         offset += len(joints)
-    duration = max(times[-1]*scale for times, _, scale in curves)
-    scales = [duration/times[-1] for times, _, _ in curves]
-    knots = {0., duration}
-    for (times, _, _), scale in zip(curves, scales):
-        knots.update(time*scale for time in times)
-    # Bound motion between checks by 20 ms and 0.02 rad, including spline overshoot.
-    speed = max(float(abs(curve.derivative().c).max())/scale
-                for (_, curve, _), scale in zip(curves, scales))
-    count = max(1, math.ceil(duration*max(50., speed/.02)))
-    knots.update(np.linspace(0., duration, count+1).tolist())
-    result = RobotTrajectory()
-    result.joint_trajectory.joint_names = names
-    previous = -1.
-    for tick in sorted(knots):
-        if tick-previous < 1e-8:
-            continue
-        point = JointTrajectoryPoint(time_from_start=_duration(tick))
-        for (_, curve, _), scale in zip(curves, scales):
-            point.positions.extend(curve(tick/scale).tolist())
-            point.velocities.extend((curve(tick/scale, nu=1)/scale).tolist())
-            point.accelerations.extend((curve(tick/scale, nu=2)/scale**2).tolist())
-        state = {**start, **dict(zip(names, point.positions))}
+    result, controller_curve = _synchronized_trajectory(curves, names, limits, MoveItError)
+    context = geometry(node, refresh=True)
+    node.planning_start_state({})
+    bounds = [node._joint_position_bounds[name] for name in names]
+    minimum, maximum = _curve_position_extrema(controller_curve)
+    if any(low-1e-9 > qmin or qmax > high+1e-9
+           for qmin, qmax, (low, high) in zip(minimum, maximum, bounds)):
+        raise MoveItError('双臂同步轨迹超出关节限位')
+    for tick in _curve_sample_times(controller_curve):
+        positions = controller_curve(tick)
+        state = {**start, **dict(zip(names, positions))}
         if check is not None:
-            check(state)
-        valid = node.validity(state, group='both_arms')
+            # Only an explicit False promises unchanged scene permissions.
+            # Existing callbacks returning None retain a fresh scene per check.
+            if check(state) is not False:
+                context = geometry(node, refresh=True)
+        valid = node.validity(state, group='both_arms', context=context)
         if not valid.valid:
             pairs = [(c.contact_body_1, c.contact_body_2) for c in valid.contacts]
             raise MoveItError(f'双臂同步轨迹存在碰撞或无效状态：{pairs}')
-        result.joint_trajectory.points.append(point)
-        previous = tick
     node.planned_start_state = node.planning_start_state(start)
     return result

@@ -50,7 +50,7 @@ class Step:
     start: object = None
 
 
-def path_failure(node, start, waypoints, response):
+def path_failure(node, start, waypoints, response, *, check_validity=True):
     message = f'笛卡尔路径不完整：fraction={response.fraction}，code={response.error_code.val}'
     trajectory = response.solution.joint_trajectory
     if not trajectory.points:
@@ -60,6 +60,8 @@ def path_failure(node, start, waypoints, response):
         remaining = np.linalg.norm(pose_matrix(waypoints[-1])[:3, 3]-pose_matrix(node.fk(last))[:3, 3])
         message += f'，距目标约 {remaining*1000:.1f} mm'
         target = node.inverse_kinematics(waypoints[-1], last, group=node.group, link=node.tip_link, avoid_collisions=False)
+        if not check_validity:
+            return message+'；目标逆解存在，未复查失败时的碰撞场景'
         validity = node.validity({**last, **{name: target[name] for name in node.joints}})
         if validity.valid:
             message += '；目标逆解有效，但当前直线路径未通过检查'
@@ -71,7 +73,19 @@ def path_failure(node, start, waypoints, response):
     return message
 
 
-def plan_step(node, start, step):
+class CartesianPathFailure(MoveItError):
+    """Keep expensive failure-only IK diagnostics out of candidate searches."""
+    def __init__(self, node, start, waypoints, response):
+        super().__init__(f'笛卡尔路径不完整：fraction={response.fraction}，code={response.error_code.val}')
+        self.context = node, dict(start), deepcopy(waypoints), response
+
+    def explain(self):
+        # Candidate cleanup has already restored the scene. IK without
+        # collision checking remains meaningful; current-scene validity does not.
+        return path_failure(*self.context, check_validity=False)
+
+
+def plan_step(node, start, step, *, diagnose_failure=True):
     if step.kind == 'continuous':
         trajectory = step.target(start)
         expected = set(node.joints)
@@ -105,7 +119,10 @@ def plan_step(node, start, step):
         response = node.cartesian_path(start, waypoints)
         if (response.error_code.val != MoveItErrorCodes.SUCCESS
                 or not math.isfinite(response.fraction) or response.fraction < 1.-1e-6):
-            raise MoveItError(path_failure(node, start, waypoints, response))
+            failure = CartesianPathFailure(node, start, waypoints, response)
+            if diagnose_failure:
+                raise MoveItError(path_failure(node, start, waypoints, response))
+            raise failure
         trajectory = response.solution
         node.planned_start_state = response.start_state
         expected = set(node.joints)

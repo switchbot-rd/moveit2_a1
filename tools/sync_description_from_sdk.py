@@ -18,6 +18,11 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
+try:
+    from tools.collision_meshes import DESCRIPTION_DIR, MESH_URI_PREFIX, apply_collision_meshes
+except ModuleNotFoundError:
+    from collision_meshes import DESCRIPTION_DIR, MESH_URI_PREFIX, apply_collision_meshes
+
 # 关节/连杆的"几何身份"字段 —— 这些绝不允许被本脚本改动
 GEOMETRY_ATTRS = ("name", "type")
 ORIGIN_ATTRS = ("xyz", "rpy")
@@ -70,13 +75,21 @@ def main() -> int:
 
     # 2) 重写 mesh 路径：../../meshes/A1/A1_r/xxx.STL -> package://<pkg>/meshes/A1_r/xxx.STL
     n_mesh = 0
+    collision_meshes = set(root.findall('.//collision/geometry/mesh'))
+    collision_sources = {}
     for mesh in root.iter("mesh"):
         old = mesh.get("filename", "")
         if not old:
             continue
         fname = old.replace("\\", "/").rsplit("/", 1)[-1]
         mesh.set("filename", f"{args.mesh_prefix}/{fname}")
+        if mesh in collision_meshes and mesh.get('filename').startswith(MESH_URI_PREFIX):
+            relative = mesh.get('filename')[len(MESH_URI_PREFIX):]
+            collision_sources[relative] = args.sdk_urdf.parent / old.replace('\\', '/')
         n_mesh += 1
+
+    # This entry point does not copy SDK meshes; verify them before replacing collisions.
+    apply_collision_meshes(root, DESCRIPTION_DIR, source_paths=collision_sources)
 
     # 3) 改 robot name
     root.set("name", args.robot_name)

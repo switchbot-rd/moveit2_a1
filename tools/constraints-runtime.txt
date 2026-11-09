@@ -5,3 +5,7 @@ pin==2.7.0
 # Match the native library ABI used by the Pinocchio 2.7 wheel.
 cmeel-urdfdom==3.1.1.1
 cmeel-tinyxml2==9.0.0.2
+
+# Optional offline collision-proxy tools; not runtime requirements.
+shapely==2.1.2
+mapbox-earcut==2.0.0

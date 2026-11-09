@@ -21,6 +21,8 @@ class NaturalPostureIK : public kdl_kinematics_plugin::KDLKinematicsPlugin
   const moveit::core::JointModelGroup* group_=nullptr;
   Profile profile_;
   bool private_profile_=false;
+  bool fast_mode_=false;
+  std::vector<Eigen::VectorXd> seed_bank_;
 
   static Eigen::VectorXd vector(const std::vector<double>& values)
   { return Eigen::Map<const Eigen::VectorXd>(values.data(),values.size()); }
@@ -60,6 +62,25 @@ public:
         low[i]=bound.min_position_;high[i]=bound.max_position_;
       }
       profile_.setBounds(low,high);
+      const auto fast_parameter=prefix+"natural_fast_mode",bank_parameter=prefix+"natural_seed_bank";
+      fast_mode_=private_profile_ && node->has_parameter(fast_parameter) &&
+                 node->get_parameter(fast_parameter).as_bool();
+      seed_bank_.clear();
+      if (fast_mode_ && low.size()==7 && node->has_parameter(bank_parameter))
+      {
+        const auto bank=node->get_parameter(bank_parameter);
+        if (bank.get_type()==rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY)
+        {
+          const auto& flat=bank.as_double_array();
+          if (flat.size()%7==0)
+            for (std::size_t i=0;i<flat.size();i+=7)
+            {
+              Eigen::VectorXd candidate=Eigen::Map<const Eigen::VectorXd>(flat.data()+i,7);
+              if (candidate.allFinite() && (candidate.array()>=low.array()).all() &&
+                  (candidate.array()<=high.array()).all())seed_bank_.push_back(std::move(candidate));
+            }
+        }
+      }
       return true;
     }
     catch (const std::exception& error)
@@ -111,6 +132,7 @@ public:
     { error.val=moveit_msgs::msg::MoveItErrorCodes::INVALID_GOAL_CONSTRAINTS;return false; }
     const bool local=(current.translation()-target_position).norm()<.03 &&
                      Eigen::Quaterniond(current.rotation()).angularDistance(target_rotation)<.15;
+    const bool fast=fast_mode_ && !local;
     const double continuity=profile_.continuity_weight*(local?10.:1.);
     SpatialPosture spatial(state,group_,profile_);
     auto consistent=[&](const Eigen::VectorXd& q){
@@ -128,7 +150,22 @@ public:
     const Eigen::Isometry3d base=state.getGlobalLinkTransform(getBaseFrame());
     Eigen::Isometry3d target=Eigen::Isometry3d::Identity();
     target.translation()=target_position;target.linear()=target_rotation.normalized().toRotationMatrix();
-    std::vector<Eigen::VectorXd> seeds{initial};
+    std::vector<Eigen::VectorXd> seeds;
+    if (fast && consistency.empty())
+    {
+      std::vector<std::pair<double,std::size_t>> nearest;
+      for (std::size_t i=0;i<seed_bank_.size();++i)
+      {
+        state.setJointGroupPositions(group_,seed_bank_[i]);state.update();
+        const Eigen::Isometry3d actual=base.inverse()*state.getGlobalLinkTransform(tip);
+        const double angle=Eigen::Quaterniond(actual.rotation()).angularDistance(target_rotation);
+        nearest.emplace_back((actual.translation()-target_position).squaredNorm()+.01*angle*angle,i);
+      }
+      std::stable_sort(nearest.begin(),nearest.end(),[](const auto& a,const auto& b){return a.first<b.first;});
+      for (std::size_t i=0;i<std::min<std::size_t>(2,nearest.size());++i)
+        seeds.push_back(seed_bank_[nearest[i].second]);
+    }
+    seeds.push_back(initial);
     if (!local && consistency.empty())
     {
       seeds.push_back(profile_.reference);
@@ -169,8 +206,13 @@ public:
           auto candidate=values(q);
           moveit_msgs::msg::MoveItErrorCodes status;status.val=moveit_msgs::msg::MoveItErrorCodes::SUCCESS;
           if (callback)callback(pose,candidate,status);
-          if (status.val==moveit_msgs::msg::MoveItErrorCodes::SUCCESS && score<best)
-          { solution=candidate;best=score;found=true; }
+          if (status.val==moveit_msgs::msg::MoveItErrorCodes::SUCCESS && score<best &&
+              (!fast || spatial.isOutward(state)))
+          {
+            solution=candidate;best=score;found=true;
+            if (fast)
+            { error.val=moveit_msgs::msg::MoveItErrorCodes::SUCCESS;return true; }
+          }
           // Cartesian samples must not keep rotating redundantly after the
           // requested pose is reached; that accumulated into visible forearm twist.
           if ((local && found) || ++settled>profile_.refinement_steps)break;
@@ -207,7 +249,19 @@ public:
     }
     // Preserve the existing collision callback and consistency rules on fallback.
     if (!found && remaining()>0.)
-      found=Base::searchPositionIK(pose,seed,remaining(),consistency,solution,callback,error,options);
+    {
+      IKCallbackFn fallback_callback;
+      if (fast)
+        fallback_callback=[&](const auto& goal,const auto& candidate,auto& status){
+          state.setJointGroupPositions(group_,candidate);state.update();
+          if (!spatial.isOutward(state))
+          { status.val=moveit_msgs::msg::MoveItErrorCodes::NO_IK_SOLUTION;return; }
+          status.val=moveit_msgs::msg::MoveItErrorCodes::SUCCESS;
+          if (callback)callback(goal,candidate,status);
+        };
+      found=Base::searchPositionIK(pose,seed,remaining(),consistency,solution,
+                                   fast?fallback_callback:callback,error,options);
+    }
     if (found)error.val=moveit_msgs::msg::MoveItErrorCodes::SUCCESS;
     return found;
   }

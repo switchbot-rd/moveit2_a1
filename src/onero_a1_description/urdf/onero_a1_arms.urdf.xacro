@@ -17,12 +17,24 @@
           <color rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/base_link.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9iYXNlX2xpbmsuU1RMIiAvPgogICAgICAgIDwvZ2VvbWV0cnk-CiAgICAgIDwvY29sbGlzaW9uPg">
+      <origin xyz="-0.00027777813375 2.79396772385e-08 0.00249999994159" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0427741747049" length="0.00499999989329" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9iYXNlX2xpbmsuU1RMIiAvPgogICAgICAgIDwvZ2VvbWV0cnk-CiAgICAgIDwvY29sbGlzaW9uPg">
+      <origin xyz="-3.75863164663e-05 0 0.0308749992375" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0317874968452" length="0.0617499984851" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9iYXNlX2xpbmsuU1RMIiAvPgogICAgICAgIDwvZ2VvbWV0cnk-CiAgICAgIDwvY29sbGlzaW9uPg">
+      <origin xyz="0 0.0222499994561 0.0649999957532" rpy="0 0 0" />
+      <geometry>
+        <box size="0.00999999977648 0.00300000049174 0.00649999454618" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}Link1">
       <inertial>
@@ -39,12 +51,30 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link1.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-3.1478703022e-07 1.49011611938e-08 0.0339251065743" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0401664412446" length="0.0661326985573" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="1.58734619617e-05 -0.00315110292286 0.127455342561" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0463103154146" length="0.0685978103429" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link1_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link1_1.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint1-a1_l" type="revolute">
       <origin xyz="0 0 0.03150000000001" rpy="0 0 0" />
@@ -68,12 +98,48 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link2.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link2_6.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint2-a1_l" type="revolute">
       <origin xyz="0 0 0.12744999999999" rpy="1.57079632679478 -1.5707963267949 3.14159265358979" />
@@ -97,12 +163,36 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link3.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="8.04662704468e-07 0.000150511041284 0.0411161193624" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0417713692844" length="0.0257322397083" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="5.75557351112e-07 0.0087883528322 0.140247697011" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0417497642177" length="0.0822806097567" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link3_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link3_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link3_2.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint3-a1_l" type="revolute">
       <origin xyz="0 -0.0932499999999344 -0.000100000000084434" rpy="1.5707963267949 -1.5707963267949 0" />
@@ -126,12 +216,42 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link4.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link4_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link4_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link4_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link4_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link4_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link4_6.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint4-a1_l" type="revolute">
       <origin xyz="0 -0.000999999996676215 0.140249999995695" rpy="1.57079632678358 0 6.73358220455809E-05" />
@@ -155,12 +275,36 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link5.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="3.72529029846e-08 -7.82310962677e-07 0.0419593164697" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0385051020251" length="0.0319187324494" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-1.63912773132e-05 9.31322574615e-08 0.133016750216" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0370004892504" length="0.0555002503097" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link5_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link5_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link5_2.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint5-a1_l" type="revolute">
       <origin xyz="0 0.08800000000195 -0.00100000000141642" rpy="-1.57079632679444 0 0" />
@@ -184,12 +328,48 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link6.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link6_6.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint6-a1_l" type="revolute">
       <origin xyz="0 0.000499999999968581 0.133000000000029" rpy="-1.57079632679557 0 0" />
@@ -213,12 +393,18 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_l/Link7.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0.000132981687784 0.00300000236044" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0207011438403" length="0.00599998327624" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfbC9MaW5rNy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_l/Link7_1.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint7-a1_l" type="revolute">
       <origin xyz="0 -0.11200000000003 0.000249999999859224" rpy="1.57079632679556 6.73358224024899E-05 0" />
@@ -244,12 +430,24 @@
           <color rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/base_link.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9iYXNlX2xpbmsuU1RMIiAvPgogICAgICAgIDwvZ2VvbWV0cnk-CiAgICAgIDwvY29sbGlzaW9uPg">
+      <origin xyz="-0.000199686735868 -2.23852694035e-05 0.00249999994159" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0427008263008" length="0.00499999989329" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9iYXNlX2xpbmsuU1RMIiAvPgogICAgICAgIDwvZ2VvbWV0cnk-CiAgICAgIDwvY29sbGlzaW9uPg">
+      <origin xyz="3.75863164663e-05 0 0.0308749992375" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0317874968452" length="0.0617499984851" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9iYXNlX2xpbmsuU1RMIiAvPgogICAgICAgIDwvZ2VvbWV0cnk-CiAgICAgIDwvY29sbGlzaW9uPg">
+      <origin xyz="0 -0.0222499994561 0.0649999957532" rpy="0 0 0" />
+      <geometry>
+        <box size="0.00999999977648 0.00300000049174 0.00649999454618" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}Link1">
       <inertial>
@@ -266,12 +464,30 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link1.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-2.25380063057e-07 -1.49011611938e-08 0.0339190567029" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0401664635003" length="0.0661205988145" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="3.68040055037e-05 0.00315110292286 0.127476392314" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0462917959466" length="0.0685978103429" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link1_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link1_1.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint1-a1_r" type="revolute">
       <origin xyz="0 0 0.0315" rpy="0 0 0" />
@@ -295,12 +511,48 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link2.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link2_6.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint2-a1_r" type="revolute">
       <origin xyz="0 0 0.12744999999996" rpy="1.57079632679508 1.5707963267949 0" />
@@ -324,12 +576,36 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link3.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-8.04662704468e-07 -0.000150511041284 0.0411161193624" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0417713622103" length="0.0257322397083" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-7.87898898125e-07 -0.00878869369626 0.140249973163" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0417506995532" length="0.0822764858603" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link3_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link3_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link3_2.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint3-a1_r" type="revolute">
       <origin xyz="0 -0.0932500000000608 0" rpy="1.57079632679489 -1.5707963267949 0" />
@@ -353,12 +629,42 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link4.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link4_6.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint4-a1_r" type="revolute">
       <origin xyz="0 0.000999999998782225 0.140250000000101" rpy="-1.5707963267895 0 0" />
@@ -382,12 +688,36 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link5.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-3.72529029846e-08 7.82310962677e-07 0.0404593413696" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0385051020251" length="0.0349186826497" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="1.63912773132e-05 -9.31322574615e-08 0.133016750216" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0370004892504" length="0.0555002503097" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link5_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link5_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link5_2.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint5-a1_r" type="revolute">
       <origin xyz="0 -0.0879999999845006 -0.000999999994519968" rpy="1.57079632680022 0 0" />
@@ -411,12 +741,48 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link6.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_3.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_4.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_5.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link6_6.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint6-a1_r" type="revolute">
       <origin xyz="0 -0.000500000006067092 0.13300000000003" rpy="1.57079632679516 0 0" />
@@ -440,12 +806,18 @@
           <color rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/A1_r/Link7.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0.000132977962494 0.00300000413503" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0207011438403" length="0.00599998252103" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvQTFfci9MaW5rNy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/arms/A1_r/Link7_1.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="joint7-a1_r" type="revolute">
       <origin xyz="0 0.111999999999958 -0.000500000000028034" rpy="1.5707963267949 0 3.14159265358894" />
@@ -471,12 +843,60 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/base_link.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/base_center_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/base_center_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/base_center_2.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="3.8743019104e-07 -0.00074999500066 -0.0174500004351" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0801376900401 0.0505000273463 0.0189000208702" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="3.8743019104e-07 -0.00074999500066 0.0174500004351" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0801376900401 0.0505000273463 0.0189000208702" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0.0371816796251 0" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0305524883482" length="0.0522366580319" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0.0636499989778 0" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.0278500149994" length="0.0127000226405" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_7_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0.00120000168681 -0.0225500008091" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0317636593011 0.0482000200775 0.0119000221368" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_8_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvYmFzZV9saW5rLlNUTCIgLz4KICAgICAgICA8L2dlb21ldHJ5PgogICAgICA8L2NvbGxpc2lvbj4">
+      <origin xyz="0 0.00120000168681 0.0227999985218" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0317636593011 0.0482000200775 0.0114000267115" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_left_finger_link_1">
       <inertial>
@@ -493,12 +913,60 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_L1.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/Link_L1_core.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0045011" length="0.0248022" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/Link_L1_fork_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/Link_L1_fork_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0263207111179 0.000422516254988 0" rpy="0 0 0.197843355066" />
+      <geometry>
+        <box size="0.00378082879388 0.00588103553235 0.0120002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.023217778376 0.00816563010406 0" rpy="0 0 0.197843355066" />
+      <geometry>
+        <box size="0.000739921444601 0.00194058007508 0.0120002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.029415 0.0058967 0.000302009633742" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0040011" length="0.00419423542764" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_7_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0215051542216 0.00298314679419 0.00215258964537" rpy="0 1.52870952456 -2.78228464407" />
+      <geometry>
+        <cylinder radius="0.00286465647359" length="0.0131665096677" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_8_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.029249925171 -0.00221757471737 -0.00162953674716" rpy="3.14159265359 1.51632604 1.20055100793" />
+      <geometry>
+        <cylinder radius="0.00141693579489" length="0.0147181916729" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_left_finger_link_2">
       <inertial>
@@ -515,12 +983,78 @@
           <color rgba="0.266666666666667 0.329411764705882 0.776470588235294 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_L2.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0087088 -0.018004 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0060011" length="0.0110002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0087088 -0.018004 -0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0087088 -0.018004 0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 -0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 -0.00385" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0060011" length="0.0033002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0.00385" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0060011" length="0.0033002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_7_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.00566074087967 -0.0117026431653 0" rpy="0 0 -1.12026160578" />
+      <geometry>
+        <box size="0.0139998803334 0.0085722 0.0044002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_8_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0043544 -0.009002 -0.003896" rpy="0 0 -1.12026160578" />
+      <geometry>
+        <box size="0.0199998803334 0.0085722 0.0033922" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_9_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0043544 -0.009002 0.003896" rpy="0 0 -1.12026160578" />
+      <geometry>
+        <box size="0.0199998803334 0.0085722 0.0033922" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_10_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.00291793007823 0.00603233661681 -0.00385" rpy="0 0 -1.12026160578" />
+      <geometry>
+        <box size="0.0034022 0.0040022 0.0033002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_11_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.00291793007823 0.00603233661681 0.00385" rpy="0 0 -1.12026160578" />
+      <geometry>
+        <box size="0.0034022 0.0040022 0.0033002" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_left_finger_link_3">
       <inertial>
@@ -537,12 +1071,12 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_L3.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper_layered/Link_L3.STL" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_left_finger_link_4">
       <inertial>
@@ -559,12 +1093,36 @@
           <color rgba="0.894117647058823 0.549019607843137 0.631372549019608 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_L4.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 -0.0219000000507" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00750000046571" length="0.00620000064373" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0381233397126 -0.0121079239249 -0.00945000001229" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00782397140963" length="0.00610000034794" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.0381233397126 -0.0121079239249 0.00945000001229" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00784305122823" length="0.00610000034794" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0.0219000000507" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00750000046571" length="0.00620000064373" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19MNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper_layered/Link_L4.STL" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_right_finger_link_1">
       <inertial>
@@ -581,12 +1139,60 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_R1.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/Link_R1_core.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0045011" length="0.0248022" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/Link_R1_fork_0.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper/Link_R1_fork_1.STL" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0232176375222 0.00816603477834 0" rpy="0 0 2.94373295715" />
+      <geometry>
+        <box size="0.000739916840303 0.00194057574556 0.0120002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0263207018548 0.000422982233976 0" rpy="0 0 2.94373295715" />
+      <geometry>
+        <box size="0.00378083827473 0.00588104291333 0.0120002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.029415 0.0058972 -0.000302009633742" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0040011" length="0.00419423542764" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_7_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0299577944919 -0.00220054085729 0.00162953673732" rpy="0 1.51632604085 -1.28783497616" />
+      <geometry>
+        <cylinder radius="0.00141693563511" length="0.014718192676" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_8_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMS5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0217891426325 0.0023052456836 -0.00215258966416" rpy="3.14159265359 1.52870952475 2.69500069416" />
+      <geometry>
+        <cylinder radius="0.002864656382" length="0.0131665107041" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_right_finger_link_2">
       <inertial>
@@ -603,12 +1209,78 @@
           <color rgba="0.266666666666667 0.329411764705882 0.776470588235294 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_R2.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0087091 -0.018004 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0060011" length="0.0110002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0087091 -0.018004 -0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.0087091 -0.018004 0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 -0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0.00567505" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0068001" length="0.0003503" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_5_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 -0.00385" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0060011" length="0.0033002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_6_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0.00385" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0060011" length="0.0033002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_7_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.00566092734727 -0.011702625525 0" rpy="0 0 -2.02134455115" />
+      <geometry>
+        <box size="0.0140000109694 0.0085722 0.0044002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_8_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.00435455 -0.009002 -0.003896" rpy="0 0 -2.02134455115" />
+      <geometry>
+        <box size="0.0200000109694 0.0085722 0.0033922" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_9_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.00435455 -0.009002 0.003896" rpy="0 0 -2.02134455115" />
+      <geometry>
+        <box size="0.0200000109694 0.0085722 0.0033922" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_10_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.00291801153468 0.00603229721445 -0.00385" rpy="0 0 -2.02134455115" />
+      <geometry>
+        <box size="0.0034022 0.0040022 0.0033002" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_11_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMi5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0.00291801153468 0.00603229721445 0.00385" rpy="0 0 -2.02134455115" />
+      <geometry>
+        <box size="0.0034022 0.0040022 0.0033002" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_right_finger_link_3">
       <inertial>
@@ -625,12 +1297,12 @@
           <color rgba="1 1 1 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_R3.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SMy5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper_layered/Link_R3.STL" />
+      </geometry>
+    </collision>
     </link>
     <link name="${prefix}woan_picker_right_finger_link_4">
       <inertial>
@@ -647,12 +1319,36 @@
           <color rgba="0.894117647058823 0.549019607843137 0.631372549019608 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://onero_a1_description/meshes/grippers/woan_picker/Link_R4.STL" />
-        </geometry>
-      </collision>
+      <collision name="__onero_collision_proxy_v1_2_0_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 -0.0219000000507" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00750000029813" length="0.00620000064373" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_1_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.038123652637 -0.0121069460362 -0.00945000001229" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00784305050082" length="0.00610000034794" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_2_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="-0.038123652637 -0.0121069460362 0.00945000001229" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00782397045284" length="0.00610000034794" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_3_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0.0219000000507" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.00750000029813" length="0.00620000064373" />
+      </geometry>
+    </collision>
+    <collision name="__onero_collision_proxy_v1_2_4_PGNvbGxpc2lvbj4KICAgICAgICA8b3JpZ2luIHh5ej0iMCAwIDAiIHJweT0iMCAwIDAiIC8-CiAgICAgICAgPGdlb21ldHJ5PgogICAgICAgICAgPG1lc2ggZmlsZW5hbWU9InBhY2thZ2U6Ly9vbmVyb19hMV9kZXNjcmlwdGlvbi9tZXNoZXMvZ3JpcHBlcnMvd29hbl9waWNrZXIvTGlua19SNC5TVEwiIC8-CiAgICAgICAgPC9nZW9tZXRyeT4KICAgICAgPC9jb2xsaXNpb24-">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://onero_a1_description/meshes/collision/proxies/gripper_layered/Link_R4.STL" />
+      </geometry>
+    </collision>
     </link>
     <joint name="${prefix}woan_picker_left_finger_joint" type="revolute">
       <origin xyz="0.03 0 0" rpy="0 0 -1.1" />
